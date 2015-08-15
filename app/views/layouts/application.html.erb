@@ -7,12 +7,15 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<span id='profile'>
+<div id='profile'>
 	<% if @current_user!=nil%>
-<%=@current_user.username%>   
-<%= link_to 'Log Out', logout_path %>
-<%end%>
-</span>
+		<img src= <%= @current_user.picture %> class="profile_header">
+		<%= @current_user.username %>   
+		<%= link_to 'Log Out', logout_path %>
+	<% else %>
+		<%= link_to 'Log In', sessions_login_path %>
+	<%end%>
+</div>
 <%= yield %>
 
 </body>

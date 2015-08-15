@@ -39,4 +39,18 @@ class User < ActiveRecord::Base
 	def match_password(login_password="")
 	  encrypted_password == BCrypt::Engine.hash_secret(login_password, salt)
 	end
+
+
+	def picture
+		# get the email from URL-parameters or what have you and make lowercase
+		email_address = self.email.downcase
+ 
+		# create the md5 hash
+		hash = Digest::MD5.hexdigest(email_address)
+ 
+		# compile URL which can be used in <img src="RIGHT_HERE"...
+		image_src = "http://www.gravatar.com/avatar/#{hash}"
+
+		return image_src
+	end
 end

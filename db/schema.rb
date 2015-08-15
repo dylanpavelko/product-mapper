@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150815221618) do
+ActiveRecord::Schema.define(version: 20150815233552) do
 
   create_table "dependables", force: true do |t|
     t.integer  "node_id"
@@ -44,22 +44,12 @@ ActiveRecord::Schema.define(version: 20150815221618) do
     t.integer  "nodeType_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "questions_id"
     t.integer  "phase_id"
     t.text     "description"
   end
 
   add_index "nodes", ["nodeType_id"], name: "index_nodes_on_nodeType_id"
   add_index "nodes", ["phase_id"], name: "index_nodes_on_phase_id"
-  add_index "nodes", ["questions_id"], name: "index_nodes_on_questions_id"
-
-  create_table "phase_components", force: true do |t|
-    t.string   "name"
-    t.integer  "phaseType_id"
-    t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "phase_types", force: true do |t|
     t.string   "name"
@@ -85,10 +75,8 @@ ActiveRecord::Schema.define(version: 20150815221618) do
     t.integer  "resolved_id"
     t.integer  "node_id"
     t.integer  "phase_id"
-    t.integer  "dependencies_id"
   end
 
-  add_index "questions", ["dependencies_id"], name: "index_questions_on_dependencies_id"
   add_index "questions", ["node_id"], name: "index_questions_on_node_id"
   add_index "questions", ["phase_id"], name: "index_questions_on_phase_id"
   add_index "questions", ["resolved_id"], name: "index_questions_on_resolved_id"
