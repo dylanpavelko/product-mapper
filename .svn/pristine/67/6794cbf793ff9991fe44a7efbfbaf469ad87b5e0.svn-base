@@ -1,0 +1,26 @@
+<%= link_to 'Node List', nodes_path %>
+<br/>
+<p>
+  <% if @node.parent != nil %>
+    <% if @node.parent.parent != nil %>
+      <%= link_to Node.find(@node.parent.parent).name , @node.parent.parent %> >
+    <% end %>
+    <%= link_to Node.find(@node.parent).name , @node.parent %> >
+  <% end %>
+  <strong> <%= @node.name %></strong>
+<%= link_to 'Edit', edit_node_path(@node) %>
+<br/>
+</p>
+  <% if @node.children.count > 0 %>
+    <%= "Comprised of:" %>  
+    <ul>
+      <% @node.children.each do |child| %>
+        <li>
+          <%= link_to child.name , child %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>  
+  <% if true %>
+Dependent Upon:
+  <% end %>

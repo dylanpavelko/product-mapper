@@ -1,0 +1,15 @@
+<h1>All Node Types</h1>
+<%= link_to 'New Node', new_node_type_path %></br></br>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+
+  <% @nodeTypes.each do |nodeType| %>
+    <tr>
+      <td><%= link_to nodeType.name, nodeType %></td>
+      <td><%= link_to 'Edit', edit_node_type_path(nodeType) %></td>
+    </tr>
+  <% end %>
+</table>

@@ -1,0 +1,6 @@
+<h1>Editing dependable</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', @dependable %> |
+<%= link_to 'Back', dependables_path %>

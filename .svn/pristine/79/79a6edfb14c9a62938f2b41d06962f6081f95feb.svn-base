@@ -1,0 +1,26 @@
+<%= form_for @node do |f| %>
+<p>
+  <% if @node.nodeType != nil %>
+    <%= f.select :nodeType_id, options_from_collection_for_select(NodeType.all, :id, :name, @node.nodeType.id), :include_blank => true %>
+  <% else %>
+    <%= f.select :nodeType_id, options_from_collection_for_select(NodeType.all, :id, :name), :include_blank => true %>
+  <% end %>
+
+  <%= f.text_field :name %> part of
+  
+  <% if @node.parent != nil %>
+    <%= f.select :parent_id, options_from_collection_for_select(Node.all, :id, :name, @node.parent.id), :include_blank => true %>
+  <% elsif @origin_node != nil %>
+    <%= f.select :parent_id, options_from_collection_for_select(Node.all, :id, :name, @origin_node.id), :include_blank => true %>
+  <% else %>
+    <%= f.select :parent_id, options_from_collection_for_select(Node.all, :id, :name), :include_blank => true %>
+  <% end %>
+  
+  <%= f.submit %>
+  <% if @origin_node != nil %>
+    <%= link_to 'Cancel', @origin_node %>
+  <% else %>
+    <%= link_to 'Cancel', @node %>
+  <% end %>
+</p>
+<% end %>

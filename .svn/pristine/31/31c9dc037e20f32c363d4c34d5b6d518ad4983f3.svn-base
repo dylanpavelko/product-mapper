@@ -1,0 +1,12 @@
+<h1>New Node</h1>
+
+<%= link_to 'Back', nodes_path %>
+
+<%= form_for @node do |f| %>
+  <%= f.text_field :name %>
+  <%= f.select :parent_id, options_from_collection_for_select(Node.all, :id, :name, @node.parent), :include_blank => true %>
+
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

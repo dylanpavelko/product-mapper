@@ -1,0 +1,50 @@
+class NodesController < ApplicationController
+
+  def index
+    @node = Node.all
+  end
+
+  def new
+    if params.has_key?(:format)
+      @origin_node = Node.find(params[:format])
+    end
+    @node = Node.new
+  end
+
+  def create
+    @node = Node.new(node_params)
+    if @node.save
+       redirect_to @node
+    else
+       render :new
+    end
+  end
+
+  def show
+    @node = Node.find(params[:id])
+  end
+
+  def edit
+    @node = Node.find(params[:id])
+  end
+
+  def update
+    @node = Node.find(params[:id])
+
+    if @node.update_attributes(node_params)
+      redirect_to @node
+    else
+      render :edit
+    end
+  end
+
+  def index
+    @nodes = Node.all
+  end
+
+  private
+    def node_params
+      params.require(:node).permit(:name, :parent_id, :nodeType_id)
+    end
+
+end

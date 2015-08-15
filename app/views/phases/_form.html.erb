@@ -1,0 +1,55 @@
+<%= form_for(@phase) do |f| %>
+  <% if @phase.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@phase.errors.count, "error") %> prohibited this phase from being saved:</h2>
+
+      <ul>
+      <% @phase.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<!-- PHASE FIELD -->
+  <div class="field">
+    Phase Type<br>
+    <% if @phase.phaseType != nil %>
+    <%= f.select :phaseType_id, options_from_collection_for_select(PhaseType.all, :id, :name, @phase.phaseType.id), :include_blank => true %>
+  <% else %>
+    <%= f.select :phaseType_id, options_from_collection_for_select(PhaseType.all, :id, :name), :include_blank => true %>
+  <% end %>
+  </div>
+
+<!-- NODE FILED -->
+  <div class="field">
+    <%= f.label :node %><br>
+    <% if @phase.node != nil %>
+    <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name, @phase.node.id), :include_blank => true %>
+  <% else %>
+    <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name), :include_blank => true %>
+  <% end %>
+  </div>
+  <br/>
+
+  <!-- DEPENCIES -->
+    <div class="field">
+    Dependent On<br>
+    <% if @phase.node != nil %>
+    <%= f.select :dependencies_id, options_from_collection_for_select(Dependable.all, :id, :name, @phase.node.id), :include_blank => true %>
+  <% else %>
+    <%= f.select :dependencies_id, options_from_collection_for_select(Dependable.all, :id, :name), :include_blank => true %>
+  <% end %>
+  </div>
+  <br/>
+  <br/>
+
+
+  <div class="field">
+    Completion Status<br>
+    <%= f.check_box :status %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

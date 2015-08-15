@@ -1,0 +1,4 @@
+class NodeType < ActiveRecord::Base
+	has_many :nodes
+	has_one :priority_enabled
+end

@@ -1,0 +1,29 @@
+<%= form_for(@dependable) do |f| %>
+  <% if @dependable.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dependable.errors.count, "error") %> prohibited this dependable from being saved:</h2>
+
+      <ul>
+      <% @dependable.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<!-- PHASE FIELD -->
+<%= @dependentPhase.name %> <strong>depends on</strong><br/> <br/>
+  <div class="field">
+    <%= f.label :phase %><br>
+    <% if @dependable.phase != nil %>
+    <%= f.select :phase_id, options_from_collection_for_select(Phase.all, :id, :name, @task.phase.id), :include_blank => true %>
+  <% else %>
+    <%= f.select :phase_id, options_from_collection_for_select(Phase.all, :id, "name"), :include_blank => true %>
+  <% end %>
+  </div>
+
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,47 @@
+<%= form_for(@task) do |f| %>
+  <% if @task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+      <% @task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<!-- NAME FIELD -->
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+
+<!-- PHASE FIELD -->
+  <div class="field">
+    <%= f.label :phase %><br>
+    <% if @task.phase != nil %>
+    <%= f.select :phase_id, options_from_collection_for_select(PhaseType.all, :id, :name, @task.phase.id), :include_blank => true %>
+  <% else %>
+    <%= f.select :phase_id, options_from_collection_for_select(PhaseType.all, :id, :name), :include_blank => true %>
+  <% end %>
+  </div>
+
+<!-- NODE FILED -->
+  <div class="field">
+    <%= f.label :node %><br>
+    <% if @task.node != nil %>
+    <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name, @task.node.id), :include_blank => true %>
+  <% else %>
+    <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name), :include_blank => true %>
+  <% end %>
+  </div>
+
+<!-- REQUIRED FOR RELEASE FIELD -->
+  <div class="field">
+    Required for Release<br>
+    <%= f.check_box :requiredForRelease %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,3 @@
+<h1>Create New Node</h1>
+
+<%= render 'form' , :node_parent => @origin_node %>

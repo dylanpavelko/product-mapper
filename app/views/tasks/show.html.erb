@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @task.name %>
+</p>
+
+<p>
+  <strong>Phase:</strong>
+  <%= @task.phase.name %>
+</p>
+
+<p>
+  <strong>For Node:</strong>
+  <%= link_to @task.phase.node.name , @task.phase.node %>
+</p>
+
+<p>
+  <strong>Required for release:</strong>
+  <%= @task.requiredForRelease %>
+</p>
+
+<p>
+  <strong>Dependent Upon:</strong><br/>
+
+</p>
+
+
+<%= link_to 'Edit', edit_task_path(@task) %> |
+<%= link_to 'Back', tasks_path %>

@@ -1,0 +1,46 @@
+<%= link_to 'Node List', nodes_path %>
+<%= link_to 'Node Type List', node_types_path %>
+<br/>
+<p>
+  <% if @node.parent != nil %>
+    <% if @node.parent.parent != nil %>
+      <%= link_to Node.find(@node.parent.parent).name , @node.parent.parent %> >
+    <% end %>
+    <%= link_to Node.find(@node.parent).name , @node.parent %> >
+  <% end %>
+  <strong> <%= @node.name %></strong> [<%= @node.nodeType.name %>]
+<%= link_to 'Edit', edit_node_path(@node) %>
+<br/>
+</p>
+  
+    <%= "Comprised of:" %>  
+    <ul>
+      <% if @node.children.count > 0 %>
+        <% @node.children.each do |child| %>
+          <li>
+            <%= link_to child.name , child %>
+          </li>
+        <% end %>
+      <% end %> 
+      <br/>
+          <%= link_to 'Create New Node' , new_node_path(@node) %>      
+    </ul>
+ 
+  <% if true %>
+  <br/><br/><br/>
+Has Tasks: <br/>
+
+<ul>
+      <% if @node.tasks.count > 0 %>
+        <% @node.tasks.each do |task| %>
+          <li>
+            <%= link_to "["+task.phase.name+"] "+task.name , task %>
+          </li>
+        <% end %>
+      <% end %> 
+      <br/>
+          <%= link_to 'Add Task', new_task_path %><br/>      
+    </ul>
+<%= link_to 'Add Task', new_task_path %><br/>
+Dependent Upon:what?
+  <% end %>

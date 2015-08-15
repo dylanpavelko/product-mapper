@@ -1,0 +1,4 @@
+<strong>Name:</strong>
+<%= @nodeType.name %>
+<br/>
+<%= link_to 'Node Type List', node_types_path %>

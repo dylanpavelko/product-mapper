@@ -1,0 +1,10 @@
+<%= form_for @nodeType do |f| %>
+<p>
+  <%= f.text_field :name %><br/>
+ Priority Ranking Enabled: <%= f.check_box :priorityEnabled %>
+
+  <%= f.submit %>
+  <%= link_to 'Cancel', @nodeType %>
+
+</p>
+<% end %>

@@ -1,0 +1,4 @@
+class Task < ActiveRecord::Base
+	belongs_to :phase, class_name: "PhaseType", foreign_key: "phase_id"
+	belongs_to :node, class_name: "Node", foreign_key: "node_id"
+end

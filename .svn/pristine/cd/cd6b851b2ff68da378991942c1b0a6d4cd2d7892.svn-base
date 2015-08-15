@@ -1,0 +1,4 @@
+<p id="notice"><%= notice %></p>
+
+<%= link_to 'Edit', edit_dependable_path(@dependable) %> |
+<%= link_to 'Back', dependables_path %>

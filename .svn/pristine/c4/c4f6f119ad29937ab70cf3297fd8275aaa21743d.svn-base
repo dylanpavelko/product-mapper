@@ -1,0 +1,16 @@
+<h1>Listing nodes</h1>
+
+<%= link_to 'New Node', new_node_path %></br></br>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+
+  <% @nodes.each do |node| %>
+    <tr>
+      <td><%= link_to node.name, node %></td>
+      <td><%= link_to 'Edit', edit_node_path(node) %></td>
+    </tr>
+  <% end %>
+</table>

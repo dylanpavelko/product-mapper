@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Phasetype:</strong>
+  <%= @phase.phaseType.name %>
+</p>
+
+<p>
+  <strong>Node:</strong>
+  <%= link_to @phase.node.name , @phase.node %>
+</p>
+
+<p>
+  <strong>Completionstatus:</strong>
+  <%= @phase.status %>
+</p>
+
+<%= link_to 'Edit', edit_phase_path(@phase) %> |
+<%= link_to 'Back', phases_path %>

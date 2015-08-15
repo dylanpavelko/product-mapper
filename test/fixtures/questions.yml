@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  question: MyString
+  node: 
+  phaseType: 
+  resolved: false
+
+two:
+  question: MyString
+  node: 
+  phaseType: 
+  resolved: false
