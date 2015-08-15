@@ -1,5 +1,6 @@
 class PhaseTypesController < ApplicationController
   before_action :set_phase_type, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user
 
   # GET /phase_types
   # GET /phase_types.json

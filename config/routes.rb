@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   resources :phases
 
   resources :dependables
@@ -9,11 +10,25 @@ Rails.application.routes.draw do
 
   resources :phase_types
 
+  resources :users
+
   get 'welcome/index'
 
   resources :nodes
   resources :node_types
 
+  get 'sessions/login'
+  post 'sessions/login'
+  get "logout" => "sessions#logout"
+  get 'sessions/home'
+
+  get 'sessions/profile'
+
+  get 'sessions/setting'
+
+  get 'users/new'
+
+  post ':controller(/:action(/:id))(.:format)'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

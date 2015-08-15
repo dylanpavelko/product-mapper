@@ -14,8 +14,8 @@
 
 <!-- Node FIELD -->
 <%= @dependentPhase.name %> <strong>depends on</strong><br/> <br/>
-<input type="hidden" id="dependentNode_id" readonly>
-<input type="hidden" id="dependentPhase_id" value= <%= @dependentPhase.id %> readonly>
+<%= f.hidden_field :dependentNode_id %>
+<%= f.hidden_field :dependentPhase_id , value: @dependentPhase.id %>
 <input type="hidden" id="dependentTask_id" readonly>
 
 

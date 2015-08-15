@@ -1,5 +1,5 @@
 class AddNodeIdToDependable < ActiveRecord::Migration
   def change
-  	add_column :dependables, :node_id, :reference
+  	add_reference :dependables, :node_id, index: true
   end
 end

@@ -1,5 +1,6 @@
 class DependablesController < ApplicationController
   before_action :set_dependable, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user
 
   # GET /dependables
   # GET /dependables.json
@@ -26,10 +27,9 @@ class DependablesController < ApplicationController
   # POST /dependables.json
   def create
     @dependable = Dependable.new(dependable_params)
-    @dependentPhase = Phase.find(params[:dependentPhase_id])
+    # @dependentPhase = Phase.find(params[:dependentPhase_id])
     respond_to do |format|
       if @dependable.save
-        @dependentPhase.addDependency(@dependable)
         format.html { redirect_to @dependable, notice: 'Dependable was successfully created.' }
         format.json { render :show, status: :created, location: @dependable }
       else
@@ -71,7 +71,7 @@ class DependablesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def dependable_params
-      params[:dependable].permit(:node_id, :phase_id, :dependentPhase_id, :dependentNode_id, :dependentTask_id)
+      params[:dependable].permit(:node_id, :phase_id, :task_id, :dependentPhase_id, :dependentNode_id, :dependentTask_id)
     end
 
     def add_depency_to_dependable(dependable)

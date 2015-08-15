@@ -11,10 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150815060124) do
+ActiveRecord::Schema.define(version: 20150815221618) do
 
-# Could not dump table "dependables" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
+  create_table "dependables", force: true do |t|
+    t.integer  "node_id"
+    t.integer  "phase_id"
+    t.integer  "task_id"
+    t.integer  "dependentNode_id"
+    t.integer  "dependentPhase_id"
+    t.integer  "dependentTask_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dependables", ["dependentNode_id"], name: "index_dependables_on_dependentNode_id"
+  add_index "dependables", ["dependentPhase_id"], name: "index_dependables_on_dependentPhase_id"
+  add_index "dependables", ["dependentTask_id"], name: "index_dependables_on_dependentTask_id"
+  add_index "dependables", ["node_id"], name: "index_dependables_on_node_id"
+  add_index "dependables", ["phase_id"], name: "index_dependables_on_phase_id"
+  add_index "dependables", ["task_id"], name: "index_dependables_on_task_id"
 
   create_table "node_types", force: true do |t|
     t.string   "name"
@@ -91,5 +106,15 @@ ActiveRecord::Schema.define(version: 20150815060124) do
 
   add_index "tasks", ["dependencies_id"], name: "index_tasks_on_dependencies_id"
   add_index "tasks", ["questions_id"], name: "index_tasks_on_questions_id"
+
+  create_table "users", force: true do |t|
+    t.string   "username"
+    t.string   "email"
+    t.string   "encrypted_password"
+    t.string   "salt"
+    t.boolean  "power_admin"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

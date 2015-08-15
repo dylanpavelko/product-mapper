@@ -58,14 +58,20 @@
           </ul>
           <br/>
           Depends on:<br/>
-                <li>
-                <% @dependencies = Dependable.where(:id => phase.dependencies_id) %>
-                <% @dependencies.each do |dependency| %>
-                <%= dependency.name %>
-                </li>
-               <% end %>
+          <% @dependencies = Dependable.where(:dependentPhase_id => phase.id) %>
+          <% @dependencies.each do |dependency| %>
+                <li><%= dependency.name %> </li>
+          <% end %>
           <%= link_to "Add Dependency" , new_dependable_path(:phase_id => phase) %>
-         
+          
+          <% @dependencies = Dependable.where(:phase_id => phase.id) %>
+          <% if @dependencies.count>0 %>
+            <br/><br/>
+            Dependency for:<br/>
+            <% @dependencies.each do |dependency| %>
+                  <li><%= dependency.forPhase %> </li>
+            <% end %>
+          <% end %>
         </td>
         <% end %>
 
