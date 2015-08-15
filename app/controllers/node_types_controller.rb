@@ -1,6 +1,7 @@
 class NodeTypesController < ApplicationController
 	before_filter :authenticate_user
-  
+  before_filter :authorized_only  
+
 	def new
 		@nodeType = NodeType.new
 	end

@@ -1,6 +1,7 @@
 class DependablesController < ApplicationController
   before_action :set_dependable, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user
+  before_filter :authorized_only
 
   # GET /dependables
   # GET /dependables.json

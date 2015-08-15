@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_filter :save_login_state, :only => [:new, :create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user, :only => [:show, :edit, :index]
+  before_filter :authorized_only, only: [:index, :show, :update, :destroy]
 
 
   def new

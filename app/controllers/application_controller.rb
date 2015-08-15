@@ -24,4 +24,22 @@ class ApplicationController < ActionController::Base
 	    return true
 	  end
 	end
+
+	protected 
+	def authorized_only
+	  if session[:user_id]
+	     # set current user object to @current_user object variable
+	    @current_user = User.find session[:user_id] 
+	    if @current_user.power_admin
+	       	return true
+	    else
+	    	redirect_to(sessions_profile_path)
+	    	return false
+	    end
+	    return true	
+	  else
+	    redirect_to(:controller => 'sessions', :action => 'login')
+	    return false
+	  end
+	end
 end
