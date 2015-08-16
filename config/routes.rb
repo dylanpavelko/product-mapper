@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
   get 'sessions/setting'
 
+  get 'backlog(/:id)' => 'nodes#backlog'
+
   get 'users/new'
 
   post ':controller(/:action(/:id))(.:format)'
