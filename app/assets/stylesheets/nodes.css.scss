@@ -5,6 +5,6 @@ td {
 	vertical-align: top;
 }
 
-ul.checkmark li:before {
-    content:"\2713\0020";
+ul{
+    list-style-type: none;
 }

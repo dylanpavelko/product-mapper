@@ -18,10 +18,15 @@
 </p>
   
 <strong>Comprised of:</strong>  
-    <ul>
+    <ul class='node_list'>
       <% if @node.children.count > 0 %>
         <% @node.children.each do |child| %>
           <li>
+            <% if child.status %>
+            &#x2713;
+            <% else %>
+            &nbsp;&nbsp;&nbsp;
+            <% end %>
             <%= link_to ("[" + child.nodeType.name + "] " + child.name + " " + child.statusInParens ) , child %>
           </li>
         <% end %>
