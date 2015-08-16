@@ -198,7 +198,7 @@ EditableGrid.prototype.init = function (name, config)
 		if ( typeof config != "undefined" && typeof config['sortIconDown'] != "undefined" ) 
 			this.sortDownImage.src = config['sortIconDown'];
 		else
-			this.sortDownImage.src = '<%= asset_path 'bullet_arrow_down.png' %>';//this.baseUrl + "/images/bullet_arrow_down.png";
+			this.sortDownImage.src = '<%= image_url 'bullet_arrow_down.png' %>';//this.baseUrl + "/images/bullet_arrow_down.png";
 	}
 
 	// restore stored parameters, or use default values if nothing stored
