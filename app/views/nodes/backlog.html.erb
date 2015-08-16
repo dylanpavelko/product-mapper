@@ -13,17 +13,21 @@
     </style>
     
     <script>
+
+    $(document).ready(function() {
+ 
+
+
       window.onload = function() {
 
         // this approach is interesting if you need to dynamically create data in Javascript 
         var metadata = [];
-        metadata.push({ name: "node", label: "NODE", datatype: "string", editable: true});
-        metadata.push({ name: "status", label:"STATUS", datatype: "string", editable: true});
-        metadata.push({ name: "age", label: "AGE", datatype: "integer", editable: true});
-        metadata.push({ name: "height", label: "HEIGHT", datatype: "double(m,2)", editable: true});
+        metadata.push({ name: "node-type", label: "NODE TYPE", datatype: "string", editable: true});
+        metadata.push({ name: "node", label:"NODE", datatype: "node", editable: true});
+        metadata.push({ name: "status", label: "STATUS", datatype: "boolean", editable: true});
+        metadata.push({ name: "height", label: "PRIORITY", datatype: "double(m,2)", editable: true});
         metadata.push({ name: "country", label: "COUNTRY", datatype: "string", editable: true});
         metadata.push({ name: "email", label: "EMAIL", datatype: "email", editable: true});
-        metadata.push({ name: "freelance", label: "FREELANCE", datatype: "boolean", editable: true});
         metadata.push({ name: "lastvisit", label: "LAST VISIT", datatype: "date", editable: true});
 
         // a small example of how you can manipulate the object in javascript
@@ -33,10 +37,9 @@
         metadata[4].values["Africa"] = {"ng":"Nigeria","za":"South-Africa","zw":"Zimbabwe"};
 
         var data = [];
-        data.push({id: 1, values: {"node":"uk","status":33,"name":"Duke","firstname":"Patience","height":1.842,"email":"patience.duke@gmail.com","lastvisit":"11\/12\/2002"}});
-        <% @row = 2 %>
-        <% @node.children.each do |child| %>
-        data.push({id: <%=@row%>, values: {"node":"<%= child.name %>","status":"<%= child.status %>","name":"Duke","firstname":"Patience","height":1.842,"email":"patience.duke@gmail.com","lastvisit":"11\/12\/2002"}});
+        <% @row = 1 %>
+        <% @terminalNodes.each do |child| %>
+        data.push({id: <%=@row%>, values: {"node-type":"<%= child.nodeType.name %>", "node": "<%=child.name%>#@#<%=child.id%>","status":<%= child.status %>,"name":"Duke","email":"Patience","height":1.842,"lastvisit":"11\/12\/2002"}});
         <% @row = @row + 1 %>
         <% end %>
              
@@ -44,11 +47,14 @@
         editableGrid.load({"metadata": metadata, "data": data});
         editableGrid.renderGrid("tablecontent", "testgrid");
       } 
+
+      }
+);
     </script>
     
   </head>
   
   <body>
-    <h1>EditableGrid - Minimal Demo - Creating grid in Javascript - <a href="../index.html">Back to menu</a></h1> 
+    <h1>Backlog for <%= @node.name %> - <%= link_to "Back to Node", @node %></h1> 
     <div id="tablecontent"></div>
   </body>

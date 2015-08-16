@@ -31,24 +31,6 @@ class Node < ActiveRecord::Base
     end
 
       return true
-
-    # if self.children.count > 0
-    #   self.children.each do |child|
-    #     if child.phase != nil
-    #       if !child.phase.status
-    #         return "x"
-    #       end
-    #     end 
-    #   end
-    #   return "Done"
-    # else
-    #   if self.phase != nil
-    #       if !child.phase.status
-    #         return "x"
-    #       end
-    #     end 
-    # end
-    # return "missed"
   end
 
   def statusInParens
@@ -57,6 +39,21 @@ class Node < ActiveRecord::Base
     else
       return ""
     end
+  end
+
+  def getTerminalNodes
+    @terminalNodes = Array.new
+    self.children.each do |node|
+      if node.children.count == 0
+        @terminalNodes << node
+      else
+        node.getTerminalNodes.each do |terminalNode|
+        @terminalNodes << terminalNode#get the children and find their terminal nodes
+        #add each item from their terminal nodes to this terminal nodes array
+        end
+      end
+    end
+    return @terminalNodes
   end
 
 end

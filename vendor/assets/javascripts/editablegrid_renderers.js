@@ -208,6 +208,20 @@ WebsiteCellRenderer.prototype.render = function(element, value)
 };
 
 /**
+ * Website cell renderer
+ * @constructor
+ * @class Class to render a cell with websites
+ */
+
+function NodeCellRenderer(config) { this.init(config); }
+NodeCellRenderer.prototype = new CellRenderer();
+NodeCellRenderer.prototype.render = function(element, value)
+{
+	value = value.split("#@#")
+	element.innerHTML = value ? "<a href='" + (value[1].indexOf("//") == -1 ? "/nodes/" + value[1] : value[1]) + "'>" + value[0] + "</a>" : "";
+};
+
+/**
  * Date cell renderer
  * @constructor
  * @class Class to render a cell containing a date

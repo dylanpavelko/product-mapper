@@ -37,9 +37,9 @@ class NodesController < ApplicationController
   end
 
   def backlog
-        @node = Node.find(params[:id])
-    @nodePhases = Phase.where(:node_id => @node)
-    @nodeQuestions = Question.where(:node_id => @node)
+      @node = Node.find(params[:id])
+      @terminalNodes = @node.getTerminalNodes
+   #   @terminalBacklogNodes
   end
 
   def edit

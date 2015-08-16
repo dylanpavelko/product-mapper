@@ -863,8 +863,9 @@ EditableGrid.prototype._createCellRenderer = function(column)
 				column.datatype == "integer" || column.datatype == "double" ? new NumberCellRenderer() :
 					column.datatype == "boolean" ? new CheckboxCellRenderer() : 
 						column.datatype == "email" ? new EmailCellRenderer() : 
-							column.datatype == "website" || column.datatype == "url" ? new WebsiteCellRenderer() : 
-								column.datatype == "date" ? new DateCellRenderer() :
+							column.datatype == "website" || column.datatype == "url" ? new WebsiteCellRenderer() :
+								column.datatype == "node" || column.datatype == "url" ? new NodeCellRenderer() : 
+									column.datatype == "date" ? new DateCellRenderer() :
 									new CellRenderer();
 
 								// give access to the column from the cell renderer
@@ -1744,8 +1745,9 @@ EditableGrid.prototype._rendergrid = function(containerid, className, tableid)
 
 			// attach handler on click or double click 
 			_$(containerid).editablegrid = this;
-			if (doubleclick) _$(containerid).ondblclick = function(e) { this.editablegrid.mouseClicked(e); };
-			else _$(containerid).onclick = function(e) { this.editablegrid.mouseClicked(e); }; 
+//CLICK OFF -- ERASE THIS TO MAKE IT EDITABLE AGAIN DYLAN NOTE
+			// if (doubleclick) _$(containerid).ondblclick = function(e) { this.editablegrid.mouseClicked(e); };
+			// else _$(containerid).onclick = function(e) { this.editablegrid.mouseClicked(e); }; 
 		}
 
 		// callback
