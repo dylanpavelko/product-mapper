@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   get 'welcome/index'
 
+  post 'phase/set_status' => 'phases#set_phase_status'
+
   resources :nodes
   resources :node_types
 

@@ -47,9 +47,9 @@
         <% @nodePhases.each do |phase| %>
           <td>
             <% if phase.status %>
-              <%= phase.type %> <%= link_to 'Done', edit_phase_path(phase), style: "text-decoration: line-through;" %>
+              <%= phase.type %> <%= link_to 'Done', "", style: "text-decoration: line-through;", id: ("phase-done" + phase.id.to_s) %>
             <% else %>
-              <%= phase.type %> <%= link_to 'Mark as Done', edit_phase_path(phase) %>
+              <%= phase.type %> <%= link_to 'Mark as Done', "", id: ("phase-mark-done" + phase.id.to_s)  %>
             <% end %>
           <ul>
             <% @tasks = Task.where(:phase_id => phase) %>
@@ -103,4 +103,18 @@
 <br/>
 
 <% end %>
+
+<script type="text/javascript">
+$('a[id*="phase-done"]').click(function(){
+    var phase_id = $(this).attr('id').split("done")[1];
+    $.ajax({url: "/phase/set_status", type: "POST", data: {'id': phase_id ,'phase_status': false}, dataType: 'json'});
+});
+
+$('a[id*="phase-mark-done"]').click(function(){
+    var phase_id = $(this).attr('id').split("done")[1];
+    $.ajax({url: "/phase/set_status", type: "POST", data: {'id': phase_id ,'phase_status': true}, dataType: 'json'});
+});
+
+
+</script>
 

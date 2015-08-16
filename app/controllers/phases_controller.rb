@@ -63,11 +63,19 @@ class PhasesController < ApplicationController
     end
   end
 
+  def set_phase_status
+      @phase = Phase.find(params[:id])
+      @phase.update(:status => params[:phase_status])
+      render :nothing => true
+    end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_phase
       @phase = Phase.find(params[:id])
     end
+
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def phase_params
