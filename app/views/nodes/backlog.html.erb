@@ -22,13 +22,12 @@
 
         // this approach is interesting if you need to dynamically create data in Javascript 
         var metadata = [];
-        metadata.push({ name: "node-type", label: "NODE TYPE", datatype: "string", editable: true});
-        metadata.push({ name: "node", label:"NODE", datatype: "node", editable: true});
-        metadata.push({ name: "status", label: "STATUS", datatype: "boolean", editable: true});
+        metadata.push({ name: "feature", label: "FEATURE", datatype: "string", editable: false});
+        metadata.push({ name: "node-type", label: "NODE TYPE", datatype: "string", editable: false});
+        metadata.push({ name: "node", label:"NODE", datatype: "node", editable: false});
+        metadata.push({ name: "status", label: "STATUS", datatype: "boolean", editable: false});
         metadata.push({ name: "height", label: "PRIORITY", datatype: "double(m,2)", editable: true});
-        metadata.push({ name: "country", label: "COUNTRY", datatype: "string", editable: true});
-        metadata.push({ name: "email", label: "EMAIL", datatype: "email", editable: true});
-        metadata.push({ name: "lastvisit", label: "LAST VISIT", datatype: "date", editable: true});
+        metadata.push({ name: "lastvisit", label: "DATE ADDED", datatype: "date", editable: true});
 
         // a small example of how you can manipulate the object in javascript
         metadata[4].values = {};
@@ -39,7 +38,12 @@
         var data = [];
         <% @row = 1 %>
         <% @terminalNodes.each do |child| %>
-        data.push({id: <%=@row%>, values: {"node-type":"<%= child.nodeType.name %>", "node": "<%=child.name%>#@#<%=child.id%>","status":<%= child.status %>,"name":"Duke","email":"Patience","height":1.842,"lastvisit":"11\/12\/2002"}});
+        data.push({id: <%=@row%>, values: {
+          "node-type":"<%= child.nodeType.name %>",
+          "node": "<%=child.name%>#@#<%=child.id%>",
+          "status":<%= child.status %>,
+          "lastvisit":"<%= child.created_at.strftime('%m/%d/%Y')%>"}
+        });
         <% @row = @row + 1 %>
         <% end %>
              

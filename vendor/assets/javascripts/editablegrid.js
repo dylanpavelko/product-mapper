@@ -1745,9 +1745,8 @@ EditableGrid.prototype._rendergrid = function(containerid, className, tableid)
 
 			// attach handler on click or double click 
 			_$(containerid).editablegrid = this;
-//CLICK OFF -- ERASE THIS TO MAKE IT EDITABLE AGAIN DYLAN NOTE
-			// if (doubleclick) _$(containerid).ondblclick = function(e) { this.editablegrid.mouseClicked(e); };
-			// else _$(containerid).onclick = function(e) { this.editablegrid.mouseClicked(e); }; 
+			if (doubleclick) _$(containerid).ondblclick = function(e) { this.editablegrid.mouseClicked(e); };
+			else _$(containerid).onclick = function(e) { this.editablegrid.mouseClicked(e); }; 
 		}
 
 		// callback
