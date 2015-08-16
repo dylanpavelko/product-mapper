@@ -191,7 +191,7 @@ EditableGrid.prototype.init = function (name, config)
 		if ( typeof config != "undefined" && typeof config['sortIconUp'] != "undefined" ) 
 			this.sortUpImage.src = config['sortIconUp'];
 		else
-			this.sortUpImage.src = "<%= '/assets/bullet_arrow_up.png' %>";//this.baseUrl + "/images/bullet_arrow_up.png";
+			this.sortUpImage.src = "<%= image-url('bullet_arrow_up.png') %>;"//#'/assets/bullet_arrow_up.png' %>";//this.baseUrl + "/images/bullet_arrow_up.png";
 
 
 		this.sortDownImage = new Image();
