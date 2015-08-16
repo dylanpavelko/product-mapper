@@ -1,0 +1,57 @@
+<% content_for :for_head do %>   
+    <style>
+      //body { font-family:'lucida grande', tahoma, verdana, arial, sans-serif; font-size:11px; }
+      //h1 { font-size: 15px; }
+      th a { color: #548dc4; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      table.testgrid { border-collapse: collapse; border: 1px solid #CCB; width: 800px; }
+      table.testgrid td, table.testgrid th { padding: 5px; border: 1px solid #E0E0E0; }
+      table.testgrid th { background: #E5E5E5; text-align: left; }
+      input.invalid { background: red; color: #FDFDFD; }
+    </style>
+    
+  <script type="text/javascript">
+   ready = function() {
+   // code here
+        // this approach is interesting if you need to dynamically create data in Javascript 
+        var metadata = [];
+        metadata.push({ name: "feature", label: "FEATURE", datatype: "string", editable: false});
+        metadata.push({ name: "node-type", label: "NODE TYPE", datatype: "string", editable: false});
+        metadata.push({ name: "node", label:"NODE", datatype: "node", editable: false});
+        metadata.push({ name: "status", label: "STATUS", datatype: "boolean", editable: false});
+        metadata.push({ name: "height", label: "PRIORITY", datatype: "double(m,2)", editable: false});
+        metadata.push({ name: "lastvisit", label: "DATE ADDED", datatype: "date", editable: false});
+
+        // a small example of how you can manipulate the object in javascript
+        metadata[4].values = {};
+        metadata[4].values["Europe"] = {"be":"Belgium","fr":"France","uk":"Great-Britain","nl":"Nederland"};
+        metadata[4].values["America"] = {"br":"Brazil","ca":"Canada","us":"USA"};
+        metadata[4].values["Africa"] = {"ng":"Nigeria","za":"South-Africa","zw":"Zimbabwe"};
+
+        var data = [];
+        <% @row = 1 %>
+        <% @terminalNodes.each do |child| %>
+        data.push({id: <%=@row%>, values: {
+          "node-type":"<%= child.nodeType.name %>",
+          "node": "<%=child.name%>#@#<%=child.id%>",
+          "status":<%= child.status %>,
+          "lastvisit":"<%= child.created_at.strftime('%m/%d/%Y')%>"}
+        });
+        <% @row = @row + 1 %>
+        <% end %>
+             
+        editableGrid = new EditableGrid("DemoGridJsData");
+        editableGrid.load({"metadata": metadata, "data": data});
+        editableGrid.renderGrid("tablecontent", "testgrid");
+    };
+
+  $(document).ready(ready)
+  $(document).on('page:load', ready)
+  </script>
+
+<% end %>
+  
+  <body>
+    <h1>Feature Inventory for <%= @node.name %> - <%= link_to "Back to Node", @node %></h1> 
+    <div id="tablecontent"></div>
+  </body>

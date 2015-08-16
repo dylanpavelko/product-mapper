@@ -14,6 +14,7 @@
 <h2> <%= @node.name %></h2> [<%= @node.nodeType.name %>]
 <%= link_to 'Edit', edit_node_path(@node) %>
 <%= link_to 'View Backlog', backlog_path(@node) %>
+<%= link_to 'View Feature Inventory', feature_inventory_path(@node) %>
 <br/>
 <%= simple_format(@node.description) %>
 </p>

@@ -56,4 +56,26 @@ class Node < ActiveRecord::Base
     return @terminalNodes
   end
 
+  def getTerminalNodeWithUncompleteStatus(completed)
+    @terminalNodes = Array.new
+
+    self.children.each do |node|
+      if node.children.count == 0
+        if !node.status
+          puts node.status
+          @terminalNodes << node
+        end
+      else
+        node.getTerminalNodes.each do |terminalNode|
+          if !terminalNode.status
+            puts terminalNode.status
+            @terminalNodes << terminalNode
+          end          
+        end
+      end
+    end
+    return @terminalNodes
+  end
+
+
 end

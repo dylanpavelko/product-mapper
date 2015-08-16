@@ -36,9 +36,16 @@ class NodesController < ApplicationController
     @nodeQuestions = Question.where(:node_id => @node)
   end
 
+  def feature_inventory
+      @node = Node.find(params[:id])
+      @terminalNodes = @node.getTerminalNodes()
+   #   @terminalBacklogNodes
+  end
+
   def backlog
       @node = Node.find(params[:id])
-      @terminalNodes = @node.getTerminalNodes
+      status = false;
+      @terminalNodes = @node.getTerminalNodeWithUncompleteStatus(status)
    #   @terminalBacklogNodes
   end
 
