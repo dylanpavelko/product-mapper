@@ -15,21 +15,22 @@ class Node < ActiveRecord::Base
   end
 
   def status
-    if self.children.count > 0
-    else
-      @nodePhases = Phase.where(:node_id => self.id)
-      @nodePhases.each do |phase|
-        if !phase.status
-          return false
-        end
-      end
-      if @nodePhases.count < 1
-        puts "test"
-        puts self.phases.count
+    @nodePhases = Phase.where(:node_id => self.id)
+    @nodePhases.each do |phase|
+      if !phase.status
         return false
       end
-      return true
     end
+    self.children.each do |node|
+      if !node.status
+        return false
+      end
+    end
+    if @nodePhases.count < 1 && self.children.count < 1
+      return false
+    end
+
+      return true
 
     # if self.children.count > 0
     #   self.children.each do |child|
