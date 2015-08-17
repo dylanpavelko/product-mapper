@@ -31,6 +31,8 @@ gem 'bcrypt-ruby', '~> 3.1.2', :require => 'bcrypt'
 
 gem 'rails_12factor'
 
+gem 'jquery-turbolinks'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

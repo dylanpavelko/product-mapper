@@ -1,4 +1,4 @@
-<% content_for :for_head do %>   
+
     <style>
       //body { font-family:'lucida grande', tahoma, verdana, arial, sans-serif; font-size:11px; }
       //h1 { font-size: 15px; }
@@ -40,16 +40,18 @@
         <% @row = @row + 1 %>
         <% end %>
              
-        editableGrid = new EditableGrid("DemoGridJsData");
+        editableGrid = new EditableGrid("NodeBacklogGrid");
         editableGrid.load({"metadata": metadata, "data": data});
         editableGrid.renderGrid("tablecontent", "testgrid");
     };
 
   $(document).ready(ready)
-  $(document).on('page:load', ready)
+  $('#tablecontent').ready()
+  window.onload = ready;
+  //$(document).on('page:load', ready)
   </script>
 
-<% end %>
+
   
   <body>
     <h1>Backlog for <%= @node.name %> - <%= link_to "Back to Node", @node %></h1> 

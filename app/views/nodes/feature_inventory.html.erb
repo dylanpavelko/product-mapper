@@ -1,4 +1,4 @@
-<% content_for :for_head do %>   
+
     <style>
       //body { font-family:'lucida grande', tahoma, verdana, arial, sans-serif; font-size:11px; }
       //h1 { font-size: 15px; }
@@ -11,7 +11,15 @@
     </style>
     
   <script type="text/javascript">
-   ready = function() {
+  $(function() {
+  initPage();
+});
+$(window).bind('page:change', function() {
+  initPage();
+});
+function initPage() {
+  // Page ready code...
+
    // code here
         // this approach is interesting if you need to dynamically create data in Javascript 
         var metadata = [];
@@ -40,18 +48,17 @@
         <% @row = @row + 1 %>
         <% end %>
              
-        editableGrid = new EditableGrid("DemoGridJsData");
+        editableGrid = new EditableGrid("NodeFeatureInventoryGrid");
         editableGrid.load({"metadata": metadata, "data": data});
         editableGrid.renderGrid("tablecontent", "testgrid");
     };
 
-  $(document).ready(ready)
-  $(document).on('page:load', ready)
+
   </script>
 
-<% end %>
+
   
-  <body>
+  <body data-no-turbolink="true">
     <h1>Feature Inventory for <%= @node.name %> - <%= link_to "Back to Node", @node %></h1> 
     <div id="tablecontent"></div>
   </body>

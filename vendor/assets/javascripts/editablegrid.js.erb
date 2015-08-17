@@ -1627,6 +1627,7 @@ EditableGrid.prototype.getScrollYOffset = function(oElement)
 EditableGrid.prototype._rendergrid = function(containerid, className, tableid)
 {
 	with (this) {
+		window.onload=function(){}
 
 		lastSelectedRowIndex = -1;
 		_currentPageIndex = getCurrentPageIndex();
