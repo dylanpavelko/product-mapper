@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  resources :git_hub_accounts
+
+  resources :git_hub_repos
+
   resources :phases
 
   resources :dependables

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Repo:</strong>
+  <%= @git_hub_repo.repo %>
+</p>
+
+<p>
+  <strong>Node:</strong>
+  <%= @git_hub_repo.node %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @git_hub_repo.user %>
+</p>
+
+<%= link_to 'Edit', edit_git_hub_repo_path(@git_hub_repo) %> |
+<%= link_to 'Back', git_hub_repos_path %>

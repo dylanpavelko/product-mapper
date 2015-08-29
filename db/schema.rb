@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150816001431) do
+ActiveRecord::Schema.define(version: 20150829203057) do
 
   create_table "dependables", force: true do |t|
     t.integer  "node_id"
@@ -30,6 +30,26 @@ ActiveRecord::Schema.define(version: 20150816001431) do
   add_index "dependables", ["node_id"], name: "index_dependables_on_node_id"
   add_index "dependables", ["phase_id"], name: "index_dependables_on_phase_id"
   add_index "dependables", ["task_id"], name: "index_dependables_on_task_id"
+
+  create_table "git_hub_accounts", force: true do |t|
+    t.string   "oauth"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "git_hub_accounts", ["user_id"], name: "index_git_hub_accounts_on_user_id"
+
+  create_table "git_hub_repos", force: true do |t|
+    t.string   "repo"
+    t.integer  "node_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "git_hub_repos", ["node_id"], name: "index_git_hub_repos_on_node_id"
+  add_index "git_hub_repos", ["user_id"], name: "index_git_hub_repos_on_user_id"
 
   create_table "node_types", force: true do |t|
     t.string   "name"
