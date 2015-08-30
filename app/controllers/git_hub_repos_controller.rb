@@ -26,8 +26,8 @@ class GitHubReposController < ApplicationController
       if GitHubIssue.where(:gitHubID => issue['id']).count == 0
         #create issue for repo and top level node
         @ghIssue = GitHubIssue.new(
-          :gitHubID => issue['id'], 
-          :number => issue['number'],
+          :gitHubID => issue['id'].to_s, 
+          :number => issue['number'].to_s,
           :title => issue['title'],
           :created => issue['created_at'],
           :updated => issue['updated_at'],
