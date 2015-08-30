@@ -7,6 +7,5 @@ class ChangeStringsToNumbers < ActiveRecord::Migration
     alter column number
     type int using cast(number as int)
   }
-end
   end
 end
