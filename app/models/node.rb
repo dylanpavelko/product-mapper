@@ -87,7 +87,7 @@ class Node < ActiveRecord::Base
       if node.children.count > 0
         node.children.each do |childNode|
         #@ghis = GitHubIssue.where(:node_id => terminalNode)
-        @childNode.getAllSubIssues.each do |issue|
+        childNode.getAllSubIssues.each do |issue|
           @subIssues << issue
         end
       end
