@@ -79,13 +79,12 @@ class Node < ActiveRecord::Base
 
   def getAllSubIssues
     @subIssues = Array.new
+    @ghis = GitHubIssue.where(:node_id => self)
+    @ghis.each do |issue|
+      @subIssues << issue
+    end
     self.children.each do |node|
-      if node.children.count == 0
-        @ghis = GitHubIssue.where(:node_id => node)
-        @ghis.each do |issue|
-          @subIssues << issue
-        end
-      else
+      if node.children.count > 0
         node.getTerminalNodes.each do |terminalNode|
         @ghis = GitHubIssue.where(:node_id => terminalNode)
         @ghis.each do |issue|
