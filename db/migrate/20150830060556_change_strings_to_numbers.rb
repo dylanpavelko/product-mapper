@@ -2,8 +2,8 @@ class ChangeStringsToNumbers < ActiveRecord::Migration
   def change
     drop_table :git_hub_issues
     create_table :git_hub_issues do |t|
-      t.number :gitHubID
-      t.number :number
+      t.integer :gitHubID
+      t.integer :number
       t.string :title
       t.date :created
       t.date :updated
