@@ -44,7 +44,7 @@ class GitHubReposController < ApplicationController
   # GET /git_hub_repos/new
   def new
     @git_hub_repo = GitHubRepo.new
-    @redirect_path = "http://localhost:3000/"
+    @redirect_path = "https://product-mapper.dylanpavelko.com/"
     #If product mapper has not authorized GitHub Account access
     if GitHubAccount.where(:user_id => @current_user).count == 0 
       randomString = (0...8).map { (65 + rand(26)).chr }.join

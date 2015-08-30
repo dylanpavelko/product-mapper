@@ -37,12 +37,12 @@
 
 <p>
   <strong>Node:</strong>
-  <%= @git_hub_issue.node %>
+  <%= link_to @git_hub_issue.node.name , @git_hub_issue.node %>
 </p>
 
 <p>
   <strong>Repo:</strong>
-  <%= @git_hub_issue.repo %>
+  <%= @git_hub_issue.repo_id %>
 </p>
 
 <%= link_to 'Edit', edit_git_hub_issue_path(@git_hub_issue) %> |

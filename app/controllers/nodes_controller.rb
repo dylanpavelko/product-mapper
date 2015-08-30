@@ -34,6 +34,8 @@ class NodesController < ApplicationController
     @node = Node.find(params[:id])
     @nodePhases = Phase.where(:node_id => @node)
     @nodeQuestions = Question.where(:node_id => @node)
+    @issues = GitHubIssue.where(:node_id => @node)
+    @subIssues = @node.getAllSubIssues()
   end
 
   def feature_inventory

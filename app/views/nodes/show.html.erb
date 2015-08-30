@@ -103,6 +103,26 @@
 <% end %> 
 <br/><br/>
 <br/>
+<strong>Has Issues:</strong><br/>
+<% if @issues.count > 0 %>
+  <ul>
+    <% @issues.each do |issue| %>
+      <li>
+        <%= link_to issue.title , issue %>
+      </li>
+    <% end %>
+  </ul>
+<% end %> 
+<strong>Subordinate Issues:</strong><br/>
+<% if @subIssues.count > 0 %>
+  <ul>
+    <% @subIssues.each do |issue| %>
+      <li>
+        <%= link_to issue.node.name , issue.node %> > <%= link_to issue.title , issue %>
+      </li>
+    <% end %>
+  </ul>
+<% end %> 
 
 <% end %>
 
