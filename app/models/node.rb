@@ -87,7 +87,7 @@ class Node < ActiveRecord::Base
         end
       else
         node.getTerminalNodes.each do |terminalNode|
-        @ghis = GitHubIssues.where(:node_id => terminalNode)
+        @ghis = GitHubIssue.where(:node_id => terminalNode)
         @ghis.each do |issue|
           @subIssues << issue
         end
