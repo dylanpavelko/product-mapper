@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  gitHubID: MyString
+  number: MyString
+  title: MyString
+  created: 2015-08-29
+  updated: 2015-08-29
+  closed: 2015-08-29
+  body: MyString
+  node_id: 
+  repo_id: 
+
+two:
+  gitHubID: MyString
+  number: MyString
+  title: MyString
+  created: 2015-08-29
+  updated: 2015-08-29
+  closed: 2015-08-29
+  body: MyString
+  node_id: 
+  repo_id: 

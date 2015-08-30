@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150829233857) do
+ActiveRecord::Schema.define(version: 20150830045527) do
 
   create_table "dependables", force: true do |t|
     t.integer  "node_id"
@@ -40,6 +40,23 @@ ActiveRecord::Schema.define(version: 20150829233857) do
   end
 
   add_index "git_hub_accounts", ["user_id"], name: "index_git_hub_accounts_on_user_id"
+
+  create_table "git_hub_issues", force: true do |t|
+    t.string   "gitHubID"
+    t.string   "number"
+    t.string   "title"
+    t.date     "created"
+    t.date     "updated"
+    t.date     "closed"
+    t.string   "body"
+    t.integer  "node_id"
+    t.integer  "repo_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "git_hub_issues", ["node_id"], name: "index_git_hub_issues_on_node_id"
+  add_index "git_hub_issues", ["repo_id"], name: "index_git_hub_issues_on_repo_id"
 
   create_table "git_hub_repos", force: true do |t|
     t.string   "repo"

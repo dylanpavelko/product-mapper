@@ -1,0 +1,53 @@
+<%= form_for(@git_hub_issue) do |f| %>
+  <% if @git_hub_issue.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@git_hub_issue.errors.count, "error") %> prohibited this git_hub_issue from being saved:</h2>
+
+      <ul>
+      <% @git_hub_issue.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :gitHubID %><br>
+    <%= f.text_field :gitHubID %>
+  </div>
+  <div class="field">
+    <%= f.label :number %><br>
+    <%= f.text_field :number %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :created %><br>
+    <%= f.date_select :created %>
+  </div>
+  <div class="field">
+    <%= f.label :updated %><br>
+    <%= f.date_select :updated %>
+  </div>
+  <div class="field">
+    <%= f.label :closed %><br>
+    <%= f.date_select :closed %>
+  </div>
+  <div class="field">
+    <%= f.label :body %><br>
+    <%= f.text_field :body %>
+  </div>
+  <div class="field">
+    <%= f.label :node_id %><br>
+    <%= f.text_field :node_id %>
+  </div>
+  <div class="field">
+    <%= f.label :repo_id %><br>
+    <%= f.text_field :repo_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

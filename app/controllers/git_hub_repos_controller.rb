@@ -5,6 +5,9 @@ class GitHubReposController < ApplicationController
 
     require 'net/http'
     require 'cgi'
+    require "open-uri"
+    require 'rubygems'
+    require 'json'
 
   # GET /git_hub_repos
   # GET /git_hub_repos.json
@@ -15,6 +18,27 @@ class GitHubReposController < ApplicationController
   # GET /git_hub_repos/1
   # GET /git_hub_repos/1.json
   def show
+    @data = URI.parse("https://api.github.com/repos/dylanpavelko/"+@git_hub_repo.repo+"/issues").read
+    @structuredResponse = JSON.parse(@data)
+    @repoID = @git_hub_repo.id
+    @structuredResponse.each do |issue|
+      #if issue doesn't already exist
+      if GitHubIssue.where(:gitHubID => issue['id']).count == 0
+        #create issue for repo and top level node
+        @ghIssue = GitHubIssue.new(
+          :gitHubID => issue['id'], 
+          :number => issue['number'],
+          :title => issue['title'],
+          :created => issue['created_at'],
+          :updated => issue['updated_at'],
+          :closed => issue['closed_at'],
+          :body => issue['body'],
+          :repo_id => @repoID,
+          :node => @git_hub_repo.node)
+        @ghIssue.save
+      end
+    end
+
   end
 
   # GET /git_hub_repos/new
@@ -31,23 +55,17 @@ class GitHubReposController < ApplicationController
                   "&state="+randomString)
     elsif(params[:code] != nil && GitHubAccount.where(:user => @current_user).first.oauth == nil)
       @gitHubAccount = GitHubAccount.where(:user => @current_user).first
-      # redirect_to("https://github.com/login/oauth/access_token?client_id=9d811885f4f2c8354197"+
-      #   "&client_secret=854943e5ecebec4ade117eb1235de56410ec7257" +
-      #   "&code=" + params[:code]+
-      #   "&redirect_uri=" + @redirect_path + "git_hub_repos/new"+
-      #   "&state="+@gitHubAccountState)
       params["client_id"] = "9d811885f4f2c8354197"
       params["client_secret"] = '854943e5ecebec4ade117eb1235de56410ec7257'
       params["code"] = params[:code]
       params["redirect_uri"] = @redirect_path + "git_hub_repos/new"
       params["state"] = @gitHubAccount.state
       @response = Net::HTTP.post_form(URI.parse("https://github.com/login/oauth/access_token"), params)
-      puts @response.body
-      puts "Test"
       @structuredResponse = CGI::parse(@response.body)
       puts token = @structuredResponse['access_token'][0]
       @gitHubAccount.update(:oauth => token)
     end
+
 
   end
 

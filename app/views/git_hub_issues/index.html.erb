@@ -1,0 +1,41 @@
+<h1>Listing git_hub_issues</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Githubid</th>
+      <th>Number</th>
+      <th>Title</th>
+      <th>Created</th>
+      <th>Updated</th>
+      <th>Closed</th>
+      <th>Body</th>
+      <th>Node</th>
+      <th>Repo</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @git_hub_issues.each do |git_hub_issue| %>
+      <tr>
+        <td><%= git_hub_issue.gitHubID %></td>
+        <td><%= git_hub_issue.number %></td>
+        <td><%= git_hub_issue.title %></td>
+        <td><%= git_hub_issue.created %></td>
+        <td><%= git_hub_issue.updated %></td>
+        <td><%= git_hub_issue.closed %></td>
+        <td><%= git_hub_issue.body %></td>
+        <td><%= git_hub_issue.node.name %></td>
+        <td><%= git_hub_issue.repo_id %></td>
+        <td><%= link_to 'Show', git_hub_issue %></td>
+        <td><%= link_to 'Edit', edit_git_hub_issue_path(git_hub_issue) %></td>
+        <td><%= link_to 'Destroy', git_hub_issue, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Git hub issue', new_git_hub_issue_path %>

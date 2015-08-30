@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Githubid:</strong>
+  <%= @git_hub_issue.gitHubID %>
+</p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @git_hub_issue.number %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @git_hub_issue.title %>
+</p>
+
+<p>
+  <strong>Created:</strong>
+  <%= @git_hub_issue.created %>
+</p>
+
+<p>
+  <strong>Updated:</strong>
+  <%= @git_hub_issue.updated %>
+</p>
+
+<p>
+  <strong>Closed:</strong>
+  <%= @git_hub_issue.closed %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @git_hub_issue.body %>
+</p>
+
+<p>
+  <strong>Node:</strong>
+  <%= @git_hub_issue.node %>
+</p>
+
+<p>
+  <strong>Repo:</strong>
+  <%= @git_hub_issue.repo %>
+</p>
+
+<%= link_to 'Edit', edit_git_hub_issue_path(@git_hub_issue) %> |
+<%= link_to 'Back', git_hub_issues_path %>

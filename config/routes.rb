@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :git_hub_issues
+
   resources :git_hub_accounts
 
   resources :git_hub_repos
