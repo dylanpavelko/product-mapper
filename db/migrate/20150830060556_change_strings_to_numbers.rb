@@ -1,6 +1,12 @@
 class ChangeStringsToNumbers < ActiveRecord::Migration
   def change
-  	change_column :git_hub_issues, :gitHubID, :integer
-  	change_column :git_hub_issues, :number, :integer
+  execute %q{
+    alter table git_hub_issues
+    alter column gitHubID
+    type int using cast(gitHubID as int)
+    alter column number
+    type int using cast(number as int)
+  }
+end
   end
 end
