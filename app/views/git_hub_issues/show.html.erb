@@ -1,13 +1,13 @@
 <p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Githubid:</strong>
-  <%= @git_hub_issue.gitHubID %>
-</p>
-
-<p>
-  <strong>Number:</strong>
+  <%= link_to image_tag('https://assets-cdn.github.com/favicon.ico') , 'https://github.com/dylanpavelko/'+@gitHubRepo+'/issues/' + @git_hub_issue.number.to_s , target: "_blank" %>
+  <strong>Issue Number:</strong>
   <%= @git_hub_issue.number %>
+ | 
+  <strong>GitHub Integration ID:</strong>
+  <%= @git_hub_issue.gitHubID %> 
+
+
+
 </p>
 
 <p>
@@ -42,7 +42,7 @@
 
 <p>
   <strong>Repo:</strong>
-  <%= @git_hub_issue.repo_id %>
+  <%= link_to "Git Hub Repo", git_hub_repo_path(@git_hub_issue.repo_id) %>
 </p>
 
 <%= link_to 'Edit', edit_git_hub_issue_path(@git_hub_issue) %> |

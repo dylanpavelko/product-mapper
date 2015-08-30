@@ -12,6 +12,7 @@ class GitHubIssuesController < ApplicationController
   # GET /git_hub_issues/1
   # GET /git_hub_issues/1.json
   def show
+    @gitHubRepo = GitHubRepo.where(:id => @git_hub_issue.repo_id).first.repo
   end
 
   # GET /git_hub_issues/new
