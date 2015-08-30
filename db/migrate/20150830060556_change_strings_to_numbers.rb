@@ -1,14 +1,18 @@
 class ChangeStringsToNumbers < ActiveRecord::Migration
   def change
-  execute %q{
-    alter table git_hub_issues
-    alter column gitHubID
-    type int using cast(gitHubID as int)
-  }
-  execute %q{
-    alter table git_hub_issues
-    alter column number
-    type int using cast(number as int)
-  }
+    drop_table :git_hub_issues
+    create_table :git_hub_issues do |t|
+      t.number :gitHubID
+      t.number :number
+      t.string :title
+      t.date :created
+      t.date :updated
+      t.date :closed
+      t.string :body
+      t.references :node, index: true
+      t.references :repo, index: true
+
+      t.timestamps
+    end
   end
 end
