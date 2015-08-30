@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150829203057) do
+ActiveRecord::Schema.define(version: 20150829233857) do
 
   create_table "dependables", force: true do |t|
     t.integer  "node_id"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20150829203057) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "state"
   end
 
   add_index "git_hub_accounts", ["user_id"], name: "index_git_hub_accounts_on_user_id"

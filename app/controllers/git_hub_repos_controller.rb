@@ -3,6 +3,9 @@ class GitHubReposController < ApplicationController
       before_filter :authenticate_user
     before_filter :authorized_only
 
+    require 'net/http'
+    require 'cgi'
+
   # GET /git_hub_repos
   # GET /git_hub_repos.json
   def index
@@ -17,8 +20,35 @@ class GitHubReposController < ApplicationController
   # GET /git_hub_repos/new
   def new
     @git_hub_repo = GitHubRepo.new
-    randomString = (0...8).map { (65 + rand(26)).chr }.join
-    redirect_to("https://github.com/login/oauth/authorize?client_id=9d811885f4f2c8354197&redirect_uri=https://product-mapper.dylanpavelko.com/githubrepo/new&state="+randomString)
+    @redirect_path = "http://localhost:3000/"
+    #If product mapper has not authorized GitHub Account access
+    if GitHubAccount.where(:user_id => @current_user).count == 0 
+      randomString = (0...8).map { (65 + rand(26)).chr }.join
+      @gitHubAccount = GitHubAccount.new(:user => @current_user, :state => randomString)
+      @gitHubAccount.save
+      redirect_to("https://github.com/login/oauth/authorize?client_id=9d811885f4f2c8354197" +
+                  "&redirect_uri=" + @redirect_path + "git_hub_repos/new"+
+                  "&state="+randomString)
+    elsif(params[:code] != nil && GitHubAccount.where(:user => @current_user).first.oauth == nil)
+      @gitHubAccount = GitHubAccount.where(:user => @current_user).first
+      # redirect_to("https://github.com/login/oauth/access_token?client_id=9d811885f4f2c8354197"+
+      #   "&client_secret=854943e5ecebec4ade117eb1235de56410ec7257" +
+      #   "&code=" + params[:code]+
+      #   "&redirect_uri=" + @redirect_path + "git_hub_repos/new"+
+      #   "&state="+@gitHubAccountState)
+      params["client_id"] = "9d811885f4f2c8354197"
+      params["client_secret"] = '854943e5ecebec4ade117eb1235de56410ec7257'
+      params["code"] = params[:code]
+      params["redirect_uri"] = @redirect_path + "git_hub_repos/new"
+      params["state"] = @gitHubAccount.state
+      @response = Net::HTTP.post_form(URI.parse("https://github.com/login/oauth/access_token"), params)
+      puts @response.body
+      puts "Test"
+      @structuredResponse = CGI::parse(@response.body)
+      puts token = @structuredResponse['access_token'][0]
+      @gitHubAccount.update(:oauth => token)
+    end
+
   end
 
   # GET /git_hub_repos/1/edit
@@ -73,6 +103,6 @@ class GitHubReposController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def git_hub_repo_params
-      params.require(:git_hub_repo).permit(:repo, :node_id, :user_id)
+      params.require(:git_hub_repo).permit(:repo, :node_id, :user_id, :state, :code)
     end
 end

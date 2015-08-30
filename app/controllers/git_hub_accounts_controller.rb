@@ -71,6 +71,6 @@ class GitHubAccountsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def git_hub_account_params
-      params.require(:git_hub_account).permit(:oauth, :user_id)
+      params.require(:git_hub_account).permit(:oauth, :user_id, :state)
     end
 end
