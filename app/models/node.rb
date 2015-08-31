@@ -80,20 +80,27 @@ class Node < ActiveRecord::Base
   def getAllSubIssues
     @subIssues = Array.new
     self.children.each do |node|
-      @ghis = GitHubIssue.where(:node_id => node)
-      @ghis.each do |issue|
+      node.getAllIssues.each do |issue|
         @subIssues << issue
       end
-      if node.children.count > 0
-        node.children.each do |childNode|
-          childNode.getAllSubIssues.each do |issue|
-            @subIssues << issue
-          end
+    end
+    return @subIssues
+  end
+
+  def getAllIssues
+    @issues = Array.new
+    @ghis = GitHubIssue.where(:node_id => self.id)
+    @ghis.each do |issue|
+      @issues << issue
+    end
+    if self.children.count > 0
+      self.children.each do |childNode|
+        childNode.getAllIssues.each do |issue| 
+          @issues << issue
         end
       end
     end
-
-    return @subIssues
+    return @issues
   end
 
 
