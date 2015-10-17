@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  node_id: 
+  target_type: 1
+  envrionment_id: 
+  milestone_id: 
+  date: 2015-10-16
+
+two:
+  node_id: 
+  target_type: 1
+  envrionment_id: 
+  milestone_id: 
+  date: 2015-10-16

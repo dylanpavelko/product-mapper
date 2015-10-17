@@ -40,6 +40,7 @@ class NodeTypesController < ApplicationController
 
   	private
   		def nodeType_params
-  			params.require(:node_type).permit(:name, :priorityEnabled)
+  			params.require(:node_type).permit(:name, :priorityEnabled, :product_organizer, :product, 
+          :feature_organizer, :feature, :specification)
   		end
 end

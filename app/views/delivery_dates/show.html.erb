@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Node:</strong>
+  <%= link_to @delivery_date.node.name, @delivery_date.node %>
+</p>
+
+<p>
+  <strong>Target type:</strong>
+  <%= @delivery_date.target_type %>
+</p>
+
+<p>
+  <strong>Envrionment:</strong>
+  <%= @delivery_date.environment.name %>
+</p>
+
+<p>
+  <strong>Milestone:</strong>
+  <% if @delivery_date.milestone != nil %>
+    <%= @delivery_date.milestone.name %>
+  <% end %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @delivery_date.date %>
+</p>
+
+<%= link_to 'Edit', edit_delivery_date_path(@delivery_date) %> |
+<%= link_to 'Back', delivery_dates_path %>

@@ -9,6 +9,6 @@ class Dependable < ActiveRecord::Base
   	end
 
   	def forPhase
-  		return Phase.find(dependentPhase_id).name
+  		return Phase.find(dependentPhase_id)
   	end
 end

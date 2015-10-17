@@ -3,6 +3,8 @@
 <table>
   <thead>
     <tr>
+      <th>Dependent</th>
+      <th>Dependency</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -11,8 +13,13 @@
     <% @dependables.each do |dependable| %>
       <tr>
         <td>
+           <% if dependable.phase != nil %>
+            <%= link_to dependable.depentPhase.name, dependable.depentPhase.node %>
+            <% end %>
+        </td>
+        <td>
           <% if dependable.phase != nil %>
-          <%= dependable.phase.name %>
+            <%= link_to dependable.phase.name, dependable.phase.node %>
           <% end %>
         </td>
         <td><%= link_to 'Show', dependable %></td>

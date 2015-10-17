@@ -1,0 +1,44 @@
+<%= form_for(@delivery_date) do |f| %>
+  <% if @delivery_date.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@delivery_date.errors.count, "error") %> prohibited this delivery_date from being saved:</h2>
+
+      <ul>
+      <% @delivery_date.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :node_id %> <%= @node.name %>
+    <%= f.hidden_field :node_id, :value => @node.id %>
+  </div>
+  <div class="field">
+  <select id="target_type" name="delivery_date[target_type]">
+    <option value="1">Targeted to</option>
+    <option value="2" <% if @delivery_date.target_type==2 %> selected<% end %>>Delivered to</option>
+    <option value="3" <% if @delivery_date.target_type==3 %> selected<% end %>>Deprecated in</option>
+  </select>
+
+  <% if @delivery_date.environment != nil %>
+    <%= f.select :envrionment_id, options_from_collection_for_select(Environment.all, :id, :name, @delivery_date.environment.id), :include_blank => true %>
+  <% else %>
+    <%= f.select :envrionment_id, options_from_collection_for_select(Environment.all, :id, :name), :include_blank => true %>
+  <% end %>
+ with 
+  <% if @delivery_date.milestone != nil %>
+    <%= f.select :milestone_id, options_from_collection_for_select(Milestone.all, :id, :name, @delivery_date.milestone.id), :include_blank => true %>
+  <% else %>
+    <%= f.select :milestone_id, options_from_collection_for_select(Milestone.all, :id, :name), :include_blank => true %>
+  <% end %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br>
+    <%= f.date_field :date %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

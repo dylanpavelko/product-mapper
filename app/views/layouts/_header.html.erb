@@ -1,0 +1,101 @@
+
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Product Mapper</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+       <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin Tasks <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Task List', tasks_path %></li>
+            <li><%= link_to 'Node Types', node_types_path %></li>
+            <li><%= link_to 'Phase Types', phase_types_path %></li>
+            <li role="separator" class="divider"></li>
+            <li><%= link_to 'Manage GitHub Integrations', git_hub_repos_path %></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Search</button>
+        <!-- Filter -->
+
+
+    <div class="input-group">
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filter <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">By Delivery Target</a></li>
+          <li><a href="#">By Product Label</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left:-5px">
+         <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+
+    </div><!-- /input-group -->
+      </form>
+
+  <% if @current_user!=nil%>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <img src= <%= @current_user.picture %> class="navbar-brand profile_header_pic" ></li><li><%= link_to @current_user.username, sessions_profile_path, {:class => 'navbar-link'} %>
+        </li>
+        <li>  
+          <%= link_to 'Log Out', logout_path, {:class => 'navbar-link'} %>
+        </li>
+      </ul>
+    <% else %>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <%= link_to 'Log In', sessions_login_path %> 
+        </li>
+        <li>  
+          <%= link_to 'Sign Up', users_new_path %>
+        </li>
+      </ul>
+  <%end%>
+
+
+  <% if @current_user!=nil%>
+      <ul class="nav navbar-nav navbar-right">
+        <!--<li><a href="#"> another link can go here!</a></li>-->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Products<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <% @favorite_nodes.each do |favorite_node| %>
+              <li><%= link_to favorite_node.node.name, favorite_node.node %></li>
+            <% end %>
+            <li role="separator" class="divider"></li>
+            <li><%= link_to "All Nodes", nodes_path %></li>
+          </ul>
+        </li>
+      </ul>
+<% end %>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+

@@ -103,5 +103,38 @@ class Node < ActiveRecord::Base
     return @issues
   end
 
+  def get_feature
+    if self.parent.nodeType.feature 
+      return self.parent
+    else
+      return self.parent.parent
+    end
+  end
+
+  def percent_done
+    @percent = 0
+    if self.children.count > 0
+      self.children.each do |child|
+          @percent = @percent + child.percent_done
+      end
+      @percent = @percent/self.children.count
+    else
+      if self.status
+        @percent = 100
+      else
+        @percent = 0
+      end
+    end
+    return @percent
+  end
+
+  def get_next_delivery
+    @delivery_dates = DeliveryDate.where(:node_id => self.id)
+    if @delivery_dates.count > 0 
+      @next_date = @delivery_dates.first
+      return @next_date.string
+    end
+    return nil
+  end
 
 end

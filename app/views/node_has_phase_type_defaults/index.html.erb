@@ -1,0 +1,27 @@
+<h1>Listing node_has_phase_type_defaults</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Node</th>
+      <th>Phase type default</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @node_has_phase_type_defaults.each do |node_has_phase_type_default| %>
+      <tr>
+        <td><%= node_has_phase_type_default.node %></td>
+        <td><%= node_has_phase_type_default.phase_type_default %></td>
+        <td><%= link_to 'Show', node_has_phase_type_default %></td>
+        <td><%= link_to 'Edit', edit_node_has_phase_type_default_path(node_has_phase_type_default) %></td>
+        <td><%= link_to 'Destroy', node_has_phase_type_default, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Node has phase type default', new_node_has_phase_type_default_path %>

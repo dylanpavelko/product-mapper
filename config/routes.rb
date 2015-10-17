@@ -1,5 +1,19 @@
 Rails.application.routes.draw do
 
+  resources :delivery_dates
+
+  resources :milestones
+
+  resources :environments
+
+  resources :node_has_phase_type_defaults
+
+  resources :phase_type_default_has_phyase_types
+
+  resources :phase_type_defaults
+
+  resources :user_has_favorite_nodes
+
   resources :git_hub_issues
 
   resources :git_hub_accounts

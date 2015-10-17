@@ -1,0 +1,2 @@
+module PhaseTypeDefaultHasPhyaseTypesHelper
+end

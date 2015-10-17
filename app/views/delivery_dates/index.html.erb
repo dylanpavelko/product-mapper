@@ -1,0 +1,33 @@
+<h1>Listing delivery_dates</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Node</th>
+      <th>Target type</th>
+      <th>Envrionment</th>
+      <th>Milestone</th>
+      <th>Date</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @delivery_dates.each do |delivery_date| %>
+      <tr>
+        <td><%= link_to delivery_date.node.name, delivery_date.node %></td>
+        <td><%= delivery_date.target_type %></td>
+        <td><%= delivery_date.environment.name %></td>
+        <td><% if delivery_date.milestone != nil %><%= delivery_date.milestone.name %><% end %></td>
+        <td><%= delivery_date.date %></td>
+        <td><%= link_to 'Show', delivery_date %></td>
+        <td><%= link_to 'Edit', edit_delivery_date_path(delivery_date) %></td>
+        <td><%= link_to 'Destroy', delivery_date, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Delivery date', new_delivery_date_path %>

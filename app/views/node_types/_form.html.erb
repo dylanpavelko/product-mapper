@@ -1,7 +1,12 @@
 <%= form_for @nodeType do |f| %>
 <p>
   <%= f.text_field :name %><br/>
- Priority Ranking Enabled: <%= f.check_box :priorityEnabled %>
+ Priority Ranking Enabled: <%= f.check_box :priorityEnabled %> <br/>
+ Product Organizer <%= f.check_box :product_organizer %> <br/>
+ Product <%= f.check_box :product %> <br/>
+ Feature Organizer <%= f.check_box :feature_organizer %> <br/>
+ Feature <%= f.check_box :feature %> <br/>
+ Specification <%= f.check_box :specification %> <br/>
 
   <%= f.submit %>
   <%= link_to 'Cancel', @nodeType %>

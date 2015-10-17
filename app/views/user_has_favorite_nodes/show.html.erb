@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @user_has_favorite_node.user.username %>
+</p>
+
+<p>
+  <strong>Node:</strong>
+  <%= link_to @user_has_favorite_node.node.name, @user_has_favorite_node.node %>
+</p>
+
+<%= link_to 'Edit', edit_user_has_favorite_node_path(@user_has_favorite_node) %> |
+<%= link_to 'Back', user_has_favorite_nodes_path %>

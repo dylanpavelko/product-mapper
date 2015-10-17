@@ -1,0 +1,40 @@
+<%= form_for(@node_has_phase_type_default) do |f| %>
+  <% if @node_has_phase_type_default.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@node_has_phase_type_default.errors.count, "error") %> prohibited this node_has_phase_type_default from being saved:</h2>
+
+      <ul>
+      <% @node_has_phase_type_default.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :node_id %><br>
+  <% if @node_has_phase_type_default != nil %>
+    <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name, @node_has_phase_type_default.node_id), :include_blank => true %>
+  <% else %>
+    <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name), :include_blank => true %>
+  <% end %>
+  </div>
+  <div class="field">
+    <%= f.label :phase_type_default_id %><br>
+  </div>
+  <% @nodeTypes.each do |nodeType| %>
+    <h4><%= nodeType.name %></h4>
+    <div class="btn-group" data-toggle="buttons">
+
+
+    <% @phaseTypes.each do |phaseType| %>
+      <label class="btn btn-primary active">
+        <input type="checkbox" autocomplete="off" checked> <%= phaseType.name %>
+      </label>
+    <% end %>
+    </div>
+  <% end %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -10,17 +10,11 @@
   <% end %>
 </head>
 <body>
-<div id='profile'>
-	<% if @current_user!=nil%>
-		<img src= <%= @current_user.picture %> class="profile_header">
-		<%= @current_user.username %>   
-		<%= link_to 'Log Out', logout_path %>
-	<% else %>
-		<%= link_to 'Log In', sessions_login_path %> or 
-		<%= link_to 'Sign Up', new_user_path %>
-	<%end%>
-</div>
-<%= yield %>
 
+<%= render "layouts/header" %>
+
+<div class="container-fluid">
+	<%= yield %>
+</div>
 </body>
 </html>

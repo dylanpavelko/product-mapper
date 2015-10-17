@@ -1,0 +1,34 @@
+<%= form_for(@user_has_favorite_node) do |f| %>
+  <% if @user_has_favorite_node.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user_has_favorite_node.errors.count, "error") %> prohibited this user_has_favorite_node from being saved:</h2>
+
+      <ul>
+      <% @user_has_favorite_node.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <% if @user_has_favorite_node != nil %>
+      <%= f.select :user_id, options_from_collection_for_select(User.all, :id, :username, @user_has_favorite_node.user_id), :include_blank => true %>
+    <% else %>
+      <%= f.select :user_id, options_from_collection_for_select(User.all, :id, :username), :include_blank => true %>
+    <% end %>
+  </div>
+  </div>
+  <div class="field">
+    <%= f.label :node_id %><br>
+    <% if @user_has_favorite_node != nil %>
+      <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name, @user_has_favorite_node.node_id), :include_blank => true %>
+    <% else %>
+      <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name), :include_blank => true %>
+    <% end %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
