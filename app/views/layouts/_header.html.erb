@@ -61,11 +61,17 @@
 
   <% if @current_user!=nil%>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-          <img src= <%= @current_user.picture %> class="navbar-brand profile_header_pic" ></li><li><%= link_to @current_user.username, sessions_profile_path, {:class => 'navbar-link'} %>
-        </li>
-        <li>  
-          <%= link_to 'Log Out', logout_path, {:class => 'navbar-link'} %>
+        <li class="dropdown">
+          <img src= <%= @current_user.picture %> class="navbar-brand profile_header_pic" ></li><li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= @current_user.username %> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+            <li><%= link_to "View Profile", sessions_profile_path %></li>
+            <li role="separator" class="divider"></li>  
+            <% @favorite_nodes.each do |favorite_node| %>
+              <li><%= link_to favorite_node.node.name, favorite_node.node %></li>
+            <% end %>
+            <li role="separator" class="divider"></li>
+            <li><%= link_to "Log Out", logout_path %></li>
+          </ul>
         </li>
       </ul>
     <% else %>
@@ -80,21 +86,7 @@
   <%end%>
 
 
-  <% if @current_user!=nil%>
-      <ul class="nav navbar-nav navbar-right">
-        <!--<li><a href="#"> another link can go here!</a></li>-->
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Products<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <% @favorite_nodes.each do |favorite_node| %>
-              <li><%= link_to favorite_node.node.name, favorite_node.node %></li>
-            <% end %>
-            <li role="separator" class="divider"></li>
-            <li><%= link_to "All Nodes", nodes_path %></li>
-          </ul>
-        </li>
-      </ul>
-<% end %>
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

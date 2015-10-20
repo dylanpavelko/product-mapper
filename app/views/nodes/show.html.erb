@@ -1,14 +1,15 @@
-<ol class="breadcrumb">
-  <% if @node.parent != nil %>
+<% if @node.parent != nil %>
+  <ol class="breadcrumb">
     <% if @node.parent.parent != nil %>
       <li><%= link_to Node.find(@node.parent.parent).name , @node.parent.parent %> </li>
     <% end %>
     <li> <%= link_to Node.find(@node.parent).name , @node.parent %></li>
-  <% end %>
-</ol>
+
+  </ol>
+<% end %>
 
 <div class="page-header" style="margin-top:0px;">
-  <h2><%= @node.name %> <small>[<%= @node.nodeType.name %>]</small></h2>
+  <h2><%= @node.name %> <small>[<%= @node.nodeType.name %> - <%= @node.progress_status %>]</small></h2>
 
 <%= link_to 'Edit', edit_node_path(@node) %>
 <% if !@node.nodeType.specification %>
@@ -46,10 +47,17 @@
                 <%= link_to ("[" + grandkid.nodeType.name + "] " + grandkid.name + " " + grandkid.statusInParens ) , grandkid %>
 
 
-              <div class="progress">
-                <div class="progress-bar <% if grandkid.percent_done == 100 %> progress-bar-success<% else %> progress-bar-warning <% end %>" role="progressbar" aria-valuenow=<%= grandkid.percent_done %> aria-valuemin="0" aria-valuemax="100" style="width: <%= grandkid.percent_done %>%;">
-                  <%= grandkid.percent_done %>%
+                <div class="progress">
+                  <% if grandkid.percent_done != 0 %>
+                  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=<%= grandkid.percent_done %> aria-valuemin="0" aria-valuemax="100" style="width: <%= grandkid.percent_done %>%;">
+                    <%= grandkid.percent_done %>%
+                  </div>
+                <% end %>
+                <% if grandkid.percent_in_progress != 0 %>
+                  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:<%= grandkid.percent_in_progress %>%;">
+                    <%= grandkid.percent_in_progress %>%
                 </div>
+              <% end %>
               </div>
 
 
@@ -76,12 +84,16 @@
 <div>
   <strong>Percent Done:</strong> Toggle between Summary and Breakdown by Phase
                 <div class="progress">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=<%= @node.percent_done %> aria-valuemin="0" aria-valuemax="100" style="width: <%= @node.percent_done %>%;">
-                  <%= @node.percent_done %>%
+                  <% if @node.percent_done != 0 %>
+                  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=<%= @node.percent_done %> aria-valuemin="0" aria-valuemax="100" style="width: <%= @node.percent_done %>%;">
+                    <%= @node.percent_done %>%
+                  </div>
+                <% end %>
+                <% if @node.percent_in_progress != 0 %>
+                  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:<%= @node.percent_in_progress %>%;">
+                    <%= @node.percent_in_progress %>%
                 </div>
-                <div class="progress-bar progress-bar-warning" role="progressbar" style="width:20%">
-    In Progress
-  </div>
+              <% end %>
               </div>
 
  <strong>Delivery Dates:</strong>
@@ -105,6 +117,7 @@
             <%= phase.type %> <%= link_to 'Mark as Done', "", id: ("phase-mark-done" + phase.id.to_s)  %>
           <% end %>
         </h3>
+        <%= phase.get_progress_status_text %> <%= link_to 'temp change', edit_phase_path(phase) %>
       </div>
       <!--
       <div class="panel-body">

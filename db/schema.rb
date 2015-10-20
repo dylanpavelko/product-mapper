@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151016221301) do
+ActiveRecord::Schema.define(version: 20151020204321) do
 
   create_table "delivery_dates", force: true do |t|
     t.integer  "node_id"
@@ -162,6 +162,7 @@ ActiveRecord::Schema.define(version: 20151016221301) do
     t.datetime "updated_at"
     t.integer  "dependencies_id"
     t.boolean  "status"
+    t.integer  "progress_status"
   end
 
   add_index "phases", ["dependencies_id"], name: "index_phases_on_dependencies_id"

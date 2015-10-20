@@ -33,6 +33,35 @@ class Node < ActiveRecord::Base
       return true
   end
 
+  def progress_status
+    @status = "Backlog"
+    @nodePhases = Phase.where(:node_id => self.id)
+    #if any phase is in progress, return in progress
+    @nodePhases.each do |phase|
+      if phase.get_progress_status_text == "In Progress"
+        return "In Progress"
+      elsif phase.get_progress_status_text == "Done"
+        @status = "Done"
+      elsif phase.get_progress_status_text == "Backlog" and @status == "Done"
+        return "Partially Done - Nothing In Progress"        
+      end
+    end
+    self.children.each do |node|
+      if node.progress_status == "In Progress"
+        return "In Progress"
+      elsif node.progress_status == "Done"
+        @status = "Done"
+      elsif node.progress_status == "Backlog" and @status == "Done"
+        return "Partially Done/Nothing In-Progress" 
+      end
+    end
+    if @nodePhases.count < 1 && self.children.count < 1
+      @status = "Backlog"
+    end
+
+      return @status
+  end
+
   def statusInParens
     if self.status
       return "(Done)"
@@ -120,6 +149,23 @@ class Node < ActiveRecord::Base
       @percent = @percent/self.children.count
     else
       if self.status
+        @percent = 100
+      else
+        @percent = 0
+      end
+    end
+    return @percent
+  end
+
+  def percent_in_progress
+    @percent = 0
+    if self.children.count > 0
+      self.children.each do |child|
+          @percent = @percent + child.percent_in_progress
+      end
+      @percent = @percent/self.children.count
+    else
+      if self.progress_status == "In Progress"
         @percent = 100
       else
         @percent = 0
