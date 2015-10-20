@@ -74,12 +74,16 @@
 
   <br/><br/><br/>
 <div>
-  <strong>Percent Done:</strong>
+  <strong>Percent Done:</strong> Toggle between Summary and Breakdown by Phase
                 <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow=<%= @node.percent_done %> aria-valuemin="0" aria-valuemax="100" style="width: <%= @node.percent_done %>%;">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=<%= @node.percent_done %> aria-valuemin="0" aria-valuemax="100" style="width: <%= @node.percent_done %>%;">
                   <%= @node.percent_done %>%
                 </div>
+                <div class="progress-bar progress-bar-warning" role="progressbar" style="width:20%">
+    In Progress
+  </div>
               </div>
+
  <strong>Delivery Dates:</strong>
  <ul>
   <% @delivery_dates.each do |date| %>
@@ -88,6 +92,7 @@
  </ul>
  <%= link_to 'Add Delivery Date', new_delivery_date_path(@node) %>
  <br/>
+
 <strong>Phases:</strong> <%= link_to 'Add' , new_phase_path(@node) %> <br/> 
 <% if @nodePhases.count > 0 %>
   <% @nodePhases.each do |phase| %>
@@ -169,7 +174,7 @@
     <% end %>
   </ul>
 <% end %> 
-<br/><br/>
+<strong>Related Nodes:</strong><br/><br/>
 <br/>
 <strong>Has Issues:</strong><br/>
 <% if @issues.count > 0 %>
