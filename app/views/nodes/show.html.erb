@@ -29,8 +29,9 @@
             <div class="panel-heading ">
             <h3 class="panel-title">
               <% if child.status %> &#x2713; <% else %> &nbsp;&nbsp;&nbsp; <% end %> 
-                <%= link_to ("[" + child.nodeType.name + "] " + child.name + " " + child.statusInParens ) , child %>
+                <%= link_to ("[" + child.nodeType.name + "] " + child.name + " " + child.statusInParens ) , child %> ( <%= child.percent_done %>% Done)
               </h3>
+
           </div>
           <% if child.children.count >0 %>
           <div class="panel-body">
@@ -43,6 +44,16 @@
                 <% end %>
                       <% if grandkid.status %> &#x2713; <% else %> &nbsp;&nbsp;&nbsp; <% end %> 
                 <%= link_to ("[" + grandkid.nodeType.name + "] " + grandkid.name + " " + grandkid.statusInParens ) , grandkid %>
+
+
+              <div class="progress">
+                <div class="progress-bar <% if grandkid.percent_done == 100 %> progress-bar-success<% else %> progress-bar-warning <% end %>" role="progressbar" aria-valuenow=<%= grandkid.percent_done %> aria-valuemin="0" aria-valuemax="100" style="width: <%= grandkid.percent_done %>%;">
+                  <%= grandkid.percent_done %>%
+                </div>
+              </div>
+
+
+
                     </li>
                 <% end %>
               </ul>
@@ -63,7 +74,12 @@
 
   <br/><br/><br/>
 <div>
-  <strong>Percent Done:</strong> <%= @node.percent_done %>%<br/>
+  <strong>Percent Done:</strong>
+                <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow=<%= @node.percent_done %> aria-valuemin="0" aria-valuemax="100" style="width: <%= @node.percent_done %>%;">
+                  <%= @node.percent_done %>%
+                </div>
+              </div>
  <strong>Delivery Dates:</strong>
  <ul>
   <% @delivery_dates.each do |date| %>
