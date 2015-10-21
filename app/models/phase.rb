@@ -1,7 +1,6 @@
 class Phase < ActiveRecord::Base
 	belongs_to :phaseType, class_name: "PhaseType", foreign_key: "phaseType_id"
 	belongs_to :node, class_name: "Node", foreign_key: "node_id"
-	has_many :dependencies, class_name: "Dependable", foreign_key: "dependencies_id"
 
 	def name
       displayName = node.name + " ["+ phaseType.name + "]" 
@@ -19,5 +18,9 @@ class Phase < ActiveRecord::Base
     	else
     		return 'Backlog'
     	end	
+    end
+
+    def dependencies
+        return Dependable.where(:dependentPhase_id => self.id)
     end
 end

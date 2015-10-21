@@ -28,7 +28,9 @@
               <%= link_to 'Add Delivery Date', new_delivery_date_path(@node) %>
             <% end %>
           </td>
-          <td></td>
+          <td>
+              <%= child.dependencies.count %>
+          </td>
           <td></td>
           <td></td>
           <td><%= child.status %></td>

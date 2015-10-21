@@ -15,6 +15,7 @@
 <% if !@node.nodeType.specification %>
   <%= link_to 'View Backlog', backlog_path(@node) %>
   <%= link_to 'View Feature Inventory', feature_inventory_path(@node) %>
+  <%= link_to 'Groom Backlog', feature_inventory_path(@node) %>
 <% end %>
 </div>
 
@@ -117,7 +118,17 @@
             <%= phase.type %> <%= link_to 'Mark as Done', "", id: ("phase-mark-done" + phase.id.to_s)  %>
           <% end %>
         </h3>
-        <%= phase.get_progress_status_text %> <%= link_to 'temp change', edit_phase_path(phase) %>
+        <div class="btn-group">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <%= phase.get_progress_status_text %> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Set to In Progress</a></li>
+          <li><a href="#">Set to Done</a></li>
+          <li><a href="#">Move Back to Backlog</a></li>
+        </ul>
+      </div>
+         <%= link_to 'temp change', edit_phase_path(phase) %>
       </div>
       <!--
       <div class="panel-body">

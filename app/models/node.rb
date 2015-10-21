@@ -14,6 +14,10 @@ class Node < ActiveRecord::Base
   	Phases.find_by node: node
   end
 
+  def phases
+    @nodePhases = Phase.where(:node_id => self.id)
+  end
+
   def status
     @nodePhases = Phase.where(:node_id => self.id)
     @nodePhases.each do |phase|
@@ -52,7 +56,7 @@ class Node < ActiveRecord::Base
       elsif node.progress_status == "Done"
         @status = "Done"
       elsif node.progress_status == "Backlog" and @status == "Done"
-        return "Partially Done/Nothing In-Progress" 
+        @status = "Partially Done/Nothing In-Progress" 
       end
     end
     if @nodePhases.count < 1 && self.children.count < 1
@@ -181,6 +185,28 @@ class Node < ActiveRecord::Base
       return @next_date.string
     end
     return nil
+  end
+
+  def phases_dependencies
+    @dependencies = Array.new
+    if self.phases.count > 0
+      self.phases.each do |phase|
+        @dependencies = @dependencies + phase.dependencies
+      end
+    end
+    return @dependencies
+  end
+
+  def nodes_dependencies
+    @dependencies = Array.new
+    self.children.each do |child|
+      @dependencies = @dependenceis + child.dependencies
+    end
+    return @dependencies
+  end
+
+  def dependencies
+    return self.phases_dependencies + self.nodes_dependencies
   end
 
 end
