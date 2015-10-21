@@ -25,7 +25,7 @@
             <% if child.get_next_delivery != nil %>
               <%= child.get_next_delivery %>
             <% else %>
-              <%= link_to 'Add Delivery Date', new_delivery_date_path(@node) %>
+              <%= link_to 'Add Delivery Date', new_delivery_date_path(child) %>
             <% end %>
           </td>
           <td>

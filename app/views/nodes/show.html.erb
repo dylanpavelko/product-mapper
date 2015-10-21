@@ -13,9 +13,8 @@
 
 <%= link_to 'Edit', edit_node_path(@node) %>
 <% if !@node.nodeType.specification %>
-  <%= link_to 'View Backlog', backlog_path(@node) %>
   <%= link_to 'View Feature Inventory', feature_inventory_path(@node) %>
-  <%= link_to 'Groom Backlog', feature_inventory_path(@node) %>
+  <%= link_to 'Groom Backlog', backlog_path(@node) %>
 <% end %>
 </div>
 
