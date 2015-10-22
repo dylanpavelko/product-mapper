@@ -53,8 +53,10 @@ class NodesController < ApplicationController
 
   def backlog
       @node = Node.find(params[:id])
+      Node.rank(:row_order).all
       status = false;
       @terminalNodes = @node.getTerminalNodeWithUncompleteStatus(status)
+      @terminalNodes = @terminalNodes.sort_by {|obj| obj.row_order}
    #   @terminalBacklogNodes
   end
 
@@ -83,9 +85,17 @@ class NodesController < ApplicationController
     @nodes = Node.all
   end
 
+  def update_row_order
+    @node = Node.find(node_params[:node_id])
+    @node.row_order_position = node_params[:row_order_position]
+    @node.save
+
+    render nothing: true # this is a POST action, updates sent via AJAX, no view rendered
+  end
+
   private
     def node_params
-      params.require(:node).permit(:name, :parent_id, :nodeType_id, :phaseTypes, :description)
+      params.require(:node).permit(:name, :node_id, :parent_id, :nodeType_id, :phaseTypes, :description, :row_order_position)
     end
 
   private

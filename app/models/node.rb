@@ -6,6 +6,9 @@ class Node < ActiveRecord::Base
   has_many :questions, class_name: "Question", foreign_key: "question_id"
   has_many :phases, class_name: "Phase", foreign_key: "id"
 
+  include RankedModel
+  ranks :row_order
+
   def displayNameAndType
     displayName = name + nodeType.name
   end
@@ -35,6 +38,10 @@ class Node < ActiveRecord::Base
     end
 
       return true
+  end
+
+  def get_row_order_position
+    Node.where("row_order < ?", self.row_order).count
   end
 
   def progress_status

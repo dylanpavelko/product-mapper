@@ -1,3 +1,10 @@
+GIT
+  remote: git@github.com:mixonic/ranked-model.git
+  revision: 93f4502b776ae527d42bba9ad29eecf7137c6a76
+  specs:
+    ranked-model (0.4.0)
+      activerecord (>= 3.1.12)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -147,6 +154,7 @@ DEPENDENCIES
   pg
   rails (= 4.1.7)
   rails_12factor
+  ranked-model!
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
   spring

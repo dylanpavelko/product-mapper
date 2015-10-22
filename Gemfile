@@ -38,6 +38,9 @@ gem 'rails_12factor'
 
 gem 'jquery-turbolinks'
 
+gem 'ranked-model', :git => 'git@github.com:mixonic/ranked-model.git'
+
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

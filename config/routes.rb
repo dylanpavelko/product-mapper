@@ -36,7 +36,10 @@ Rails.application.routes.draw do
 
   post 'phase/set_status' => 'phases#set_phase_status'
 
-  resources :nodes
+  resources :nodes do
+    post :update_row_order, on: :collection
+  end
+
   resources :node_types
 
   get 'sessions/login'
