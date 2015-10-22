@@ -48,7 +48,8 @@ class NodesController < ApplicationController
   def feature_inventory
       @node = Node.find(params[:id])
       @terminalNodes = @node.getTerminalNodes()
-   #   @terminalBacklogNodes
+      @terminalNodes = @terminalNodes.sort_by {|obj| [obj.status ? 0 : 1 , obj.row_order ] }
+
   end
 
   def backlog

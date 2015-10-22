@@ -12,13 +12,14 @@
         <th>Priority</th>
         <th>Done?</th>
         <th>Added</th>
-      <% @terminalNodes.each do |child|  %>
+        <% @completed = @terminalNodes.select {|s| s.status } %>
+      <% @terminalNodes.each_with_index do |child, i|  %>
         <tr <% if child.status %>class="success"<% end %>>
           <% if child.nodeType.feature or child.nodeType.feature_organizer %>
             <td><%= link_to child.name, child %></td>
             <td></td>
           <% else %>
-            <td><%= link_to child.get_feature.name, child.get_feature %></td>
+            <td><%= link_to child.parent.name, child.parent %></td>
             <td><%= link_to child.name, child %></td>
           <% end %>
           <td>
@@ -32,7 +33,10 @@
               <%= child.dependencies.count %>
           </td>
           <td></td>
-          <td></td>
+            
+              
+            
+          <td><% if !child.status %><%= i + 1 - @completed.count %><% end %></td>
           <td><%= child.status %></td>
           <td><%= child.created_at.strftime('%m/%d/%Y')%></td>
         </tr>

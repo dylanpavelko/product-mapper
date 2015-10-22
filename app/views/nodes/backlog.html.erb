@@ -10,7 +10,7 @@
         <th>Specification</th>
         <th>Delivery</th>
         <th>Current Dependencies</th>
-        <th>Issues</th>
+        <th>Open Issues</th>
         <th>Priority</th>
         <th>Added</th>
       </thead>
@@ -33,7 +33,7 @@
           <td>
               <%= child.dependencies.count %>
           </td>
-          <td><%= child.get_row_order_position %>|<%= child.row_order %>|</td>
+          <td></td>
           <td><span class="priority"><%= i+1 %></span></td>
           <td><%= child.created_at.strftime('%m/%d/%Y')%></td>
         </tr>
@@ -359,9 +359,9 @@ function renumber_table(tableID) {
 
         item.after(itemsAfter);
 
-        console.log("selected initial item " + item.find(".priority").html());
-        console.log("moved to below " + item.prev().find(".priority").html());
-        console.log("and above " + item.next().find(".priority").html());
+        // console.log("selected initial item " + item.find(".priority").html());
+        // console.log("moved to below " + item.prev().find(".priority").html());
+        // console.log("and above " + item.next().find(".priority").html());
 
 
         item_id = item.data('item-id');
