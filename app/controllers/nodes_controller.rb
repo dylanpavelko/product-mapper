@@ -2,6 +2,7 @@ class NodesController < ApplicationController
   before_filter :authenticate_user
   before_filter :authorized_only
 
+
   def index
     @node = Node.all
   end
