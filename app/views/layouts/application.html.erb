@@ -2,17 +2,14 @@
 <html>
 <head>
   <title>ProductMapper</title>
-  <%= stylesheet_link_tag    'application', media: 'all'%>
-  <%= javascript_include_tag 'application'%>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
   <% if content_for? :for_head %>
     <%= yield :for_head %>
   <% end %>
 </head>
-<body 
-  <% if content_for?(:body_attributes) %>
-    <%= yield(:body_attributes) %> 
-  <% end %>>
+<body>
 
 <%= render "layouts/header" %>
 

@@ -1,6 +1,4 @@
-<% content_for(:body_attributes) do %>
-    data-no-turbolink="true"
-  <% end %>
+
 
     <h2>Backlog for <%= @node.name %> - <%= link_to "Back to Node", @node %></h2> 
 
@@ -488,3 +486,13 @@ function renumber_table(tableID) {
 
 }(jQuery);
 </script>
+
+    <script type="text/javascript">
+      jQuery(function($){
+        $('ul.sortable').multisortable();
+        $('ul#list1').sortable('option', 'connectWith', 'ul#list2');
+        $('ul#list2').sortable('option', 'connectWith', 'ul#list1');
+      });
+    </script>
+    
+ 
