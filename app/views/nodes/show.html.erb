@@ -223,7 +223,7 @@
   <ul>
     <% @subIssues.each do |issue| %>
       <li>
-        <% if issue.class.name == GitHubIssue %>
+        <% if issue.class.name == "GitHubIssue" %>
           <%= link_to issue.node.name , issue.node %> > <%= link_to issue.title , issue %>
         <% else %>
           <%= link_to issue.issue_with.name, issue.issue_with %> > <%= link_to issue.summary, issue %>
