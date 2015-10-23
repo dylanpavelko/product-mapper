@@ -55,7 +55,7 @@ class NodesController < ApplicationController
   def backlog
       if Node.all.first.row_order == nil
         Node.all.each do |n|
-          n.row_order_position :last
+          n.update_attribute :row_order_position, :last
         end
       end
       @node = Node.find(params[:id])
