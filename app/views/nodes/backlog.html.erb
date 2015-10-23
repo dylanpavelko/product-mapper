@@ -177,9 +177,10 @@
     $('#backlog').multiSelect();
   })
 
+var ready;
+ready = function() {
 
-$(document).ready(function() {     
-  //Helper function to keep table row from collapsing when being sorted     
+//Helper function to keep table row from collapsing when being sorted     
   var fixHelperModified = function(e, tr) {         
     var $originals = tr.children();         
     var $helper = tr.clone();         
@@ -197,7 +198,12 @@ $(document).ready(function() {
     stop: function(event,ui) {renumber_table('#backlog')}     
   }).disableSelection();     
 
-}); 
+
+};
+
+
+$(document).ready(ready);
+$(document).on('page:load', ready);
 
 //Renumber table rows 
 function renumber_table(tableID) {     
