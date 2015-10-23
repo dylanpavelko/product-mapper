@@ -170,7 +170,7 @@
 })(jQuery);
 </script>
 
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
 
 <script type="text/javascript">
   $(function () {
@@ -225,6 +225,8 @@ function renumber_table(tableID) {
  * Last Revision 3/16/2012
  * multi-selectable, multi-sortable jQuery plugin
  */
+function initPage() {
+  // Page ready code...
 
 !function($) {
 
@@ -491,7 +493,7 @@ function renumber_table(tableID) {
   };
 
 }(jQuery);
-
+}
 
 $(function() {
   initPage();
@@ -499,9 +501,7 @@ $(function() {
 $(window).bind('page:change', function() {
   initPage();
 });
-function initPage() {
-  // Page ready code...
-}
+
 
 </script>
 
