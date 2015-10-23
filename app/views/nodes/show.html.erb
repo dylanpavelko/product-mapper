@@ -204,19 +204,28 @@
   <ul>
     <% @issues.each do |issue| %>
       <li>
+        <% if issue.class.name == GitHubIssue %>
         <% @gitHubRepo = GitHubRepo.where(:id => issue.repo_id).first.repo %>
           <%= link_to image_tag('https://assets-cdn.github.com/favicon.ico', :width => "17px" ) , 'https://github.com/dylanpavelko/'+@gitHubRepo+'/issues/' + issue.number.to_s , target: "_blank"%>
         <%= link_to issue.title , issue %>
+        <% else %>
+        <%= link_to issue.summary, issue %>
+        <% end %>
       </li>
     <% end %>
   </ul>
 <% end %> 
+<%= link_to 'Open Issue', new_native_issue_path(@node) %><br/>
 <strong>Subordinate Issues:</strong><br/>
 <% if @subIssues.count > 0 %>
   <ul>
     <% @subIssues.each do |issue| %>
       <li>
-        <%= link_to issue.node.name , issue.node %> > <%= link_to issue.title , issue %>
+        <% if issue.class.name == GitHubIssue %>
+          <%= link_to issue.node.name , issue.node %> > <%= link_to issue.title , issue %>
+        <% else %>
+          <%= link_to issue.issue_with.name, issue.issue_with %> > <%= link_to issue.summary, issue %>
+        <% end %>
       </li>
     <% end %>
   </ul>

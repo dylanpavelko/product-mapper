@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  summary: MyString
+  description: MyText
+  enhancement: false
+  issue_with_id: 
+  resolved_with_id: 
+  close_without_resolution: false
+
+two:
+  summary: MyString
+  description: MyText
+  enhancement: false
+  issue_with_id: 
+  resolved_with_id: 
+  close_without_resolution: false

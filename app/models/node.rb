@@ -128,11 +128,8 @@ class Node < ActiveRecord::Base
   end
 
   def getAllIssues
-    @issues = Array.new
-    @ghis = GitHubIssue.where(:node_id => self.id)
-    @ghis.each do |issue|
-      @issues << issue
-    end
+    @issues = GitHubIssue.where(:node_id => self.id) + NativeIssue.where(:issue_with_id => self.id)
+
     if self.children.count > 0
       self.children.each do |childNode|
         childNode.getAllIssues.each do |issue| 

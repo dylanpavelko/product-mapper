@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Summary:</strong>
+  <%= @native_issue.summary %>
+</p>
+
+<p>
+  <strong>Description:</strong><br/>
+  <%= @native_issue.description %>
+</p>
+
+<p>
+  <strong>Enhancement:</strong>
+  <%= @native_issue.enhancement %>
+</p>
+
+<p>
+  <strong>Issue with:</strong>
+  <%= link_to @native_issue.issue_with.name, @native_issue.issue_with %>
+</p>
+
+<p>
+  <strong>Resolved with:</strong>
+  <%= @native_issue.resolved_with %>
+</p>
+
+<p>
+  <strong>Close without resolution:</strong>
+  <%= @native_issue.close_without_resolution %>
+</p>
+
+<%= link_to 'Edit', edit_native_issue_path(@native_issue) %> |
+<%= link_to 'Back', native_issues_path %>

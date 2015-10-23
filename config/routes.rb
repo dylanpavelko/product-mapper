@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :native_issues
+
   resources :delivery_dates
 
   resources :milestones

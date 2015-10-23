@@ -1,0 +1,35 @@
+<h1>Listing native_issues</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Summary</th>
+      <th>Description</th>
+      <th>Enhancement</th>
+      <th>Issue with</th>
+      <th>Resolved with</th>
+      <th>Close without resolution</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @native_issues.each do |native_issue| %>
+      <tr>
+        <td><%= native_issue.summary %></td>
+        <td><%= native_issue.description %></td>
+        <td><%= native_issue.enhancement %></td>
+        <td><%= native_issue.issue_with %></td>
+        <td><%= native_issue.resolved_with %></td>
+        <td><%= native_issue.close_without_resolution %></td>
+        <td><%= link_to 'Show', native_issue %></td>
+        <td><%= link_to 'Edit', edit_native_issue_path(native_issue) %></td>
+        <td><%= link_to 'Destroy', native_issue, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Native issue', new_native_issue_path %>
