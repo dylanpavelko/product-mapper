@@ -53,6 +53,11 @@ class NodesController < ApplicationController
   end
 
   def backlog
+      if Node.all.first.row_order == nil
+        Node.all.each do |n|
+          n.row_order_position :last
+        end
+      end
       @node = Node.find(params[:id])
       Node.rank(:row_order).all
       status = false;
