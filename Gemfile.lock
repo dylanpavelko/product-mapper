@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:mixonic/ranked-model.git
+  remote: git://github.com/mixonic/ranked-model.git
   revision: 93f4502b776ae527d42bba9ad29eecf7137c6a76
   specs:
     ranked-model (0.4.0)
