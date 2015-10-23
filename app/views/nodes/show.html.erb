@@ -204,10 +204,10 @@
   <ul>
     <% @issues.each do |issue| %>
       <li>
-        <% if issue.class.name == GitHubIssue %>
-        <% @gitHubRepo = GitHubRepo.where(:id => issue.repo_id).first.repo %>
+        <% if issue.class.name == "GitHubIssue" %>
+          <% @gitHubRepo = GitHubRepo.where(:id => issue.repo_id).first.repo %>
           <%= link_to image_tag('https://assets-cdn.github.com/favicon.ico', :width => "17px" ) , 'https://github.com/dylanpavelko/'+@gitHubRepo+'/issues/' + issue.number.to_s , target: "_blank"%>
-        <%= link_to issue.title , issue %>
+          <%= link_to issue.title , issue %>
         <% else %>
         <%= link_to issue.summary, issue %>
         <% end %>
