@@ -1,6 +1,15 @@
+<% if @node.parent != nil %>
+  <ol class="breadcrumb">
+    <% if @node.parent.parent != nil %>
+      <li><%= link_to Node.find(@node.parent.parent).name , @node.parent.parent %> </li>
+    <% end %>
+    <li> <%= link_to Node.find(@node.parent).name , @node.parent %></li>
+
+  </ol>
+<% end %>
 
 
-    <h2>Backlog for <%= @node.name %> - <%= link_to "Back to Node", @node %></h2> 
+<h2>Backlog for <%= @node.name %> - <%= link_to "Back to Node", @node %></h2> 
 
 
 <div class="table-responsive">
@@ -168,11 +177,12 @@
         }
     });
 })(jQuery);
-</script>
 
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
-<script type="text/javascript">
+
+
+//MOVEABLE ROWS
+
   $(function () {
     $('#backlog').multiSelect();
   })
@@ -206,11 +216,8 @@ function renumber_table(tableID) {
     $(this).find('.priority').html(count); 
   }); 
 }
-</script>
 
 
-
-<script type="text/javascript">
 /**
  * jquery.multisortable.js - v0.2
  * https://github.com/shvetsgroup/jquery.multisortable
@@ -220,7 +227,7 @@ function renumber_table(tableID) {
  * multi-selectable, multi-sortable jQuery plugin
  */
 
-!function($) {
+(!function($) {
 
   $.fn.multiselectable = function(options) {
     if (!options) {
@@ -484,27 +491,9 @@ function renumber_table(tableID) {
     items: 'tr'
   };
 
-}(jQuery);
-
-
-$(function() {
-  initPage();
-});
-$(window).bind('page:change', function() {
-  initPage();
-});
-function initPage() {
-  // Page ready code...
-}
+})(jQuery);
 
 </script>
 
-    <script type="text/javascript">
-      jQuery(function($){
-        $('ul.sortable').multisortable();
-        $('ul#list1').sortable('option', 'connectWith', 'ul#list2');
-        $('ul#list2').sortable('option', 'connectWith', 'ul#list1');
-      });
-    </script>
     
  

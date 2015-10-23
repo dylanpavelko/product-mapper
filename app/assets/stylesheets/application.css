@@ -13,8 +13,8 @@
  *= require_tree .
  *= require_self
  *= require bootstrap_and_overrides
- //= require_tree ../../../vendor/assets/stylesheets/.
-
+ *= require jquery-ui
+ *= require_tree ../../../vendor/assets/stylesheets/.
  */
 
 div#profile{

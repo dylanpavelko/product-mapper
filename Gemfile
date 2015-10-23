@@ -37,6 +37,7 @@ gem 'bcrypt-ruby', '~> 3.1.2', :require => 'bcrypt'
 gem 'rails_12factor'
 
 gem 'jquery-turbolinks'
+gem 'jquery-ui-rails'
 
 gem 'ranked-model', :git => 'git://github.com/mixonic/ranked-model.git'
 

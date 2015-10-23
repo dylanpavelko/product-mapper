@@ -11,8 +11,9 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.turbolinks
+//= require jquery-ui
 //= require jquery_ujs
+//= require jquery.turbolinks
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
