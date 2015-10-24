@@ -213,4 +213,12 @@ class Node < ActiveRecord::Base
     return self.phases_dependencies + self.nodes_dependencies
   end
 
+  def solves_issues
+    NativeIssue.where(:resolved_with_id => self.id)
+  end
+
+  def open_issues
+    GitHubIssue.where(:node_id => self.id) + NativeIssue.where(:issue_with_id => self.id)
+  end
+
 end

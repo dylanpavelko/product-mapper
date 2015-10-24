@@ -37,6 +37,7 @@ class NodesController < ApplicationController
     @nodeQuestions = Question.where(:node_id => @node)
     @issues = GitHubIssue.where(:node_id => @node) + NativeIssue.where(:issue_with_id => @node)
     @subIssues = @node.getAllSubIssues()
+    @issue_resolutions = NativeIssue.where(:resolved_with_id => @node)
 
     @subPhases = Phase.where(:node_id => @subIssues)
     @delivery_dates = DeliveryDate.where(:node_id => @node)

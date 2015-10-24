@@ -22,6 +22,7 @@ class NativeIssuesController < ApplicationController
 
   # GET /native_issues/1/edit
   def edit
+    @node = @native_issue.issue_with
   end
 
   # POST /native_issues

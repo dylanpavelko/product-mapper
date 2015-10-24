@@ -1,4 +1,8 @@
 <p id="notice"><%= notice %></p>
+<p>
+  <strong>Issue with:</strong>
+  <%= link_to @native_issue.issue_with.name, @native_issue.issue_with %>
+</p>
 
 <p>
   <strong>Summary:</strong>
@@ -16,13 +20,10 @@
 </p>
 
 <p>
-  <strong>Issue with:</strong>
-  <%= link_to @native_issue.issue_with.name, @native_issue.issue_with %>
-</p>
-
-<p>
   <strong>Resolved with:</strong>
-  <%= @native_issue.resolved_with %>
+  <% if @native_issue.resolved_with != nil %>
+  <%= link_to @native_issue.resolved_with.name, @native_issue.resolved_with %>
+  <% end %>
 </p>
 
 <p>

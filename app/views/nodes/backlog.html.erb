@@ -1,6 +1,14 @@
+<% if @node.parent != nil %>
+  <ol class="breadcrumb">
+    <% if @node.parent.parent != nil %>
+      <li><%= link_to Node.find(@node.parent.parent).name , @node.parent.parent %> </li>
+    <% end %>
+    <li> <%= link_to Node.find(@node.parent).name , @node.parent %></li>
 
+  </ol>
+<% end %>
 
-    <h2>Backlog for <%= @node.name %> - <%= link_to "Back to Node", @node %></h2> 
+    <h2>Backlog for <%= link_to @node.name, @node %></h2> 
 
 
 <div class="table-responsive">
@@ -10,7 +18,8 @@
         <th>Specification</th>
         <th>Delivery</th>
         <th>Current Dependencies</th>
-        <th>Open Issues</th>
+        <th>Has Open Issues</th>
+        <th>Solves Open Issues</th>
         <th>Priority</th>
         <th>Added</th>
       </thead>
@@ -33,7 +42,8 @@
           <td>
               <%= child.dependencies.count %>
           </td>
-          <td></td>
+          <td><%= child.open_issues.count %></td>
+          <td><%= child.solves_issues.count %></td>
           <td><span class="priority"><%= i+1 %></span></td>
           <td><%= child.created_at.strftime('%m/%d/%Y')%></td>
         </tr>
@@ -170,49 +180,6 @@
 })(jQuery);
 </script>
 
-
-
-<script type="text/javascript">
-  $(function () {
-    $('#backlog').multiSelect();
-  })
-
-var ready;
-ready = function() {
-
-//Helper function to keep table row from collapsing when being sorted     
-  var fixHelperModified = function(e, tr) {         
-    var $originals = tr.children();         
-    var $helper = tr.clone();         
-    $helper.children().each(function(index)         
-      {           
-        $(this).width($originals.eq(index).width())         
-      }
-    );         
-    return $helper;     
-  };     
-
-  //Make backlog table sortable     
-  $("#backlog tbody").multisortable({         
-    helper: fixHelperModified,         
-    stop: function(event,ui) {renumber_table('#backlog')}     
-  }).disableSelection();     
-
-
-};
-
-
-$(document).ready(ready);
-$(document).on('page:load', ready);
-
-//Renumber table rows 
-function renumber_table(tableID) {     
-  $(tableID + " tr").each(function() {         
-    count = $(this).parent().children().index($(this)) + 1;         
-    $(this).find('.priority').html(count); 
-  }); 
-}
-</script>
 
 
 
@@ -504,6 +471,51 @@ $(window).bind('page:change', function() {
 
 
 </script>
+
+
+
+<script type="text/javascript">
+  $(function () {
+    $('#backlog').multiSelect();
+  })
+
+var ready;
+ready = function() {
+
+//Helper function to keep table row from collapsing when being sorted     
+  var fixHelperModified = function(e, tr) {         
+    var $originals = tr.children();         
+    var $helper = tr.clone();         
+    $helper.children().each(function(index)         
+      {           
+        $(this).width($originals.eq(index).width())         
+      }
+    );         
+    return $helper;     
+  };     
+
+  //Make backlog table sortable     
+  $("#backlog tbody").multisortable({         
+    helper: fixHelperModified,         
+    stop: function(event,ui) {renumber_table('#backlog')}     
+  }).disableSelection();     
+
+
+};
+
+
+$(document).ready(ready);
+$(document).on('page:load', ready);
+
+//Renumber table rows 
+function renumber_table(tableID) {     
+  $(tableID + " tr").each(function() {         
+    count = $(this).parent().children().index($(this)) + 1;         
+    $(this).find('.priority').html(count); 
+  }); 
+}
+</script>
+
 
     <script type="text/javascript">
       jQuery(function($){

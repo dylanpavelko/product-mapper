@@ -204,9 +204,7 @@
   <ul>
     <% @issues.each do |issue| %>
       <li>
-        <%= issue.class.name %>
         <% if issue.class.name != "NativeIssue" %>
-
           <% @gitHubRepo = GitHubRepo.where(:id => issue.repo_id).first.repo %>
           <%= link_to image_tag('https://assets-cdn.github.com/favicon.ico', :width => "17px" ) , 'https://github.com/dylanpavelko/'+@gitHubRepo+'/issues/' + issue.number.to_s , target: "_blank"%>
           <%= link_to issue.title , issue %>
@@ -232,6 +230,20 @@
     <% end %>
   </ul>
 <% end %> 
+<% if @issue_resolutions.count > 0 %>
+  <strong>Resolves Issues</strong>
+  <ul>
+  <% @issue_resolutions.each do |issue| %>
+        <li>
+          <% if issue.class.name == "GitHubIssue" %>
+            <%= link_to issue.title , issue %>
+          <% else %>
+            <%= link_to issue.summary, issue %>
+         <% end %>
+       </li>
+  <% end %>
+  <ul>
+<% end %>
 
 </div>
 <script type="text/javascript">
