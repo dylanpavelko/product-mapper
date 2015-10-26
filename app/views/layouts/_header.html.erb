@@ -43,7 +43,7 @@
           <li><a href="#">By Milestone</a></li>
             <ul>
               <% Milestone.all.each do |milestone| %>
-                <li><a href="#" class="add_milestone_filter" id=<%= milestone.id %>><%= milestone.name %></a></li>
+                <li><a href="#" class="add_milestone_filter" id="<%= milestone.id %>"><%= milestone.name %></a></li>
               <% end %>  
             </ul>
             <li><a href="#">By Date</a></li>

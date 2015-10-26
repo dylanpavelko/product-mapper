@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   get 'sessions/setting'
 
   get 'backlog(/:id)' => 'nodes#backlog' , as: :backlog
+  get 'delivery_schedule(/:id)' => 'nodes#delivery_schedule' , as: :delivery_schedule
   get 'feature_inventory(/:id)' => 'nodes#feature_inventory' , as: :feature_inventory
 
   get 'users/new'

@@ -10,7 +10,7 @@
   </ol>
 <% end %>
 
-    <h2>Backlog for <%= link_to @node.name, @node %></h2> 
+<h2>Backlog for <%= link_to @node.name, @node %></h2> 
 
 
 <div class="table-responsive">
@@ -36,8 +36,8 @@
           <% end %>
           <td>
             <% if child.get_next_delivery != nil %>
-              <%= child.get_next_delivery %>
-            <% else %>
+              <%= child.get_next_delivery.string %>
+            <% elsif child.nodeType.specification %>
               <%= link_to 'Add Delivery Date', new_delivery_date_path(child) %>
             <% end %>
           </td>

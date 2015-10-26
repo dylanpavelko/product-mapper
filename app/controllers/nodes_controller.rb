@@ -53,6 +53,12 @@ class NodesController < ApplicationController
 
   end
 
+  def delivery_schedule
+      @node = Node.find(params[:id])
+      @terminalNodes = @node.getTerminalNodes()
+      @terminalNodes = @terminalNodes.sort_by {|obj| [obj.status ? 0 : 1 , obj.row_order ] }
+  end
+
   def backlog
     @filters = session[:filters]
       if Node.all.first.row_order == nil

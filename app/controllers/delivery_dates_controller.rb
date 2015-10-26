@@ -18,6 +18,7 @@ class DeliveryDatesController < ApplicationController
   def new
     @delivery_date = DeliveryDate.new
     @node = Node.find(params[:format])
+    session[:return_to] ||= request.referer
   end
 
   # GET /delivery_dates/1/edit
@@ -32,7 +33,7 @@ class DeliveryDatesController < ApplicationController
 
     respond_to do |format|
       if @delivery_date.save
-        format.html { redirect_to @delivery_date.node, notice: 'Delivery date was successfully created.' }
+        format.html { redirect_to session.delete(:return_to), notice: 'Delivery date was successfully created.' }
         format.json { render :show, status: :created, location: @delivery_date }
       else
         format.html { render :new }

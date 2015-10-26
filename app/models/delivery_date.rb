@@ -13,8 +13,22 @@ class DeliveryDate < ActiveRecord::Base
   	end
   end
 
+  def delivery_type_short
+    if self.target_type == 1
+      return "Targeted to"
+    elsif self.target_type == 2
+      return "Delivered in"
+    elsif self.target_type == 3
+      return "Deprecated in"
+    end
+  end
+
   def string
     return self.delivery_type + " " + self.environment.name + " with " + self.milestone.name
+  end
+
+  def short_string
+    return self.delivery_type_short + " " + self.milestone.name
   end
 
 end

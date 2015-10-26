@@ -207,8 +207,18 @@ class Node < ActiveRecord::Base
   def get_next_delivery
     @delivery_dates = DeliveryDate.where(:node_id => self.id)
     if @delivery_dates.count > 0 
+      @delivery_dates = @delivery_dates.sort { |a,b| a.milestone.date <=> b.milestone.date }
       @next_date = @delivery_dates.first
-      return @next_date.string
+      return @next_date
+    end
+    return nil
+  end
+
+  def get_next_delivery_for_environment(environment)
+    @delivery_dates = DeliveryDate.where(:node_id => self.id, :envrionment_id => environment)
+    if @delivery_dates.count > 0 
+      @next_date = @delivery_dates.first
+      return @next_date
     end
     return nil
   end
