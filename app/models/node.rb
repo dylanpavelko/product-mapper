@@ -100,16 +100,16 @@ class Node < ActiveRecord::Base
     filters.each do |filter|
       if filter[0] == 1 #MILESTONE FILTER
         milestone_date = Milestone.find(filter[1]).date
-        node_dates = DeliveryDate.where(:node_id => self.id) #get the delivery dates for the node
-        if node_dates.count >0                               #if there are delivery dates
-          node_dates.each do |delivery_date|
-            puts self.name + " targeted to " + delivery_date.milestone.date.strftime("%m/%d/%Y") + " vs " + milestone_date.strftime("%m/%d/%Y")
-            if delivery_date.milestone.date <= milestone_date #but the delivery date is greater than the filter milestone date
+        #node_dates = DeliveryDate.where(:node_id => self.id) #get the delivery dates for the node
+        if self.get_earliest_delivery_date != nil                            #if there are delivery dates
+          #node_dates.each do |delivery_date|
+          #  puts self.name + " targeted to " + delivery_date.milestone.date.strftime("%m/%d/%Y") + " vs " + milestone_date.strftime("%m/%d/%Y")
+            if self.get_earliest_delivery_date <= milestone_date #but the delivery date is greater than the filter milestone date
               return true
             else
               return false
             end
-          end
+          #end
         else
           return false
         end
@@ -254,20 +254,26 @@ class Node < ActiveRecord::Base
   def get_earliest_delivery_date
     if self.nodeType.specification
       node_dates = DeliveryDate.where(:node_id => self.id) 
-      if node_dates.count >0
-        node_dates.sort! { |a,b| a.milestone.date <=> b.milestone.date }
-        return node_dates.first
-      else 
+      if node_dates.count > 1
+        node_dates = node_dates.sort { |a,b| a.milestone.date <=> b.milestone.date }
+        return node_dates.first.milestone.date
+      elsif node_dates.count == 1
+        return node_dates.first.milestone.date
+      else
         return nil
       end
     else
       all_filtered_dates = Array.new
-      self.filtered_children.each do |child|
-        all_filtered_dates << child.get_earliest_delivery_date
+      self.children.each do |child|
+        if child.get_earliest_delivery_date != nil
+          all_filtered_dates << child.get_earliest_delivery_date
+        end
       end
-      if all_filtered_dates.count > 0
-        all_filtered_dates.sort! { |a,b| a.milestone.date <=> b.milestone.date }
-        return node_dates.first
+      if all_filtered_dates.count > 1
+        all_filtered_dates.sort! { |a,b| a <=> b }
+        return all_filtered_dates.first
+      elsif all_filtered_dates.count == 1
+        return all_filtered_dates.first
       else
         return nil
       end

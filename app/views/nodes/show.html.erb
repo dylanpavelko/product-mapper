@@ -27,14 +27,15 @@
   <% if !@node.nodeType.specification %>  
   <!-- Comprised of Sub Non-Spec Nodes-->
   <div class="col-md-6">
-    <% @root_node_children = @node.filtered_children(@node_filters) %>
-    <% if @root_node_children.count > 0 %>
-      <% @root_node_children.each do |child| %>
+    <% @root_node_filtered_children = @node.filtered_children(@node_filters) %>
+    <% if @root_node_filtered_children.count > 0 %>
+      <% @root_node_filtered_children.each do |child| %>
         <div class="panel panel-default">
             <div class="panel-heading ">
             <h3 class="panel-title">
               <% if child.status %> &#x2713; <% else %> &nbsp;&nbsp;&nbsp; <% end %> 
                 <%= link_to ("[" + child.nodeType.name + "] " + child.name + " " + child.statusInParens ) , child %> ( <%= child.percent_done %>% Done)
+Meets Filter: <%= child.meets_filters(@node_filters) %>
               </h3>
 
           </div>
@@ -106,7 +107,7 @@
     <li><%= date.delivery_type %> <%= date.environment.name %> with <%= date.milestone.name %> <%= link_to 'edit', edit_delivery_date_path(date) %> </li>
   <% end %>
  </ul>
-   <% if @node.nodeType.specification %>
+<% if @node.nodeType.specification %>
  <%= link_to 'Add Delivery Date', new_delivery_date_path(@node) %>
  <% end %>
  <br/>
