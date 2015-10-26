@@ -168,13 +168,14 @@ class Node < ActiveRecord::Base
     end
   end
 
-  def percent_done
+  def percent_done(filters)
     @percent = 0
-    if self.children.count > 0
-      self.children.each do |child|
-          @percent = @percent + child.percent_done
+    kids = self.filtered_children(filters)
+    if kids.count > 0
+      kids.each do |child|
+          @percent = @percent + child.percent_done(filters)
       end
-      @percent = @percent/self.children.count
+      @percent = @percent/kids.count
     else
       if self.status
         @percent = 100
@@ -185,13 +186,14 @@ class Node < ActiveRecord::Base
     return @percent
   end
 
-  def percent_in_progress
+  def percent_in_progress(filters)
     @percent = 0
-    if self.children.count > 0
-      self.children.each do |child|
-          @percent = @percent + child.percent_in_progress
+    kids = self.filtered_children(filters)
+    if kids.count > 0
+      kids.each do |child|
+          @percent = @percent + child.percent_in_progress(filters)
       end
-      @percent = @percent/self.children.count
+      @percent = @percent/kids.count
     else
       if self.progress_status == "In Progress"
         @percent = 100
