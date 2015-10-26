@@ -40,11 +40,25 @@
       <div class="input-group-btn">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filter <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a href="#">By Delivery Target</a></li>
-          <li><a href="#">By Product Label</a></li>
+          <li><a href="#">By Milestone</a></li>
+            <ul>
+              <% Milestone.all.each do |milestone| %>
+                <li><a href="#" class="add_milestone_filter" id=<%= milestone.id %>><%= milestone.name %></a></li>
+              <% end %>  
+            </ul>
+            <li><a href="#">By Date</a></li>
+            <li><a href="#">Not Targeted</a></li>
+            <li><a href="#">By Environment</a></li>
+            <ul>
+              <% Environment.all.each do |env| %>
+                <li><a href="#"><%= env.name %></a></li>
+              <% end %>  
+            </ul>
+          <!--<li><a href="#">By Product Label</a></li>-->
         </ul>
       </div><!-- /btn-group -->
 
+<!-- Hide Secodn Dropdown for now
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left:-5px">
          <span class="caret"></span>
       </button>
@@ -55,8 +69,9 @@
         <li role="separator" class="divider"></li>
         <li><a href="#">Separated link</a></li>
       </ul>
-
-    </div><!-- /input-group -->
+-->
+    </div>
+    <!-- /input-group -->
       </form>
 
   <% if @current_user!=nil%>
@@ -91,3 +106,13 @@
   </div><!-- /.container-fluid -->
 </nav>
 
+
+<script type="text/javascript">
+$('.add_milestone_filter').click(function(){
+  var milestone_id = $(this).attr('id');
+  console.log(milestone_id);
+    $.ajax({url: "/add_filter", type: "POST", data: {'filter_type': 1 ,'filter_data': milestone_id}, dataType: 'json'}).done(function(data){
+      window.location.reload(false); 
+    });
+});
+</script>

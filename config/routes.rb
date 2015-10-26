@@ -38,6 +38,9 @@ Rails.application.routes.draw do
 
   post 'phase/set_status' => 'phases#set_phase_status'
 
+  post 'add_filter' => 'sessions#add_filter'
+  post 'remove_filter' => 'sessions#remove_filter'
+
   resources :nodes do
     post :update_row_order, on: :collection
   end

@@ -1,3 +1,6 @@
+<%= render 'filters' %>
+
+<% @node_filters = session[:filters] %>
 <% if @node.parent != nil %>
   <ol class="breadcrumb">
     <% if @node.parent.parent != nil %>
@@ -24,8 +27,9 @@
   <% if !@node.nodeType.specification %>  
   <!-- Comprised of Sub Non-Spec Nodes-->
   <div class="col-md-6">
-    <% if @node.children.count > 0 %>
-      <% @node.children.each do |child| %>
+    <% @root_node_children = @node.filtered_children(@node_filters) %>
+    <% if @root_node_children.count > 0 %>
+      <% @root_node_children.each do |child| %>
         <div class="panel panel-default">
             <div class="panel-heading ">
             <h3 class="panel-title">
@@ -37,7 +41,7 @@
           <% if child.children.count >0 %>
           <div class="panel-body">
               <ul class="list-group">
-                <% child.children.each do |grandkid| %>
+                <% child.filtered_children(@node_filters).each do |grandkid| %>
                 <% if grandkid.status %>
                   <li class="list-group-item list-group-item-success">
                 <% else %>
@@ -102,7 +106,9 @@
     <li><%= date.delivery_type %> <%= date.environment.name %> with <%= date.milestone.name %> <%= link_to 'edit', edit_delivery_date_path(date) %> </li>
   <% end %>
  </ul>
+   <% if @node.nodeType.specification %>
  <%= link_to 'Add Delivery Date', new_delivery_date_path(@node) %>
+ <% end %>
  <br/>
 
 <strong>Phases:</strong> <%= link_to 'Add' , new_phase_path(@node) %> <br/> 
@@ -215,7 +221,7 @@
     <% end %>
   </ul>
 <% end %> 
-<%= link_to 'Open Issue', new_native_issue_path(@node) %><br/>
+<%= link_to 'Open New Issue', new_native_issue_path(@node) %><br/>
 <strong>Subordinate Issues:</strong><br/>
 <% if @subIssues.count > 0 %>
   <ul>

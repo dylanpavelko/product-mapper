@@ -54,6 +54,7 @@ class NodesController < ApplicationController
   end
 
   def backlog
+    @filters = session[:filters]
       if Node.all.first.row_order == nil
         Node.all.each do |n|
           n.update_attribute :row_order_position, :last
@@ -62,7 +63,7 @@ class NodesController < ApplicationController
       @node = Node.find(params[:id])
       Node.rank(:row_order).all
       status = false;
-      @terminalNodes = @node.getTerminalNodeWithUncompleteStatus(status)
+      @terminalNodes = @node.getFilteredTerminalNodeWithUncompleteStatus(status, @filters)
       @terminalNodes = @terminalNodes.sort_by {|obj| obj.row_order}
    #   @terminalBacklogNodes
   end

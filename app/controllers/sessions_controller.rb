@@ -2,10 +2,11 @@ class SessionsController < ApplicationController
   before_filter :authenticate_user, :only => [:home, :profile, :setting]
   before_filter :save_login_state, :only => [:login, :login_attempt]
 
+  MILESTONE_FILTER = 1
 
-  def login
-    #Login Form
-  end
+	def login
+    	#Login Form
+  	end
 
 
 	def login_attempt
@@ -26,12 +27,26 @@ class SessionsController < ApplicationController
 	  redirect_to :action => 'login'
 	end
 
-  def home
-  end
+	def home
+	end
 
-  def profile
-  end
+	def profile
+	end
 
-  def setting
-  end
+	def setting
+	end
+
+	def add_filter
+		newFilters = Array.new
+		newFilters << [MILESTONE_FILTER, params[:filter_data]]
+		session[:filters] = newFilters
+		render json: newFilters
+	end
+
+	def remove_filter
+		newFilters = Array.new
+		#newFilters << [MILESTONE_FILTER, params[:filter_data]]
+		session[:filters] = newFilters
+		render json: newFilters
+	end
 end

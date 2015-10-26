@@ -96,19 +96,39 @@ class Node < ActiveRecord::Base
     return @terminalNodes
   end
 
-  def getTerminalNodeWithUncompleteStatus(completed)
+  def meets_filters(filters)
+    filters.each do |filter|
+      if filter[0] == 1 #MILESTONE FILTER
+        milestone_date = Milestone.find(filter[1]).date
+        node_dates = DeliveryDate.where(:node_id => self.id) #get the delivery dates for the node
+        if node_dates.count >0                               #if there are delivery dates
+          node_dates.each do |delivery_date|
+            puts self.name + " targeted to " + delivery_date.milestone.date.strftime("%m/%d/%Y") + " vs " + milestone_date.strftime("%m/%d/%Y")
+            if delivery_date.milestone.date <= milestone_date #but the delivery date is greater than the filter milestone date
+              return true
+            else
+              return false
+            end
+          end
+        else
+          return false
+        end
+      end
+    end
+    return true
+  end
+
+  def getFilteredTerminalNodeWithUncompleteStatus(completed, filters)
     @terminalNodes = Array.new
 
     self.children.each do |node|
       if node.children.count == 0
-        if !node.status
-          puts node.status
+        if !node.status and node.meets_filters(filters)
           @terminalNodes << node
         end
       else
         node.getTerminalNodes.each do |terminalNode|
-          if !terminalNode.status
-            puts terminalNode.status
+          if !terminalNode.status and terminalNode.meets_filters(filters)
             @terminalNodes << terminalNode
           end          
         end
@@ -219,6 +239,42 @@ class Node < ActiveRecord::Base
 
   def open_issues
     GitHubIssue.where(:node_id => self.id) + NativeIssue.where(:issue_with_id => self.id)
+  end
+
+  def filtered_children(filters)
+    filtered = Array.new
+    self.children.each do |child|
+      if child.meets_filters(filters)
+        filtered << child
+      end
+    end
+    return filtered
+  end
+
+  def get_earliest_delivery_date
+    if self.nodeType.specification
+      node_dates = DeliveryDate.where(:node_id => self.id) 
+      if node_dates.count >0
+        node_dates.sort! { |a,b| a.milestone.date <=> b.milestone.date }
+        return node_dates.first
+      else 
+        return nil
+      end
+    else
+      all_filtered_dates = Array.new
+      self.filtered_children.each do |child|
+        all_filtered_dates << child.get_earliest_delivery_date
+      end
+      if all_filtered_dates.count > 0
+        all_filtered_dates.sort! { |a,b| a.milestone.date <=> b.milestone.date }
+        return node_dates.first
+      else
+        return nil
+      end
+    end
+  end
+
+  def get_lastest_delivery_date
   end
 
 end
