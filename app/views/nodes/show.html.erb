@@ -1,6 +1,9 @@
 <%= render 'filters' %>
 
 <% @node_filters = session[:filters] %>
+<% if @node_filters == nil %>
+  <% @node_filters = Array.new %>
+<% end %>
 <% if @node.parent != nil %>
   <ol class="breadcrumb">
     <% if @node.parent.parent != nil %>

@@ -12,6 +12,7 @@
 
 <h2>Backlog for <%= link_to @node.name, @node %></h2> 
 
+<% @dependencies = Array.new %>
 
 <div class="table-responsive">
     <table id="backlog" class="table table-striped table-hover">
@@ -26,7 +27,11 @@
         <th>Added</th>
       </thead>
       <% @terminalNodes.each_with_index do |child, i|  %>
-        <tr data-item-id=<%= "#{child.id}" %> data-item-position=<%= child.get_row_order_position %> <% if child.status %>class="success"<% end %>  >
+        <tr data-item-id=<%= "#{child.id}" %> data-item-position=<%= child.get_row_order_position %> <% if child.status %>class="success" 
+          <% elsif @dependencies.include?(child.id) %> class="danger"<% end %>  >
+          <% child.dependencies.each do |dependency| %>
+            <% @dependencies << dependency.phase.node.id %>
+          <% end %>
           <% if child.nodeType.feature or child.nodeType.feature_organizer %>
             <td><%= link_to child.name, child %></td>
             <td></td>

@@ -8,7 +8,7 @@
   </ol>
 <% end %>
 
-<h2>Delivery Schedule for <%= link_to @node.name, @node %></h2> 
+<h2>Delivery Schedule for <%= link_to @node.name, @node %></h2>  <%= link_to "Switch to Backlog Grooming View", backlog_path(@node) %>
 
 <div class="table-responsive">
     <table class="table table-striped table-hover">

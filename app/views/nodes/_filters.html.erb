@@ -1,13 +1,14 @@
 <% filters = session[:filters] %>
-  <% if filters.count > 0 %>
-  <div class="alert alert-info" role="alert">
+    <% if filters != nil and filters.count > 0 %>
+    <div class="alert alert-info" role="alert">
 
-    Filtered to only show product targeted through 
-    <% filters.each do |filter| %>
-      <% milestone = Milestone.find(filter[1]) %>
-      <span class="label label-info"><%= milestone.name %> <a href="#" class="remove_milestone_filter" id="<%= milestone.id %>">X</a></span>
-    <% end %>
-  </div>
+      Filtered to only show product targeted through 
+      <% filters.each do |filter| %>
+        <% milestone = Milestone.find(filter[1]) %>
+        <span class="label label-info"><%= milestone.name %> <a href="#" class="remove_milestone_filter" id="<%= milestone.id %>">X</a></span>
+
+    </div>
+
 
   <script type="text/javascript">
   $('.remove_milestone_filter').click(function(){
@@ -18,5 +19,9 @@
       });
   });
   </script>
+
 <% end %>
+  <% else %>
+    <% filters = Array.new %>
+  <% end %>
 <%#= session[:filters] %>
