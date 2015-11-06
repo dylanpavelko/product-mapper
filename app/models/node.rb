@@ -329,6 +329,7 @@ class Node < ActiveRecord::Base
     end
     kids = self.fchildren 
     node.set_perecent_done(node.calc_percent_done)
+    node.set_perecent_in_progress(node.calc_percent_in_progress)
     kids << node
 
     self.set_fchildren(kids)
