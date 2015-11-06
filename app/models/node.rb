@@ -194,7 +194,7 @@ class Node < ActiveRecord::Base
   def calc_percent_in_progress
     @percent = 0
     kids = self.fchildren
-    if kids.count > 0
+    if kids != nil and kids.count > 0
       kids.each do |child|
           @percent = @percent + child.percent_in_progress
       end
@@ -315,6 +315,8 @@ class Node < ActiveRecord::Base
         child.set_deep_filtered_node(filters)
         if child.fchildren != nil and child.fchildren.count != 0
           #then there were children that matched the filter and this should be included in filtered children
+          self.add_filtered_child(child)
+        elsif filters.count == 0
           self.add_filtered_child(child)
         end
       end

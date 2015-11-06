@@ -33,52 +33,68 @@
   <% if !@node.nodeType.specification %>  
   <!-- Comprised of Sub Non-Spec Nodes-->
   <div class="col-md-6">
-    <% if @node.fchildren.count > 0 %>
+    <% if @node.fchildren != nil and @node.fchildren.count > 0 %>
       <% @node.fchildren.each do |child| %>
-        <div class="panel panel-default">
+        <% if !child.nodeType.specification %>
+          <div class="panel panel-default">
             <div class="panel-heading ">
-            <h3 class="panel-title">
-              <% if child.status %> &#x2713; <% else %> &nbsp;&nbsp;&nbsp; <% end %> 
-                <%= link_to ("[" + child.nodeType.name + "] " + child.name + " " + child.statusInParens ) , child %> ( <%= child.percent_done %>% Done)
+              <h3 class="panel-title">
+                <% if child.status %> &#x2713; <% else %> &nbsp;&nbsp;&nbsp; <% end %> 
+                <%= link_to ("[" + child.nodeType.name + "] " + child.name + " " + child.statusInParens ) , child %> (<%= child.percent_done %>% Done)
               </h3>
+            </div>
 
-          </div>
-          <% if child.children.count >0 %>
-          <div class="panel-body">
-              <ul class="list-group">
-                <% child.fchildren.each do |grandkid| %>
-                <% if grandkid.status %>
-                  <li class="list-group-item list-group-item-success">
-                <% else %>
-                  <li class="list-group-item">
-                <% end %>
-                      <% if grandkid.status %> &#x2713; <% else %> &nbsp;&nbsp;&nbsp; <% end %> 
-                <%= link_to ("[" + grandkid.nodeType.name + "] " + grandkid.name + " " + grandkid.statusInParens ) , grandkid %>
+            <% if child.children.count >0 %>
+            <div class="panel-body">
+                <ul class="list-group">
+                  <% child.fchildren.each do |grandkid| %>
+                  <% if grandkid.status %>
+                    <li class="list-group-item list-group-item-success">
+                  <% elsif grandkid.progress_status == "In Progress" %>
+                    <li class="list-group-item list-group-item-warning">
+                  <% else %>
+                    <li class="list-group-item">
+                  <% end %>
+                        <% if grandkid.status %> &#x2713; <% else %> &nbsp;&nbsp;&nbsp; <% end %> 
+                  <%= link_to ("[" + grandkid.nodeType.name + "] " + grandkid.name + " " + grandkid.statusInParens ) , grandkid %>
 
-
-                <div class="progress">
-                  <% grandkid_perecent_done = grandkid.percent_done %>
-                  <% if grandkid_perecent_done != 0 %>
-                  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=<%= grandkid_perecent_done %> aria-valuemin="0" aria-valuemax="100" style="width: <%= grandkid_perecent_done %>%;">
-                    <%= grandkid_perecent_done %>%
+                  <% if !grandkid.nodeType.specification %>
+                  <div class="progress">
+                    <% grandkid_perecent_done = grandkid.percent_done %>
+                    <% if grandkid_perecent_done != 0 %>
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=<%= grandkid_perecent_done %> aria-valuemin="0" aria-valuemax="100" style="width: <%= grandkid_perecent_done %>%;">
+                      <%= grandkid_perecent_done %>%
+                    </div>
+                  <% end %>
+                  <% grandkid_perecent_in_progress = grandkid.percent_in_progress %>
+                  <% if grandkid_perecent_in_progress != 0 %>
+                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:<%= grandkid_perecent_in_progress %>%;">
+                      <%= grandkid_perecent_in_progress %>%
                   </div>
-                <% end %>
-                <% grandkid_perecent_in_progress = grandkid.percent_in_progress %>
-                <% if grandkid_perecent_in_progress != 0 %>
-                  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:<%= grandkid_perecent_in_progress %>%;">
-                    <%= grandkid_perecent_in_progress %>%
+                  
+                  <% end %>
                 </div>
                 <% end %>
-              </div>
 
 
-
-                    </li>
-                <% end %>
-              </ul>
-          </div>
+                      </li>
+                  <% end %>
+                </ul>
+            </div>
           <% end %>
         </div>
+        <% else %>
+          <% if child.status %>
+            <li class="list-group-item list-group-item-success">
+          <% elsif child.progress_status == "In Progress" %>
+            <li class="list-group-item list-group-item-warning">
+          <% else %>
+            <li class="list-group-item">
+          <% end %>
+              <%= link_to "[" + child.nodeType.name + "] " + child.name, child %>
+            </li>
+        <% end %>
+        
       <% end %>
     <% end %>
   <% end %> 
