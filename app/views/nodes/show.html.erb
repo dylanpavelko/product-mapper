@@ -5,7 +5,7 @@
   <% @node_filters = Array.new %>
 <% end %>
 <% @node.set_deep_filtered_node(@node_filters) %>
-<%= @node.fchildren.count %>
+
 <% if @node.parent != nil %>
   <ol class="breadcrumb">
     <% if @node.parent.parent != nil %>
@@ -39,7 +39,7 @@
             <div class="panel-heading ">
             <h3 class="panel-title">
               <% if child.status %> &#x2713; <% else %> &nbsp;&nbsp;&nbsp; <% end %> 
-                <%= link_to ("[" + child.nodeType.name + "] " + child.name + " " + child.statusInParens ) , child %> ( <%= child.percent_done(@node_filters) %>% Done)
+                <%= link_to ("[" + child.nodeType.name + "] " + child.name + " " + child.statusInParens ) , child %> ( <%= child.percent_done %>% Done)
               </h3>
 
           </div>
@@ -57,18 +57,18 @@
 
 
                 <div class="progress">
-                  <% grandkid_perecent_done = grandkid.percent_done(@node_filters) %>
+                  <% grandkid_perecent_done = grandkid.percent_done %>
                   <% if grandkid_perecent_done != 0 %>
                   <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=<%= grandkid_perecent_done %> aria-valuemin="0" aria-valuemax="100" style="width: <%= grandkid_perecent_done %>%;">
                     <%= grandkid_perecent_done %>%
                   </div>
                 <% end %>
-                <% grandkid_perecent_in_progress = grandkid.percent_in_progress(@node_filters) %>
+                <% grandkid_perecent_in_progress = grandkid.percent_in_progress %>
                 <% if grandkid_perecent_in_progress != 0 %>
                   <div class="progress-bar progress-bar-warning" role="progressbar" style="width:<%= grandkid_perecent_in_progress %>%;">
                     <%= grandkid_perecent_in_progress %>%
                 </div>
-              <% end %>
+                <% end %>
               </div>
 
 
@@ -95,13 +95,13 @@
 <div>
   <strong>Percent Done:</strong> Toggle between Summary and Breakdown by Phase
                 <div class="progress">
-                  <% @node_perecent_done = @node.percent_done(@node_filters) %>
+                  <% @node_perecent_done = @node.calc_percent_done %>
                   <% if @node_perecent_done != 0 %>
                   <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow=<%= @node_perecent_done %> aria-valuemin="0" aria-valuemax="100" style="width: <%= @node_perecent_done %>%;">
                     <%= @node_perecent_done %>%
                   </div>
                 <% end %>
-                <% @node_percent_in_progress = @node.percent_in_progress(@node_filters) %>
+                <% @node_percent_in_progress = @node.percent_in_progress %>
                 <% if @node_percent_in_progress != 0 %>
                   <div class="progress-bar progress-bar-warning" role="progressbar" style="width:<%= @node_percent_in_progress %>%;">
                     <%= @node_percent_in_progress %>%

@@ -8,6 +8,9 @@ class Node < ActiveRecord::Base
 
   @fchildren = Array.new
 
+  @percent_done
+  @percent_in_progress
+
   include RankedModel
   ranks :row_order
 
@@ -170,12 +173,12 @@ class Node < ActiveRecord::Base
     end
   end
 
-  def percent_done(filters)
+  def calc_percent_done
     @percent = 0
-    kids = self.filtered_children(filters)
-    if kids.count > 0
+    kids = self.fchildren
+    if kids != nil and kids.count > 0
       kids.each do |child|
-          @percent = @percent + child.percent_done(filters)
+          @percent = @percent + child.percent_done
       end
       @percent = @percent/kids.count
     else
@@ -188,12 +191,12 @@ class Node < ActiveRecord::Base
     return @percent
   end
 
-  def percent_in_progress(filters)
+  def calc_percent_in_progress
     @percent = 0
-    kids = self.filtered_children(filters)
+    kids = self.fchildren
     if kids.count > 0
       kids.each do |child|
-          @percent = @percent + child.percent_in_progress(filters)
+          @percent = @percent + child.percent_in_progress
       end
       @percent = @percent/kids.count
     else
@@ -304,10 +307,8 @@ class Node < ActiveRecord::Base
   def filtered_children2(filters)
     self.children.each do |child|
       if child.nodeType.specification
-puts "TEST1"
         #check to see if it meets filter
         if child.spec_meets_filters(filters)
-puts "TEST2"
           self.add_filtered_child(child) #if it does add it as a filtered child
         end
       else #if it is not a specification you need to look down until you find one and set each filtered node
@@ -325,9 +326,9 @@ puts "TEST2"
       @fchildren = Array.new
     end
     kids = self.fchildren 
-    puts "blah"
-    puts self.fchildren.count
+    node.set_perecent_done(node.calc_percent_done)
     kids << node
+
     self.set_fchildren(kids)
   end
 
@@ -373,5 +374,20 @@ puts "TEST2"
     @fchildren = nodes
   end
 
+  def set_perecent_done(done)
+    @percent_done = done
+  end
+
+  def percent_done
+    @percent_done
+  end
+
+  def set_perecent_in_progress(in_progress)
+    @percent_in_progress = in_progress
+  end
+
+  def percent_in_progress
+    @percent_in_progress
+  end
 
 end
