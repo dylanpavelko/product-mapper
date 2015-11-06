@@ -6,6 +6,8 @@ class Node < ActiveRecord::Base
   has_many :questions, class_name: "Question", foreign_key: "question_id"
   has_many :phases, class_name: "Phase", foreign_key: "id"
 
+  @fchildren = Array.new
+
   include RankedModel
   ranks :row_order
 
@@ -294,5 +296,82 @@ class Node < ActiveRecord::Base
 
   def get_lastest_delivery_date
   end
+
+  def set_deep_filtered_node(filters)
+    self.filtered_children2(filters)
+  end
+
+  def filtered_children2(filters)
+    self.children.each do |child|
+      if child.nodeType.specification
+puts "TEST1"
+        #check to see if it meets filter
+        if child.spec_meets_filters(filters)
+puts "TEST2"
+          self.add_filtered_child(child) #if it does add it as a filtered child
+        end
+      else #if it is not a specification you need to look down until you find one and set each filtered node
+        child.set_deep_filtered_node(filters)
+        if child.fchildren != nil and child.fchildren.count != 0
+          #then there were children that matched the filter and this should be included in filtered children
+          self.add_filtered_child(child)
+        end
+      end
+    end
+  end
+
+  def add_filtered_child(node)
+    if @fchildren == nil 
+      @fchildren = Array.new
+    end
+    kids = self.fchildren 
+    puts "blah"
+    puts self.fchildren.count
+    kids << node
+    self.set_fchildren(kids)
+  end
+
+  def get_earliest_date_of_spec
+      node_dates = DeliveryDate.where(:node_id => self.id) 
+      if node_dates.count > 1
+        node_dates = node_dates.sort { |a,b| a.milestone.date <=> b.milestone.date }
+        return node_dates.first.milestone.date
+      elsif node_dates.count == 1
+        return node_dates.first.milestone.date
+      else
+        return nil
+      end
+  end
+
+  def spec_meets_filters(filters)
+      filters.each do |filter|
+        if filter[0] == 1 #MILESTONE FILTER
+          milestone_date = Milestone.find(filter[1]).date
+          #node_dates = DeliveryDate.where(:node_id => self.id) #get the delivery dates for the node
+          if self.get_earliest_date_of_spec != nil                            #if there are delivery dates
+            #node_dates.each do |delivery_date|
+            #  puts self.name + " targeted to " + delivery_date.milestone.date.strftime("%m/%d/%Y") + " vs " + milestone_date.strftime("%m/%d/%Y")
+              if self.get_earliest_date_of_spec <= milestone_date #but the delivery date is greater than the filter milestone date
+                return true
+              else
+                return false
+              end
+            #end
+          else
+            return false
+          end
+        end
+      end
+      return true
+  end
+
+  def fchildren
+    @fchildren
+  end
+
+  def set_fchildren(nodes)
+    @fchildren = nodes
+  end
+
 
 end

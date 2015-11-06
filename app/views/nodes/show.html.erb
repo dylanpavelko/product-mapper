@@ -4,6 +4,8 @@
 <% if @node_filters == nil %>
   <% @node_filters = Array.new %>
 <% end %>
+<% @node.set_deep_filtered_node(@node_filters) %>
+<%= @node.fchildren.count %>
 <% if @node.parent != nil %>
   <ol class="breadcrumb">
     <% if @node.parent.parent != nil %>
@@ -31,9 +33,8 @@
   <% if !@node.nodeType.specification %>  
   <!-- Comprised of Sub Non-Spec Nodes-->
   <div class="col-md-6">
-    <% @root_node_filtered_children = @node.filtered_children(@node_filters) %>
-    <% if @root_node_filtered_children.count > 0 %>
-      <% @root_node_filtered_children.each do |child| %>
+    <% if @node.fchildren.count > 0 %>
+      <% @node.fchildren.each do |child| %>
         <div class="panel panel-default">
             <div class="panel-heading ">
             <h3 class="panel-title">
@@ -45,7 +46,7 @@
           <% if child.children.count >0 %>
           <div class="panel-body">
               <ul class="list-group">
-                <% child.filtered_children(@node_filters).each do |grandkid| %>
+                <% child.fchildren.each do |grandkid| %>
                 <% if grandkid.status %>
                   <li class="list-group-item list-group-item-success">
                 <% else %>
@@ -259,6 +260,8 @@
   <ul>
 <% end %>
 
+</div>
+<div>
 </div>
 <script type="text/javascript">
 $('a[id*="phase-done"]').click(function(){
