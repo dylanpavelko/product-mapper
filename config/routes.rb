@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  resources :node_has_functional_design_documents
+
+  resources :functional_design_documents
+
   resources :native_issues
 
   resources :delivery_dates

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Node:</strong>
+  <%= link_to @node_has_functional_design_document.node.name, @node_has_functional_design_document.node %>
+</p>
+
+<p>
+  <strong>FDD:</strong>
+  <%= @node_has_functional_design_document.FDD.name %>
+</p>
+
+<%= link_to 'Edit', edit_node_has_functional_design_document_path(@node_has_functional_design_document) %> |
+<%= link_to 'Back', node_has_functional_design_documents_path %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151023202109) do
+ActiveRecord::Schema.define(version: 20151107022621) do
 
   create_table "delivery_dates", force: true do |t|
     t.integer  "node_id"
@@ -47,6 +47,13 @@ ActiveRecord::Schema.define(version: 20151023202109) do
 
   create_table "environments", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "functional_design_documents", force: true do |t|
+    t.string   "name"
+    t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -110,6 +117,16 @@ ActiveRecord::Schema.define(version: 20151023202109) do
 
   add_index "native_issues", ["issue_with_id"], name: "index_native_issues_on_issue_with_id"
   add_index "native_issues", ["resolved_with_id"], name: "index_native_issues_on_resolved_with_id"
+
+  create_table "node_has_functional_design_documents", force: true do |t|
+    t.integer  "node_id"
+    t.integer  "FDD_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "node_has_functional_design_documents", ["FDD_id"], name: "index_node_has_functional_design_documents_on_FDD_id"
+  add_index "node_has_functional_design_documents", ["node_id"], name: "index_node_has_functional_design_documents_on_node_id"
 
   create_table "node_has_phase_type_defaults", force: true do |t|
     t.integer  "node_id"

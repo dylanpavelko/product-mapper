@@ -1,0 +1,25 @@
+<%= form_for(@functional_design_document) do |f| %>
+  <% if @functional_design_document.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@functional_design_document.errors.count, "error") %> prohibited this functional_design_document from being saved:</h2>
+
+      <ul>
+      <% @functional_design_document.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    URL (Suggestion: Use Static Links)<br>
+    <%= f.text_field :url %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+module FunctionalDesignDocumentsHelper
+end

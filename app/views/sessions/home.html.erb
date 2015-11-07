@@ -1,2 +1,4 @@
-<h1>Sessions#home,</h1>
-<p>Find me in app/views/sessions/home,.html.erb</p>
+Your Favorite Products
+            <% @favorite_nodes.each do |favorite_node| %>
+              <li><%= link_to favorite_node.node.name, favorite_node.node %></li>
+            <% end %>

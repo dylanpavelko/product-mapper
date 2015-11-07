@@ -1,0 +1,2 @@
+module NodeHasFunctionalDesignDocumentsHelper
+end

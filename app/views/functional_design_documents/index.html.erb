@@ -1,0 +1,27 @@
+<h1>Functional Design Documents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Url</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @functional_design_documents.each do |functional_design_document| %>
+      <tr>
+        <td><%= functional_design_document.name %></td>
+        <td><%= functional_design_document.url %></td>
+        <td><%= link_to 'Show', functional_design_document %></td>
+        <td><%= link_to 'Edit', edit_functional_design_document_path(functional_design_document) %></td>
+        <td><%= link_to 'Destroy', functional_design_document, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Functional design document', new_functional_design_document_path %>

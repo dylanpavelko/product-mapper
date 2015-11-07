@@ -24,6 +24,9 @@ class NodesController < ApplicationController
               add_phase_if_needed(@node, phaseType)
             end  
           end
+          if @node.nodeType.specification
+            #create a development phase for spec
+          end
        redirect_to @node
     else
        render :new
@@ -32,6 +35,7 @@ class NodesController < ApplicationController
 
   def show
     @node = Node.find(params[:id])
+    @fdds = NodeHasFunctionalDesignDocument.where(:node_id => @node)
     @nodePhases = Phase.where(:node_id => @node)
     @nodeDeepPhases = Array.new
     @nodeQuestions = Question.where(:node_id => @node)

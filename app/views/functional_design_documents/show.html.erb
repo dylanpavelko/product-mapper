@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+<h4><%= @functional_design_document.name %></h4>
+
+
+<p>
+  <strong>URL:</strong>
+  <%= link_to @functional_design_document.url,  @functional_design_document.url, :target => "_blank"  %>
+</p>
+
+<%= link_to 'Edit', edit_functional_design_document_path(@functional_design_document) %> |
+<%= link_to 'Back', functional_design_documents_path %>

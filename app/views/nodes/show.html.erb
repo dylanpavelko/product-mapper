@@ -275,6 +275,14 @@
   <% end %>
   <ul>
 <% end %>
+<% if @node.nodeType.specification %>
+<strong>Functional Design Document</strong>
+<% @fdds.each do |has_fdd| %>
+  <br/><%= link_to has_fdd.FDD.name, has_fdd.FDD.url, :target => "_blank" %> <%= link_to "View All Specs for FDD", has_fdd.FDD %>
+<% end %> 
+<br/>
+<%= link_to "Add Link", new_node_has_functional_design_document_path(@node) %>
+<% end %>
 
 </div>
 <div>

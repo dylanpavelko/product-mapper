@@ -1,0 +1,27 @@
+<h1>Listing node_has_functional_design_documents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Node</th>
+      <th>Fdd</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @node_has_functional_design_documents.each do |node_has_functional_design_document| %>
+      <tr>
+        <td><%= node_has_functional_design_document.node %></td>
+        <td><%= node_has_functional_design_document.FDD %></td>
+        <td><%= link_to 'Show', node_has_functional_design_document %></td>
+        <td><%= link_to 'Edit', edit_node_has_functional_design_document_path(node_has_functional_design_document) %></td>
+        <td><%= link_to 'Destroy', node_has_functional_design_document, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Node has functional design document', new_node_has_functional_design_document_path %>
