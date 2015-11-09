@@ -21,8 +21,8 @@
 
 <%= link_to 'Edit', edit_node_path(@node) %>
 <% if !@node.nodeType.specification %>
-  <%= link_to 'View Entire Feature Inventory', feature_inventory_path(@node) %>
-  <%= link_to 'View Delivery Schedule', delivery_schedule_path(@node) %>
+  <%= link_to 'Feature Inventory', feature_inventory_path(@node) %>
+  <%= link_to 'Delivery Schedule', delivery_schedule_path(@node) %>
   <%= link_to 'Groom Backlog', backlog_path(@node) %>
 <% end %>
 </div>
@@ -37,15 +37,15 @@
       <% @node.fchildren.each do |child| %>
         <% if !child.nodeType.specification %>
           <div class="panel panel-default">
-            <div class="panel-heading ">
+            <div class="panel-heading " data-toggle="collapse" data-target="#demo<%= child.id %>">
               <h3 class="panel-title">
                 <% if child.status %> &#x2713; <% else %> &nbsp;&nbsp;&nbsp; <% end %> 
-                <%= link_to ("[" + child.nodeType.name + "] " + child.name + " " + child.statusInParens ) , child %> (<%= child.percent_done %>% Done)
+                <%= link_to ("[" + child.nodeType.name + "] " + child.name + " " + child.statusInParens ) , child , class: "node" %> (<%= child.percent_done %>% Done)
               </h3>
             </div>
 
             <% if child.children.count >0 %>
-            <div class="panel-body">
+            <div class="panel-body collapse" id="demo<%= child.id %>">
                 <ul class="list-group">
                   <% child.fchildren.each do |grandkid| %>
                   <% if grandkid.status %>
@@ -103,13 +103,7 @@
   <% end %>
   </div>
   <div class="col-md-6">
-  </div>
-</div>
-
-
-  <br/><br/><br/>
-<div>
-  <strong>Percent Done:</strong> Toggle between Summary and Breakdown by Phase
+ <strong>Percent Done:</strong> Toggle between Summary and Breakdown by Phase
                 <div class="progress">
                   <% @node_perecent_done = @node.calc_percent_done %>
                   <% if @node_perecent_done != 0 %>
@@ -132,9 +126,9 @@
   <% end %>
  </ul>
 <% if @node.nodeType.specification %>
- <%= link_to 'Add Delivery Date', new_delivery_date_path(@node) %>
+ <%= link_to 'Add Delivery Date', new_delivery_date_path(@node) %><br/>
+
  <% end %>
- <br/>
 
 <strong>Phases:</strong> <%= link_to 'Add' , new_phase_path(@node) %> <br/> 
 <% if @nodePhases.count > 0 %>
@@ -149,74 +143,59 @@
           <% end %>
         </h3>
         <div class="btn-group">
-        <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <%= phase.get_progress_status_text %> <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li><a href="#">Set to In Progress</a></li>
-          <li><a href="#">Set to Done</a></li>
-          <li><a href="#">Move Back to Backlog</a></li>
-        </ul>
+          <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= phase.get_progress_status_text %> <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#">Set to In Progress</a></li>
+            <li><a href="#">Set to Done</a></li>
+            <li><a href="#">Move Back to Backlog</a></li>
+          </ul>
+        </div>
+        <%= link_to 'temp change', edit_phase_path(phase) %>
       </div>
-         <%= link_to 'temp change', edit_phase_path(phase) %>
-      </div>
-      <!--
-      <div class="panel-body">
-      </div>
-    -->
 
-  <!-- List group -->
-  <ul class="list-group">
-    <% @tasks = Task.where(:phase_id => phase) %>
-
-    <lh><h5>Tasks</h5> </li>
-          <% if @tasks.count > 0 %>
-      <% @tasks.each do |task| %>
-                <li class="list-group-item">
-                  <%= link_to task.name, task %>
-                </li>
-               <% end %>
-            <% end %>
-            <%= link_to 'Add Task' , new_task_path(phase) %>
-  </ul>
-
-    <!-- List group -->
-  <ul class="list-group">
-   <% @dependencies = Dependable.where(:dependentPhase_id => phase.id) %>
-  <% if @dependencies.count>0 %>
-    <lh><h5>Depends On</h5>
-  <% end %>
-      <%= link_to "Add Dependency" , new_dependable_path(:phase_id => phase) %>
-
-      <% @dependencies.each do |dependency| %>
-        <li class="list-group-item"><%= link_to dependency.name, dependency.phase.node %> </li>
+      <!-- Tasks Associated to Phase -->
+      <ul class="list-group">
+      <% @tasks = Task.where(:phase_id => phase) %>
+      <lh><h5>Tasks</h5> </lh>
+      <% if @tasks.count > 0 %>
+        <% @tasks.each do |task| %>
+          <li class="list-group-item">
+            <%= link_to task.name, task %>
+          </li>
+        <% end %>
       <% end %>
-  </ul>
+      <%= link_to 'Add Task' , new_task_path(phase) %>
+      </ul>
 
-  <% @dependencies = Dependable.where(:phase_id => phase.id) %>
-  <% if @dependencies.count>0 %>
-  <ul class="list-group">
-    <lh><h5>Depency For</h5>
-        
-        <% @dependencies.each do |dependency| %>
-          <li class="list-group-item"><%= link_to dependency.forPhase.name, dependency.forPhase.node %> </li>
-        <% end %>
-  </ul>
+      <!-- Dependencies -->
+      <ul class="list-group">
+      <% @dependencies = Dependable.where(:dependentPhase_id => phase.id) %>
+      <% if @dependencies.count>0 %>
+        <lh><h5>Depends On</h5>
+      <% end %>
+          <%= link_to "Add Dependency" , new_dependable_path(:phase_id => phase) %>
+          <% @dependencies.each do |dependency| %>
+            <li class="list-group-item"><%= link_to dependency.name, dependency.phase.node %> </li>
+          <% end %>
+      </ul>
+
+      <!-- Depended On -->
+      <% @dependencies = Dependable.where(:phase_id => phase.id) %>
+      <% if @dependencies.count>0 %>
+      <ul class="list-group">
+        <h5>Depency For</h5>
+          <% @dependencies.each do |dependency| %>
+            <li class="list-group-item"><%= link_to dependency.forPhase.name, dependency.forPhase.node %> </li>
+          <% end %>
+      </ul>
+      <% end %>
   <% end %>
-
-
-</div>  
-        <% end %>
-
-      <br/>
-             
-    
-  </tr>
-
-
+  </div>
+  <!-- End of Phase Container -->
 <% end %>    
-</div>
-<div>
+<!-- End of Phases -->
 
 <strong>Has Questions:</strong> <%= link_to 'Add' , new_question_path(@node) %> <br/>
 <% if @nodeQuestions.count > 0 %>
@@ -228,7 +207,7 @@
     <% end %>
   </ul>
 <% end %> 
-<strong>Related Nodes:</strong><br/><br/>
+<strong>Related Nodes:</strong>
 <br/>
 <strong>Has Issues:</strong><br/>
 <% if @issues.count > 0 %>
@@ -247,8 +226,8 @@
   </ul>
 <% end %> 
 <%= link_to 'Open New Issue', new_native_issue_path(@node) %><br/>
-<strong>Subordinate Issues:</strong><br/>
 <% if @subIssues.count > 0 %>
+<strong>Subordinate Issues:</strong><br/>
   <ul>
     <% @subIssues.each do |issue| %>
       <li>
@@ -283,11 +262,23 @@
 <br/>
 <%= link_to "Add Link", new_node_has_functional_design_document_path(@node) %>
 <% end %>
+  </div>
+</div>
+
+<div>
+ 
 
 </div>
 <div>
 </div>
+
 <script type="text/javascript">
+function handler(event) {
+    event.stopPropagation();
+    // now do your stuff        
+}
+$('a.node').click(handler);
+
 $('a[id*="phase-done"]').click(function(){
     var phase_id = $(this).attr('id').split("done")[1];
     $.ajax({url: "/phase/set_status", type: "POST", data: {'id': phase_id ,'phase_status': false}, dataType: 'json'});

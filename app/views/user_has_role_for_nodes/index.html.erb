@@ -1,0 +1,29 @@
+<h1>Listing user_has_role_for_nodes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Role</th>
+      <th>Node</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_has_role_for_nodes.each do |user_has_role_for_node| %>
+      <tr>
+        <td><%= user_has_role_for_node.user %></td>
+        <td><%= user_has_role_for_node.role %></td>
+        <td><%= user_has_role_for_node.node %></td>
+        <td><%= link_to 'Show', user_has_role_for_node %></td>
+        <td><%= link_to 'Edit', edit_user_has_role_for_node_path(user_has_role_for_node) %></td>
+        <td><%= link_to 'Destroy', user_has_role_for_node, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User has role for node', new_user_has_role_for_node_path %>

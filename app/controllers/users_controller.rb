@@ -1,12 +1,18 @@
 class UsersController < ApplicationController
   before_filter :save_login_state, :only => [:new, :create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_filter :authenticate_user, :only => [:show, :edit, :index]
-  before_filter :authorized_only, only: [:index, :show, :update, :destroy]
+  before_filter :authenticate_user, :only => [:show, :edit, :index, :add]
+  before_filter :authorized_only, only: [:index, :show, :update, :destroy, :add]
 
 
   def new
+    if session[:user_id]
+      authenticate_user
+    end
     @user = User.new 
+  end
+
+  def add_user
   end
 
   def create
@@ -22,11 +28,34 @@ class UsersController < ApplicationController
       flash[:notice] = "Form is invalid"
       flash[:color]= "invalid"
     end
-    redirect_to root_path
+    if session[:user_id]
+      redirect_to users_path
+    else
+      redirect_to root_path
+    end
+  end
+
+  def edit
+  end
+
+  def show
+  end
+
+  def update
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.json { render :show, status: :ok, location: @user }
+      else
+        format.html { render :edit }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def user_params
-    params.require(:user).permit(:username, :email, :firstName, :lastName, :password, :role_id, :password_confirmation)
+    params.require(:user).permit(:username, :email, :first_name, :last_name, :password, 
+      :role_id, :password_confirmation, :password_reset)
   end
 
   def index

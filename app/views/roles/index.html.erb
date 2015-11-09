@@ -1,0 +1,34 @@
+<h1>Listing roles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>View Nodes</th>
+      <th>Edit Nodes</th>
+      <th>Prioritize</th>
+      <th>Manage issues</th>
+      <th>Manage phases</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @roles.each do |role| %>
+      <tr>
+        <td><%= link_to role.name, role %></td>
+        <td><% if role.view_product %>&#x2714;<% end %></td>
+        <td><% if role.edit_nodes %>&#x2714;<% end %></td>
+        <td><% if role.prioritize %>&#x2714;<% end %></td>
+        <td><%if role.manage_issues %>&#x2714;<% end %></td>
+        <td><%if role.manage_phases %>&#x2714;<% end %></td>
+        <td><%= link_to 'Edit ', edit_role_path(role) %></td>
+        <td><%= link_to ' X', role, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Role', new_role_path %>

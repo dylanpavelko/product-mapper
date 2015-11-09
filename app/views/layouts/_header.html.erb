@@ -23,6 +23,7 @@
             <li><%= link_to 'Task List', tasks_path %></li>
             <li><%= link_to 'Node Types', node_types_path %></li>
             <li><%= link_to 'Phase Types', phase_types_path %></li>
+            <li><%= link_to 'Users', users_path %></li>
             <li role="separator" class="divider"></li>
             <li><%= link_to 'Manage GitHub Integrations', git_hub_repos_path %></li>
           </ul>
@@ -73,7 +74,6 @@
     </div>
     <!-- /input-group -->
       </form>
-
   <% if @current_user!=nil%>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">

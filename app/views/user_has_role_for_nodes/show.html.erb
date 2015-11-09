@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @user_has_role_for_node.user %>
+</p>
+
+<p>
+  <strong>Role:</strong>
+  <%= @user_has_role_for_node.role %>
+</p>
+
+<p>
+  <strong>Node:</strong>
+  <%= @user_has_role_for_node.node %>
+</p>
+
+<%= link_to 'Edit', edit_user_has_role_for_node_path(@user_has_role_for_node) %> |
+<%= link_to 'Back', user_has_role_for_nodes_path %>

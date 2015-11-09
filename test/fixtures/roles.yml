@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  view_product: false
+  edit_nodes: false
+  prioritize: false
+  manage_issues: false
+  manage_phases: false
+
+two:
+  name: MyString
+  view_product: false
+  edit_nodes: false
+  prioritize: false
+  manage_issues: false
+  manage_phases: false

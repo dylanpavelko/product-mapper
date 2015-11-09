@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151107022621) do
+ActiveRecord::Schema.define(version: 20151109010626) do
 
   create_table "delivery_dates", force: true do |t|
     t.integer  "node_id"
@@ -212,6 +212,17 @@ ActiveRecord::Schema.define(version: 20151107022621) do
   add_index "questions", ["phase_id"], name: "index_questions_on_phase_id"
   add_index "questions", ["resolved_id"], name: "index_questions_on_resolved_id"
 
+  create_table "roles", force: true do |t|
+    t.string   "name"
+    t.boolean  "view_product"
+    t.boolean  "edit_nodes"
+    t.boolean  "prioritize"
+    t.boolean  "manage_issues"
+    t.boolean  "manage_phases"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "tasks", force: true do |t|
     t.string   "name"
     t.integer  "phase_id"
@@ -236,14 +247,19 @@ ActiveRecord::Schema.define(version: 20151107022621) do
   add_index "user_has_favorite_nodes", ["node_id"], name: "index_user_has_favorite_nodes_on_node_id"
   add_index "user_has_favorite_nodes", ["user_id"], name: "index_user_has_favorite_nodes_on_user_id"
 
-  create_table "users", force: true do |t|
-    t.string   "username"
-    t.string   "email"
-    t.string   "encrypted_password"
-    t.string   "salt"
-    t.boolean  "power_admin"
+  create_table "user_has_role_for_nodes", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "role_id"
+    t.integer  "node_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "user_has_role_for_nodes", ["node_id"], name: "index_user_has_role_for_nodes_on_node_id"
+  add_index "user_has_role_for_nodes", ["role_id"], name: "index_user_has_role_for_nodes_on_role_id"
+  add_index "user_has_role_for_nodes", ["user_id"], name: "index_user_has_role_for_nodes_on_user_id"
+
+# Could not dump table "users" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
 end

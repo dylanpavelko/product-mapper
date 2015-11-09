@@ -1,0 +1,27 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <h1>Edit User</h1>
+    <p> Fist Name:</br> <%= f.text_field :first_name%> </p>
+    <p> Last Name:</br> <%= f.text_field :last_name%> </p>
+    <p> Username:</br> <%= f.text_field :username%> </p>
+    <p> Email:</br> <%= f.text_field :email%> </p>
+    <p> Reset Password:</br> <%= f.password_field :password%></p>
+    <p> Reset Password Confirmation:</br> <%= f.password_field :password_confirmation%> </p>
+    <% if session[:user_id] %>
+      <p> Re-set Password on Login: <%= f.check_box :password_reset%> </p>
+    <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

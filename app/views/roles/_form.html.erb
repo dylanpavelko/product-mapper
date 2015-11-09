@@ -1,0 +1,41 @@
+<%= form_for(@role) do |f| %>
+  <% if @role.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@role.errors.count, "error") %> prohibited this role from being saved:</h2>
+
+      <ul>
+      <% @role.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :view_product %><br>
+    <%= f.check_box :view_product %>
+  </div>
+  <div class="field">
+    <%= f.label :edit_nodes %><br>
+    <%= f.check_box :edit_nodes %>
+  </div>
+  <div class="field">
+    <%= f.label :prioritize %><br>
+    <%= f.check_box :prioritize %>
+  </div>
+  <div class="field">
+    <%= f.label :manage_issues %><br>
+    <%= f.check_box :manage_issues %>
+  </div>
+  <div class="field">
+    <%= f.label :manage_phases %><br>
+    <%= f.check_box :manage_phases %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

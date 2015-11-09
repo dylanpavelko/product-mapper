@@ -1,0 +1,24 @@
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h1>View User</h1>
+    <p> Fist Name:</br> <%= @user.first_name %> </p>
+    <p> Last Name:</br> <%= @user.last_name %> </p>
+    <p> Username:</br> <%= @user.username %> </p>
+    <p> Email:</br> <%= @user.email %> </p>
+    <p> Re-set Password on Login: <%= @user.password_reset %> </p>
+
+    <p>
+    <strong>Roles:</strong>
+    <%= link_to "Add Roles", new_user_has_role_for_node_path %>
+    </p>
+<%= link_to "All Users", users_path %>

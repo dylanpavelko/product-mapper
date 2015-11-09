@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  resources :user_has_role_for_nodes
+
+  resources :roles
+
   resources :node_has_functional_design_documents
 
   resources :functional_design_documents
@@ -68,6 +72,7 @@ Rails.application.routes.draw do
   get 'feature_inventory(/:id)' => 'nodes#feature_inventory' , as: :feature_inventory
 
   get 'users/new'
+
 
   post ':controller(/:action(/:id))(.:format)'
   # The priority is based upon order of creation: first created -> highest priority.

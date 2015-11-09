@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @role.name %>
+</p>
+
+<p>
+  <strong>View product:</strong>
+  <%= @role.view_product %>
+</p>
+
+<p>
+  <strong>Edit nodes:</strong>
+  <%= @role.edit_nodes %>
+</p>
+
+<p>
+  <strong>Prioritize:</strong>
+  <%= @role.prioritize %>
+</p>
+
+<p>
+  <strong>Manage issues:</strong>
+  <%= @role.manage_issues %>
+</p>
+
+<p>
+  <strong>Manage phases:</strong>
+  <%= @role.manage_phases %>
+</p>
+
+<%= link_to 'Edit', edit_role_path(@role) %> |
+<%= link_to 'Back', roles_path %>
