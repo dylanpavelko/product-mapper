@@ -10,7 +10,7 @@
   </ol>
 <% end %>
 
-<h2>Backlog for <%= link_to @node.name, @node %></h2> 
+<h2><%= link_to @node.name, @node %> Backlog</h2> 
 
 <% @dependencies = Array.new %>
 
@@ -27,8 +27,19 @@
         <th>Added</th>
       </thead>
       <% @terminalNodes.each_with_index do |child, i|  %>
-        <tr data-item-id=<%= "#{child.id}" %> data-item-position=<%= child.get_row_order_position %> <% if child.status %>class="success" 
-          <% elsif @dependencies.include?(child.id) %> class="danger"<% end %>  >
+        <tr data-item-id=<%= "#{child.id}" %> 
+            data-item-position=<%= child.get_row_order_position %> 
+            data-item-dependencies=
+            <%if child.get_highest_priority_dependency != nil %>
+              <%= child.get_highest_priority_dependency %>
+            <% else %>
+             "0"
+            <% end %>
+          <% if child.status %>
+            class="success" 
+          <% elsif @dependencies.include?(child.id) %> 
+          class="danger"<% end %>  
+        >
           <% child.dependencies.each do |dependency| %>
             <% @dependencies << dependency.phase.node.id %>
           <% end %>
@@ -211,6 +222,10 @@ function initPage() {
     options = $.extend({}, $.fn.multiselectable.defaults, options);
 
     function mouseDown(e) {
+      //change dependent rows to yellow
+      $earliest_dependency = $(this).attr("data-item-id");
+      $( "[data-item-dependencies='"+ $earliest_dependency +"']").addClass("warning");
+      //copied code
       var item = $(this),
         parent = item.parent(),
         myIndex = item.index();

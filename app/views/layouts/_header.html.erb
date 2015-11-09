@@ -15,6 +15,7 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <% if @current_user!= nil and @current_user.power_admin %>
       <ul class="nav navbar-nav">
        <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
         <li class="dropdown">
@@ -29,6 +30,7 @@
           </ul>
         </li>
       </ul>
+      <% end %>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
@@ -47,14 +49,16 @@
                 <li><a href="#" class="add_milestone_filter" id="<%= milestone.id %>"><%= milestone.name %></a></li>
               <% end %>  
             </ul>
-            <li><a href="#">By Date</a></li>
-            <li><a href="#">Not Targeted</a></li>
-            <li><a href="#">By Environment</a></li>
-            <ul>
-              <% Environment.all.each do |env| %>
-                <li><a href="#"><%= env.name %></a></li>
-              <% end %>  
-            </ul>
+            <% if @current_user!=nil and @current_user.power_admin %>
+              <li><a href="#">By Date</a></li>
+              <li><a href="#">Not Targeted</a></li>
+              <li><a href="#">By Environment</a></li>
+              <ul>
+                <% Environment.all.each do |env| %>
+                  <li><a href="#"><%= env.name %></a></li>
+                <% end %>  
+              </ul>
+            <% end %>
           <!--<li><a href="#">By Product Label</a></li>-->
         </ul>
       </div><!-- /btn-group -->

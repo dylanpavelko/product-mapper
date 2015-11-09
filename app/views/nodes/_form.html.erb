@@ -1,4 +1,15 @@
 <%= form_for @node do |f| %>
+  <% if @node.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@node.errors.count, "error") %> prohibited this product node from being saved:</h2>
+
+      <ul>
+      <% @node.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 <p>
 <!-- SELECT NODE TYPE -->
   <% if @node.nodeType != nil %>
@@ -7,7 +18,7 @@
     <%= f.select :nodeType_id, options_from_collection_for_select(NodeType.all, :id, :name), :include_blank => true %>
   <% end %>
 
-  <%= f.text_field :name %> part of
+  <%= f.text_field :name %>  <br/> part of
 
 <!-- SELECT PARENT NODE -->  
   <% if @node.parent != nil %>

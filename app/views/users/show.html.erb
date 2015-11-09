@@ -10,15 +10,26 @@
     </div>
   <% end %>
 
-  <h1>View User</h1>
-    <p> Fist Name:</br> <%= @user.first_name %> </p>
-    <p> Last Name:</br> <%= @user.last_name %> </p>
+  <h1>View User: <%= @user.first_name %> <%= @user.last_name %></h1>
     <p> Username:</br> <%= @user.username %> </p>
     <p> Email:</br> <%= @user.email %> </p>
-    <p> Re-set Password on Login: <%= @user.password_reset %> </p>
+    <% if @user.password_reset == 1 %><p> Re-set Password on Login:  true </p><% end %>
 
     <p>
     <strong>Roles:</strong>
+    <% if @roles.count > 0 %>
+      <ul>
+        <% @roles.each do |has_role| %>
+          <li>
+            <%= link_to has_role.role.name, has_role.role %>
+            <% if has_role.node != nil %>
+              for <%= link_to has_role.node.name, has_role.node %>
+            <% end %>
+            <% link_to "edit", edit_user_has_role_for_node_path(has_role) %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
     <%= link_to "Add Roles", new_user_has_role_for_node_path %>
     </p>
 <%= link_to "All Users", users_path %>

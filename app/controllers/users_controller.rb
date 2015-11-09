@@ -39,6 +39,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @roles = UserHasRoleForNode.where(:user_id => @user.id)
   end
 
   def update

@@ -13,8 +13,8 @@
   <tbody>
     <% @user_has_role_for_nodes.each do |user_has_role_for_node| %>
       <tr>
-        <td><%= user_has_role_for_node.user %></td>
-        <td><%= user_has_role_for_node.role %></td>
+        <td><%= link_to user_has_role_for_node.user.display_name, user_has_role_for_node.user %></td>
+        <td><%= user_has_role_for_node.role.name %></td>
         <td><%= user_has_role_for_node.node %></td>
         <td><%= link_to 'Show', user_has_role_for_node %></td>
         <td><%= link_to 'Edit', edit_user_has_role_for_node_path(user_has_role_for_node) %></td>

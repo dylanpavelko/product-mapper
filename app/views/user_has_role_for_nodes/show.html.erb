@@ -2,12 +2,12 @@
 
 <p>
   <strong>User:</strong>
-  <%= @user_has_role_for_node.user %>
+  <%= link_to @user_has_role_for_node.user.display_name, @user_has_role_for_node.user %>
 </p>
 
 <p>
   <strong>Role:</strong>
-  <%= @user_has_role_for_node.role %>
+  <%= link_to @user_has_role_for_node.role.name, @user_has_role_for_node.role %>
 </p>
 
 <p>

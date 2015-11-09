@@ -11,6 +11,8 @@ class Node < ActiveRecord::Base
   @percent_done
   @percent_in_progress
 
+  validates :nodeType, :presence => true
+
   include RankedModel
   ranks :row_order
 
@@ -248,6 +250,13 @@ class Node < ActiveRecord::Base
 
   def dependencies
     return self.phases_dependencies + self.nodes_dependencies
+  end
+
+  def get_highest_priority_dependency
+    @my_dependencies = self.dependencies
+    if self.dependencies.count > 0
+      return @my_dependencies.first.phase.node.id
+    end
   end
 
   def solves_issues

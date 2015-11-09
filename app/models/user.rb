@@ -53,4 +53,48 @@ class User < ActiveRecord::Base
 
 		return image_src
 	end
+
+	def display_name
+		return self. first_name + " " + self.last_name
+	end
+
+	def can_groom_backlog
+		@has_roles = UserHasRoleForNode.where(:user_id => self.id)
+		@has_roles.each do |has_role|
+			if has_role.role.prioritize
+				return true
+			end
+		end
+		return false
+	end
+
+	def can_view_nodes
+		@has_roles = UserHasRoleForNode.where(:user_id => self.id)
+		@has_roles.each do |has_role|
+			if has_role.role.view_product
+				return true
+			end
+		end
+		return false
+	end
+
+	def can_manage_phases
+		@has_roles = UserHasRoleForNode.where(:user_id => self.id)
+		@has_roles.each do |has_role|
+			if has_role.role.manage_phases
+				return true
+			end
+		end
+		return false
+	end
+
+	def can_manage_product
+		@has_roles = UserHasRoleForNode.where(:user_id => self.id)
+		@has_roles.each do |has_role|
+			if has_role.role.edit_nodes
+				return true
+			end
+		end
+		return false
+	end
 end
