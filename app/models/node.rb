@@ -29,18 +29,22 @@ class Node < ActiveRecord::Base
   end
 
   def status
-    @nodePhases = Phase.where(:node_id => self.id)
-    @nodePhases.each do |phase|
-      if !phase.status
-        return false
-      end
+    # @nodePhases = self.phases
+    # @nodePhases.each do |phase|
+    #   if !phase.status
+    #     return false
+    #   end
+    # end
+    if self.dev_status == 1
+      return true
     end
+
     self.children.each do |node|
       if !node.status
         return false
       end
     end
-    if @nodePhases.count < 1 && self.children.count < 1
+    if self.children.count < 1
       return false
     end
 
@@ -53,17 +57,24 @@ class Node < ActiveRecord::Base
 
   def progress_status
     @status = "Backlog"
-    @nodePhases = Phase.where(:node_id => self.id)
-    #if any phase is in progress, return in progress
-    @nodePhases.each do |phase|
-      if phase.get_progress_status_text == "In Progress"
-        return "In Progress"
-      elsif phase.get_progress_status_text == "Done"
-        @status = "Done"
-      elsif phase.get_progress_status_text == "Backlog" and @status == "Done"
-        return "Partially Done - Nothing In Progress"        
-      end
+    if self.dev_status == 1
+      @status = "Done"
+    elsif self.dev_status == 2
+      @status = "In Progress"
+    elsif self.dev_status == 3
+      @status = "Partially Done - Nothing In Progress"
     end
+    # @nodePhases = self.phases
+    # #if any phase is in progress, return in progress
+    # @nodePhases.each do |phase|
+    #   if phase.get_progress_status_text == "In Progress"
+    #     return "In Progress"
+    #   elsif phase.get_progress_status_text == "Done"
+    #     @status = "Done"
+    #   elsif phase.get_progress_status_text == "Backlog" and @status == "Done"
+    #     return "Partially Done - Nothing In Progress"        
+    #   end
+    # end
     self.children.each do |node|
       if node.progress_status == "In Progress"
         return "In Progress"
@@ -73,11 +84,11 @@ class Node < ActiveRecord::Base
         @status = "Partially Done/Nothing In-Progress" 
       end
     end
-    if @nodePhases.count < 1 && self.children.count < 1
-      @status = "Backlog"
-    end
-
-      return @status
+    # if self.children.count < 1
+    #   @status = "Backlog"
+    # end
+    
+    return @status
   end
 
   def statusInParens

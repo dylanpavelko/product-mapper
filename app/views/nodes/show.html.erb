@@ -15,10 +15,9 @@
 
   </ol>
 <% end %>
-
 <div class="page-header" style="margin-top:0px;">
   <h2><%= @node.name %> <small>[<%= @node.nodeType.name %> - <%= @node.progress_status %>]</small></h2>
-
+<%= @node.dev_status %>
 <% if @current_user.can_manage_product %>
   <%= link_to 'Edit', edit_node_path(@node) %>
 <% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151109010626) do
+ActiveRecord::Schema.define(version: 20151114192847) do
 
   create_table "delivery_dates", force: true do |t|
     t.integer  "node_id"
@@ -161,6 +161,7 @@ ActiveRecord::Schema.define(version: 20151109010626) do
     t.integer  "phase_id"
     t.text     "description"
     t.integer  "row_order"
+    t.integer  "dev_status"
   end
 
   add_index "nodes", ["nodeType_id"], name: "index_nodes_on_nodeType_id"
