@@ -17,6 +17,7 @@ class PhasesController < ApplicationController
   # GET /phases/new
   def new
     @phase = Phase.new
+    @node = Node.find(params[:format])
   end
 
   # GET /phases/1/edit

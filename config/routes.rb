@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :node_histories
+
   resources :user_has_role_for_nodes
 
   resources :roles
@@ -70,11 +72,14 @@ Rails.application.routes.draw do
 
   get 'diagram(/:id)' => 'nodes#diagram' , as: :diagram
 
+  get 'show_node_history(/:id)' => 'node_histories#show_node_history' , as: :show_node_history
+
   get 'delivery_schedule(/:id)' => 'nodes#delivery_schedule' , as: :delivery_schedule
   get 'feature_inventory(/:id)' => 'nodes#feature_inventory' , as: :feature_inventory
 
   get 'users/new'
 
+  post 'search', to: 'application#header_search'
 
   post ':controller(/:action(/:id))(.:format)'
   # The priority is based upon order of creation: first created -> highest priority.

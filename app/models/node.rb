@@ -5,6 +5,7 @@ class Node < ActiveRecord::Base
   has_many :tasks, class_name: "Task"
   has_many :questions, class_name: "Question", foreign_key: "question_id"
   has_many :phases, class_name: "Phase", foreign_key: "id"
+  has_many :fdds, class_name: "FunctionalDesignDocument", foreign_key: "id"
 
   @fchildren = Array.new
 
@@ -26,6 +27,17 @@ class Node < ActiveRecord::Base
 
   def phases
     @nodePhases = Phase.where(:node_id => self.id)
+  end
+
+  def fdds
+    @has_fdds = NodeHasFunctionalDesignDocument.where(:node_id => self.id)
+    @fdds = Array.new
+    if @has_fdds != nil
+      @has_fdds.each do |has_fdd|
+        @fdds << has_fdd.FDD
+      end
+    end
+    return @fdds
   end
 
   def status
@@ -425,7 +437,7 @@ class Node < ActiveRecord::Base
           @done = false
         end
       end
-    end
+    
 
     if @in_progress
       self.update(:dev_status => 2)
@@ -434,6 +446,17 @@ class Node < ActiveRecord::Base
     else
       self.update(:dev_status => nil)
     end
+    end
+  end
+
+  def matches(search_string)
+    @search_pieces = search_string.split(' ')
+    @search_pieces.each do |word|
+      if !self.name.downcase.include? word.downcase
+        return false
+      end
+    end
+    return true
   end
 
 end

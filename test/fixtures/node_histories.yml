@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  node_id: 
+  user_id: 
+  log: MyText
+  type: 1
+  other_node_id: 
+  other_reference_id: 
+
+two:
+  node_id: 
+  user_id: 
+  log: MyText
+  type: 1
+  other_node_id: 
+  other_reference_id: 

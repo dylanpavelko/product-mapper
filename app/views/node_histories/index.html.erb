@@ -1,0 +1,35 @@
+<h1>Listing node_histories</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Node</th>
+      <th>User</th>
+      <th>Log</th>
+      <th>Type</th>
+      <th>Other node</th>
+      <th>Other reference</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @node_histories.each do |node_history| %>
+      <tr>
+        <td><%= node_history.node %></td>
+        <td><%= node_history.user %></td>
+        <td><%= node_history.log %></td>
+        <td><%= node_history.type %></td>
+        <td><%= node_history.other_node %></td>
+        <td><%= node_history.other_reference %></td>
+        <td><%= link_to 'Show', node_history %></td>
+        <td><%= link_to 'Edit', edit_node_history_path(node_history) %></td>
+        <td><%= link_to 'Destroy', node_history, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Node history', new_node_history_path %>

@@ -33,9 +33,12 @@
       <% end %>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" placeholder="Search" id="header_search">
         </div>
         <button type="submit" class="btn btn-default">Search</button>
+
+        <div id="header_search_results">
+        </div>
         <!-- Filter -->
 
 
@@ -119,4 +122,41 @@ $('.add_milestone_filter').click(function(){
       window.location.reload(false); 
     });
 });
+
+   var timeoutID = null;
+
+  function findMemberForHeader(str) {
+      $.ajax({url: "<%= search_path %>", type: "POST", data: {'search_string': str}, dataType: 'json'}).done(function(data){ 
+console.log(data);
+        var $items = "";
+        for(i=0; i < data.length -1; i++){
+          if(data[i][0]==0){
+            $row = "<div id='result_row'><a href="+data[i][2]+">" + data[i][1] + "</a></div>";
+          }else if(data[i][0]==1){
+            $row = "<div id='result_row'><a href=/inventory_items/"+data[i][2]+"'>" + data[i][1] + "</a></div>";
+          }else if(data[i][0]==2){
+            $row = "<div id='result_row'><a href=/trips/"+data[i][2]+"'>" + data[i][1] + "</a></div>";
+          }else if(data[i][0]==3){
+            $row = "<div id='result_row'><a href=/attractions/"+data[i][2]+"'>" + data[i][1] + "</a></div>";
+          }
+          
+          $items = $items + $row;
+        }
+          $('div#header_search_results').html($items + "<div id='result_row'><em>" + data[data.length -1] + '</em></div>');
+      });
+    
+  }
+
+  $('#header_search').keyup(function() {
+    clearTimeout(timeoutID);
+    var $target = $(this);
+    timeoutID = setTimeout(function() {
+      var searchString = $target.val();
+      if(searchString.length > 2){ 
+        findMemberForHeader($target.val()); 
+      }else{
+        $('div#header_search_results').html("");
+      }
+    }, 500); 
+  });
 </script>

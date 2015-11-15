@@ -8,7 +8,10 @@
   </ol>
 <% end %>
 
-<h2>Delivery Schedule for <%= link_to @node.name, @node %></h2>  <%= link_to "Switch to Backlog Grooming View", backlog_path(@node) %>
+<h2>Delivery Schedule for <%= link_to @node.name, @node %></h2> 
+  <% if @current_user.can_groom_backlog %>
+    <%= link_to "Switch to Backlog Grooming View", backlog_path(@node) %>
+  <% end %> 
 
 <div class="table-responsive">
     <table class="table table-striped table-hover">
@@ -32,7 +35,7 @@
             <td>
               <% date = child.get_next_delivery_for_environment(environment) %>
               <% if date != nil %>
-                <%= date.short_string %>
+                <%= link_to date.short_string, edit_delivery_date_path(date) %>
               <% else %>
                 <%= link_to 'Add Delivery Date', new_delivery_date_path(child), {:style=>'color:blue;'} %>
               <% end %>

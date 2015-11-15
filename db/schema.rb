@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151114192847) do
+ActiveRecord::Schema.define(version: 20151115195520) do
 
   create_table "delivery_dates", force: true do |t|
     t.integer  "node_id"
@@ -139,6 +139,22 @@ ActiveRecord::Schema.define(version: 20151114192847) do
   add_index "node_has_phase_type_defaults", ["node_id"], name: "index_node_has_phase_type_defaults_on_node_id"
   add_index "node_has_phase_type_defaults", ["node_type_id"], name: "index_node_has_phase_type_defaults_on_node_type_id"
   add_index "node_has_phase_type_defaults", ["phase_type_default_id"], name: "index_node_has_phase_type_defaults_on_phase_type_default_id"
+
+  create_table "node_histories", force: true do |t|
+    t.integer  "node_id"
+    t.integer  "user_id"
+    t.text     "log"
+    t.integer  "type"
+    t.integer  "other_node_id"
+    t.integer  "other_reference_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "node_histories", ["node_id"], name: "index_node_histories_on_node_id"
+  add_index "node_histories", ["other_node_id"], name: "index_node_histories_on_other_node_id"
+  add_index "node_histories", ["other_reference_id"], name: "index_node_histories_on_other_reference_id"
+  add_index "node_histories", ["user_id"], name: "index_node_histories_on_user_id"
 
   create_table "node_types", force: true do |t|
     t.string   "name"

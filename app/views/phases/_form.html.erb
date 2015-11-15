@@ -24,32 +24,32 @@
 <!-- NODE FILED -->
   <div class="field">
     <%= f.label :node %><br>
-    <% if @phase.node != nil %>
+    <% if @node != nil %>
+      <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name, @node.id), :include_blank => true %>
+    <% elsif @phase.node != nil %>
     <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name, @phase.node.id), :include_blank => true %>
-  <% else %>
-    <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name), :include_blank => true %>
-  <% end %>
+    <% else %>
+      <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name), :include_blank => true %>
+    <% end %>
   </div>
   <br/>
 
   <!-- DEPENCIES -->
-    <div class="field">
+<!--     <div class="field">
     Dependent On<br>
-    <% if @phase.node != nil %>
-    <%= f.select :dependencies_id, options_from_collection_for_select(Dependable.all, :id, :name, @phase.node.id), :include_blank => true %>
-  <% else %>
-    <%= f.select :dependencies_id, options_from_collection_for_select(Dependable.all, :id, :name), :include_blank => true %>
-  <% end %>
-  </div>
-  <br/>
-  <br/>
+    <%# if @phase.node != nil %>
+    <%#= f.select :dependencies_id, options_from_collection_for_select(Dependable.all, :id, :name, @phase.node.id), :include_blank => true %>
+  <%# else %>
+    <%#= f.select :dependencies_id, options_from_collection_for_select(Dependable.all, :id, :name), :include_blank => true %>
+  <%# end %>
+  </div> -->
 
 
-  <div class="field">
+<!--   <div class="field">
     Completion Status<br>
-    <%= f.check_box :status %>
-    <%= f.number_field :progress_status %>
-  </div>
+    <%#= f.check_box :status %>
+    <%#= f.number_field :progress_status %>
+  </div> -->
   <div class="actions">
     <%= f.submit %>
   </div>

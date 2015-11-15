@@ -32,6 +32,7 @@
     <%= link_to 'View Dependencies From', backlog_path(@node) %>
   <% end %>
 <% end %>
+<%= link_to 'History', show_node_history_path(@node) %>
 </div>
 
 <%= simple_format(@node.description) %>
@@ -41,7 +42,8 @@
   <!-- Comprised of Sub Non-Spec Nodes-->
   <div class="col-md-6">
     <% if @node.fchildren != nil and @node.fchildren.count > 0 %>
-      <% @node.fchildren.each do |child| %>
+      <% @node_children = @node.fchildren.sort_by {|obj| [obj.nodeType.specification ? 1 : 0] } %>
+      <% @node_children.each do |child| %>
         <% if !child.nodeType.specification %>
           <div class="panel panel-default">
             <div class="panel-heading " data-toggle="collapse" data-target="#demo<%= child.id %>">

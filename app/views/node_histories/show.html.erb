@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Node:</strong>
+  <%= @node_history.node %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @node_history.user %>
+</p>
+
+<p>
+  <strong>Log:</strong>
+  <%= @node_history.log %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @node_history.type %>
+</p>
+
+<p>
+  <strong>Other node:</strong>
+  <%= @node_history.other_node %>
+</p>
+
+<p>
+  <strong>Other reference:</strong>
+  <%= @node_history.other_reference %>
+</p>
+
+<%= link_to 'Edit', edit_node_history_path(@node_history) %> |
+<%= link_to 'Back', node_histories_path %>
