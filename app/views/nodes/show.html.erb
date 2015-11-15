@@ -147,23 +147,24 @@
     <div class="panel panel-default col-md-3">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <% if phase.status %>
-            <%= phase.type %> <%= link_to 'Done', "", style: "text-decoration: line-through;", id: ("phase-done" + phase.id.to_s) %>
-          <% else %>
-            <%= phase.type %> <%= link_to 'Mark as Done', "", id: ("phase-mark-done" + phase.id.to_s)  %>
-          <% end %>
+            <%= phase.type %>
         </h3>
         <div class="btn-group">
           <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <%= phase.get_progress_status_text %> <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
-            <li><a href="#">Set to In Progress</a></li>
-            <li><a href="#">Set to Done</a></li>
-            <li><a href="#">Move Back to Backlog</a></li>
+            <% if phase.progress_status != 2 %>
+            <li><a href class="set-phase-status-in-progress" id="<%=phase.id=%>" >Set to In Progress</a></li>
+            <% end %>
+            <% if phase.progress_status != 1 %>
+            <li><a href class="set-phase-status-done" id="<%=phase.id=%>" >Set to Done</a></li>
+            <% end %>
+            <% if phase.progress_status != nil %>
+            <li><a href class="set-phase-status-backlog" id="<%=phase.id=%>" >Move Back to Backlog</a></li>
+            <% end %>
           </ul>
         </div>
-        <%= link_to 'temp change', edit_phase_path(phase) %>
       </div>
 
       <!-- Tasks Associated to Phase -->
@@ -300,6 +301,20 @@ $('a[id*="phase-mark-done"]').click(function(){
     $.ajax({url: "/phase/set_status", type: "POST", data: {'id': phase_id ,'phase_status': true}, dataType: 'json'});
 });
 
+$('a[class^="set-phase-status"]').click(function(){
+    var phase_id = $(this).attr('id');
+    var class_name = $(this).attr('class');
+    if(class_name=="set-phase-status-done"){
+      var progress_status = 1;
+    }else if(class_name=="set-phase-status-in-progress"){
+      var progress_status = 2;
+    }else if(class_name=="set-phase-status-backlog"){
+      var progress_status = null;
+    }
+
+    $.ajax({url: "/phase/set_progress_status", type: "POST", data: {'id': phase_id ,'phase_progress_status': progress_status}, dataType: 'json'});
+    
+  });
 
 </script>
 

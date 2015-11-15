@@ -67,7 +67,24 @@ class PhasesController < ApplicationController
       @phase = Phase.find(params[:id])
       @phase.update(:status => params[:phase_status])
       render :nothing => true
-    end
+  end
+
+  def set_progress_status
+      @phase = Phase.find(params[:id])
+      @progress_status = params[:phase_progress_status]
+      @phase.update(:progress_status => @progress_status)
+      #check to see if you should set the phase_status too?
+      if @progress_status == "1"
+        @phase.update_attribute(:status, true)
+      else
+        @phase.update_attribute(:status,false)
+      end
+      #sync up the node status
+      @phase.node.reset_feature_spec_node_status
+      @phase.node.save
+
+      render :nothing => true
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

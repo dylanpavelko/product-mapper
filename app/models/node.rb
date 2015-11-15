@@ -413,4 +413,27 @@ class Node < ActiveRecord::Base
     @percent_in_progress
   end
 
+  def reset_feature_spec_node_status
+    @in_progress = false
+    @done = true
+    if self.nodeType.specification
+      self.phases.each do |phase|
+        if phase.progress_status == 2
+          @in_progress = true
+        end
+        if !phase.status
+          @done = false
+        end
+      end
+    end
+
+    if @in_progress
+      self.update(:dev_status => 2)
+    elsif @done
+      self.update(:dev_status => 1)
+    else
+      self.update(:dev_status => nil)
+    end
+  end
+
 end
