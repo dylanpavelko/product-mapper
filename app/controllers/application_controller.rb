@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
 
 
 	    #find matching nodes
-	    @nodes = Node.all
+	    @nodes = Node.select { |x| x.nodeType.specification != true }
 	    @matched_items = Array.new
 	    @nodes.each do |node|
 	      if node.matches(@search_string) #and node.user_has_access(@current_user)
@@ -66,42 +66,6 @@ class ApplicationController < ActionController::Base
 
         @response << [@response.count.to_s + ' item(s) found: for ' + @search_string]
     	render json: @response
-
-	    #find matching tasks
-	    # @tasks = Task.where(:search_indexed => true)
-	    # @matched_items = Array.new
-	    # @tasks.each do |item|
-	    #   if item.matches(@search_string) and item.user_has_access(@current_user)
-	    #     @matched_items << item
-	    #   end
-	    # end
-	    # @matched_items.each do |item|
-	    #   @response << [0, 'Task: ' + item.task_name, item.task_path]
-	    # end
-
-	    #find matching items
-	    # @inventory_items = InventoryItem.all;
-	    # @matched_items = Array.new
-	    # @inventory_items.each do |item|
-	    #   if item.matches(@search_string)
-	    #     @matched_items << item
-	    #   end
-	    # end
-	    # @matched_items.each do |item|
-	    #   @response << [1, 'Item: ' + item.full_name, item.id]
-	    # end
-
-	    #find matching trips
-	    # @trips = Trip.all;
-	    # @matched_items = Array.new
-	    # @trips.each do |item|
-	    #   if item.matches(@search_string)
-	    #     @matched_items << item
-	    #   end
-	    # end
-	    # @matched_items.each do |item|
-        # 	@response << [2, 'Trip: ' + item.name, item.id]
-
 
     end
 end
