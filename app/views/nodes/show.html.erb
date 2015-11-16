@@ -209,19 +209,20 @@
   <!-- End of Phase Container -->
 <% end %>    
 <!-- End of Phases -->
-
-<strong>Has Questions:</strong> <%= link_to 'Add' , new_question_path(@node) %> <br/>
-<% if @nodeQuestions.count > 0 %>
-  <ul>
-    <% @nodeQuestions.each do |question| %>
-      <li>
-        <%= question.question %>
-      </li>
-    <% end %>
-  </ul>
-<% end %> 
-<strong>Related Nodes:</strong>
-<br/>
+<% if @current_user.power_admin %>
+  <strong>Has Questions:</strong> <%= link_to 'Add' , new_question_path(@node) %> <br/>
+  <% if @nodeQuestions.count > 0 %>
+    <ul>
+      <% @nodeQuestions.each do |question| %>
+        <li>
+          <%= question.question %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %> 
+  <strong>Related Nodes:</strong>
+  <br/>
+<% end %>
 <strong>Has Issues:</strong><br/>
 <% if @issues.count > 0 %>
   <ul>

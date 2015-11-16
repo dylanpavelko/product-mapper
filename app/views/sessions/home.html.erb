@@ -1,4 +1,12 @@
-Your Favorite Products
-            <% @favorite_nodes.each do |favorite_node| %>
-              <li><%= link_to favorite_node.node.name, favorite_node.node %></li>
-            <% end %>
+<% if @favorite_nodes != nil and @favorite_nodes.count < 1 %>
+	Let's get started: <%= link_to Node.find(1).name, Node.find(1) %> 
+
+<% else %>
+	Your Favorite Products
+	<% @favorite_nodes.each do |favorite_node| %>
+	    <li><%= link_to favorite_node.node.name, favorite_node.node %></li>
+	<% end %>
+<% end %>
+
+<br/><br/>
+Don't worry, we'll make this page better eventually.<br/>
