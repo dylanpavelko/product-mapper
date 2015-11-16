@@ -31,8 +31,11 @@ class DeliveryDatesController < ApplicationController
   def create
     @delivery_date = DeliveryDate.new(delivery_date_params)
 
+    @node_log = NodeHistory.new(:node_id => @delivery_date.node.id, :user_id => @current_user.id, :log => ("Added Delivery Date: " + @delivery_date.string) )
+
     respond_to do |format|
       if @delivery_date.save
+        @node_log.save
         format.html { redirect_to session.delete(:return_to), notice: 'Delivery date was successfully created.' }
         format.json { render :show, status: :created, location: @delivery_date }
       else
@@ -47,6 +50,9 @@ class DeliveryDatesController < ApplicationController
   def update
     respond_to do |format|
       if @delivery_date.update(delivery_date_params)
+        @node_log = NodeHistory.new(:node_id => @delivery_date.node.id, :user_id => @current_user.id, :log => ("Updated Delivery Date: " + @delivery_date.string) )
+        @node_log.save 
+
         format.html { redirect_to @delivery_date.node, notice: 'Delivery date was successfully updated.' }
         format.json { render :show, status: :ok, location: @delivery_date }
       else

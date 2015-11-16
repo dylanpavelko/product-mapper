@@ -4,7 +4,7 @@ class CreateNodeHistories < ActiveRecord::Migration
       t.references :node, index: true
       t.references :user, index: true
       t.text :log
-      t.integer :type
+      t.integer :log_type
       t.references :other_node, index: true
       t.references :other_reference, index: true
 

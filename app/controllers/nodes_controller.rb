@@ -94,16 +94,19 @@ class NodesController < ApplicationController
 
   def backlog
     @filters = session[:filters]
-      if Node.all.first.row_order == nil
-        Node.all.each do |n|
-          n.update_attribute :row_order_position, :last
-        end
+    if @filters == nil
+      @filters = Array.new
+    end
+    if Node.all.first.row_order == nil
+      Node.all.each do |n|
+        n.update_attribute :row_order_position, :last
       end
-      @node = Node.find(params[:id])
-      Node.rank(:row_order).all
-      status = false;
-      @terminalNodes = @node.getFilteredTerminalNodeWithUncompleteStatus(status, @filters)
-      @terminalNodes = @terminalNodes.sort_by {|obj| obj.row_order}
+    end
+    @node = Node.find(params[:id])
+    Node.rank(:row_order).all
+    status = false;
+    @terminalNodes = @node.getFilteredTerminalNodeWithUncompleteStatus(status, @filters)
+    @terminalNodes = @terminalNodes.sort_by {|obj| obj.row_order}
    #   @terminalBacklogNodes
   end
 
@@ -134,8 +137,15 @@ class NodesController < ApplicationController
 
   def update_row_order
     @node = Node.find(node_params[:node_id])
+    @prior_rank = @node.get_row_order_position
     @node.row_order_position = node_params[:row_order_position]
     @node.save
+    @new_rank = @node.get_row_order_position
+    @above_node = @node.get_node_in_position(74)
+    @node_log = NodeHistory.new(:node_id => @node.id, :user_id => @current_user.id, 
+      :log_type => 1, :log => ("Updated Priority from " + @prior_rank.to_s + " to " + @new_rank.to_s + " above " + @above_node.name),
+      :other_node_id => @above_node.id )
+    @node_log.save
 
     render nothing: true # this is a POST action, updates sent via AJAX, no view rendered
   end

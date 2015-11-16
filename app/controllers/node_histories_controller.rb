@@ -1,5 +1,7 @@
 class NodeHistoriesController < ApplicationController
   before_action :set_node_history, only: [:show, :edit, :update, :destroy]
+          before_filter :authenticate_user
+    before_filter :authorized_only
 
   # GET /node_histories
   # GET /node_histories.json

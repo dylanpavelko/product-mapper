@@ -67,6 +67,11 @@ class Node < ActiveRecord::Base
     Node.where("row_order < ?", self.row_order).count
   end
 
+  def get_node_in_position(position)
+    @nodes = Node.select {|x| x.get_row_order_position == position}
+    return @nodes.first
+  end
+
   def progress_status
     @status = "Backlog"
     if self.dev_status == 1

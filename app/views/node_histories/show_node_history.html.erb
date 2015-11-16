@@ -2,11 +2,13 @@
 
 <p>
   <strong>Node:</strong>
-  <%= @node.name %>
+  <%= link_to @node.name, @node %>
 </p>
 
-<% @history_items.each do |log| %>
-
+<% @history_items.each do |item| %>
+<p>
+	<%= item.created_at.strftime("%m/%d/%Y at %I:%M%p %z") %> - <%= item.user.display_name %> <%= item.log %>
+</p>
 <% end %>
 
 

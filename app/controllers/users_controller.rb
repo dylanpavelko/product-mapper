@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   before_filter :save_login_state, :only => [:new, :create]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_filter :authenticate_user, :only => [:show, :edit, :index, :add]
-  before_filter :authorized_only, only: [:index, :show, :update, :destroy, :add]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :change_password]
+  before_filter :authenticate_user, :only => [:show, :edit, :index, :add, :change_password]
+  before_filter :authorized_only, only: [:index, :show, :update, :destroy, :add, :change_password]
 
 
   def new
@@ -45,10 +45,18 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        if @current_user.power_admin
+          format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        else
+          format.html { redirect_to sessions_home_path, notice: 'User was successfully updated.' }
+        end
         format.json { render :show, status: :ok, location: @user }
       else
-        format.html { render :edit }
+        if ! @current_user.power_admin
+          format.html { render :change_password }
+        else
+          format.html { render :edit }
+        end
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end

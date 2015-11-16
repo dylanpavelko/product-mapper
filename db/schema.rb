@@ -144,7 +144,7 @@ ActiveRecord::Schema.define(version: 20151115195520) do
     t.integer  "node_id"
     t.integer  "user_id"
     t.text     "log"
-    t.integer  "type"
+    t.integer  "log_type"
     t.integer  "other_node_id"
     t.integer  "other_reference_id"
     t.datetime "created_at"

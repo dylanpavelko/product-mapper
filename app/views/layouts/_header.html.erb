@@ -88,8 +88,10 @@
             <ul class="dropdown-menu">
             <li><%= link_to "View Profile", sessions_profile_path %></li>
             <li role="separator" class="divider"></li>  
+            <% if @favorite_nodes != nil %>
             <% @favorite_nodes.each do |favorite_node| %>
               <li><%= link_to favorite_node.node.name, favorite_node.node %></li>
+            <% end %>
             <% end %>
             <li role="separator" class="divider"></li>
             <li><%= link_to "Log Out", logout_path %></li>
@@ -101,9 +103,11 @@
         <li>
           <%= link_to 'Log In', sessions_login_path %> 
         </li>
+        <% if User.all.count < 1 %>
         <li>  
           <%= link_to 'Sign Up', users_new_path %>
         </li>
+        <% end %>
       </ul>
   <%end%>
 
@@ -131,7 +135,7 @@ console.log(data);
         var $items = "";
         for(i=0; i < data.length -1; i++){
           if(data[i][0]==0){
-            $row = "<div id='result_row'><a href="+data[i][2]+">" + data[i][1] + "</a></div>";
+            $row = "<div id='result_row'><a href=/nodes/"+data[i][2]+">" + data[i][1] + "</a></div>";
           }else if(data[i][0]==1){
             $row = "<div id='result_row'><a href=/inventory_items/"+data[i][2]+"'>" + data[i][1] + "</a></div>";
           }else if(data[i][0]==2){

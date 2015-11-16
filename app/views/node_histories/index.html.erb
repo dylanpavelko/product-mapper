@@ -16,7 +16,7 @@
   <tbody>
     <% @node_histories.each do |node_history| %>
       <tr>
-        <td><%= node_history.node %></td>
+        <td><%= link_to node_history.node.name, node_history.node %></td>
         <td><%= node_history.user %></td>
         <td><%= node_history.log %></td>
         <td><%= node_history.type %></td>
