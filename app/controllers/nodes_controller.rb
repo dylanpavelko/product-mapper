@@ -16,14 +16,14 @@ class NodesController < ApplicationController
   def create
     @node = Node.new(node_params)
     if @node.save
-      @phasesParams = params[:phaseType][:id]
-      @phasesParams.shift
-      @nodePhaseTypes = PhaseType.find(@phasesParams)
-      @nodePhaseTypes.each do |phaseType|
-        if (phaseType != nil)
-          add_phase_if_needed(@node, phaseType)
-        end  
-      end
+      # @phasesParams = params[:phaseType][:id]
+      # @phasesParams.shift
+      # @nodePhaseTypes = PhaseType.find(@phasesParams)
+      # @nodePhaseTypes.each do |phaseType|
+      #   if (phaseType != nil)
+      #     add_phase_if_needed(@node, phaseType)
+      #   end  
+      # end
       if @node.nodeType.specification
         #create a development phase for spec
         @development_phase_type = PhaseType.where(:name => "Development").first
@@ -31,7 +31,11 @@ class NodesController < ApplicationController
       end
 
       @log = NodeHistory.new(:user_id => @current_user.id, :node_id => @node.id, :other_node_id => @node.parent_id,
-        :log => "Created Product Node as a part of ")
+        :log => "Created Product Node as a part of ", :log_type => 2)
+      @log.save
+      @log2 = NodeHistory.new(:user_id => @current_user.id, :node_id => @node.parent_id, :other_node_id => @node.id,
+        :log => "Added the child product node ", :log_type => 2)
+      @log2.save
 
 
       redirect_to @node
@@ -121,14 +125,14 @@ class NodesController < ApplicationController
 
   def update
     @node = Node.find(params[:id])
-    @phasesParams = params[:phaseType][:id]
-    @phasesParams.shift
-    @nodePhaseTypes = PhaseType.find(@phasesParams)
-    @nodePhaseTypes.each do |phaseType|
-      if (phaseType != nil)
-        add_phase_if_needed(@node, phaseType)
-      end  
-    end
+    # @phasesParams = params[:phaseType][:id]
+    # @phasesParams.shift
+    # @nodePhaseTypes = PhaseType.find(@phasesParams)
+    # @nodePhaseTypes.each do |phaseType|
+    #   if (phaseType != nil)
+    #     add_phase_if_needed(@node, phaseType)
+    #   end  
+    # end
     if @node.update_attributes(node_params)
       redirect_to @node
     else
