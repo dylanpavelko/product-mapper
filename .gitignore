@@ -10,3 +10,5 @@ tmp/pids/server.pid
 tmp/cache/assets/development/*
 
 tmp/pids/server.pid
+
+tmp/pids/server.pid
