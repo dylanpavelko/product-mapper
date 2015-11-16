@@ -52,7 +52,7 @@ class UsersController < ApplicationController
         end
         format.json { render :show, status: :ok, location: @user }
       else
-        if ! @current_user.power_admin
+        if !@current_user.power_admin
           format.html { render :change_password }
         else
           format.html { render :edit }

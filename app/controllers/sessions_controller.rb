@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
 	  if authorized_user
 	    session[:user_id] = authorized_user.id
 	    flash[:notice] = "Wow Welcome again, you logged in as #{authorized_user.username}"
-	    if authorized_user.password_reset
+	    if authorized_user.password_reset == 1
 	    	redirect_to(change_password_path(authorized_user))
 	    else
 		    redirect_to(:action => 'home')

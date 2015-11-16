@@ -16,20 +16,25 @@ class NodesController < ApplicationController
   def create
     @node = Node.new(node_params)
     if @node.save
-          @phasesParams = params[:phaseType][:id]
-          @phasesParams.shift
-          @nodePhaseTypes = PhaseType.find(@phasesParams)
-          @nodePhaseTypes.each do |phaseType|
-            if (phaseType != nil)
-              add_phase_if_needed(@node, phaseType)
-            end  
-          end
-          if @node.nodeType.specification
-            #create a development phase for spec
-            @development_phase_type = PhaseType.where(:name => "Development").first
-            add_phase_if_needed(@node, @development_phase_type)
-          end
-       redirect_to @node
+      @phasesParams = params[:phaseType][:id]
+      @phasesParams.shift
+      @nodePhaseTypes = PhaseType.find(@phasesParams)
+      @nodePhaseTypes.each do |phaseType|
+        if (phaseType != nil)
+          add_phase_if_needed(@node, phaseType)
+        end  
+      end
+      if @node.nodeType.specification
+        #create a development phase for spec
+        @development_phase_type = PhaseType.where(:name => "Development").first
+        add_phase_if_needed(@node, @development_phase_type)
+      end
+
+      @log = NodeHistory.new(:user_id => @current_user.id, :node_id => @node.id, :other_node_id => @node.parent_id,
+        :log => "Created Product Node as a part of ")
+
+
+      redirect_to @node
     else
        render :new
     end
