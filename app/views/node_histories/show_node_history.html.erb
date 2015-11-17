@@ -8,7 +8,7 @@
 <% @history_items.each do |item| %>
 <p>
 	<%= item.created_at.strftime("%m/%d/%Y at %I:%M%p %z") %> - <%= item.user.display_name %> <%= item.log %>
-	<% if item.log_type = 2 %>
+	<% if item.log_type == 2 %>
 		<%= link_to item.other_node.name, item.other_node %>
 	<% end %>
 </p>

@@ -134,6 +134,10 @@ class NodesController < ApplicationController
     #   end  
     # end
     if @node.update_attributes(node_params)
+      @log = NodeHistory.new(:user_id => @current_user.id, :node_id => @node.id,
+        :log => "Updated the product node ")
+      @log.save
+      
       redirect_to @node
     else
       render :edit
