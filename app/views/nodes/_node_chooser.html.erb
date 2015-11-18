@@ -1,0 +1,21 @@
+<%= @node_label %><%= @node_context.name %> <button class="btn btn-sm btn-default" style="background-color:white; margin-left:3em;"><%= @button_text %></button>
+
+<div class="panel panel-default">
+  <input type="text" class="form-control" placeholder="Search..." >
+  <div class="panel-body">
+
+  <ol class="breadcrumb">
+  <li><a href="#"><%= @node_context.parent.parent.name %></a></li>
+  <li class="active"><%= @node_context.parent.name %></li>
+  </ol>
+    <!-- Table -->
+  <table class="table table-hover">
+    <% @node_context.parent.children.each do |child|%>
+      <tr>
+        <td><%= child.name %><% if child.children != nil and child.children.count > 0 %> > <% end %></td>
+        <td><a href>Select</a></td></tr>
+    <% end %>
+  </table>
+  <a href class="pull-right">Cancel</a>
+  </div>
+</div>

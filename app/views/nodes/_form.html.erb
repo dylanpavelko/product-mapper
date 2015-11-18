@@ -12,25 +12,57 @@
   <% end %>
 <p>
 <!-- SELECT NODE TYPE -->
+<div class="col-md">
+<div class="col-md-6">
+  <p>
+    <% @node_context = @node.parent
+       @node_label = "Parent Node: "
+       @button_text = "Choose A Different Parent Product Node" %>
+    <%= render "node_chooser" %>
+  </p>
   <% if @node.nodeType != nil %>
-    <%= f.select :nodeType_id, options_from_collection_for_select(NodeType.all, :id, :name, @node.nodeType.id), :include_blank => true %>
+    <%= f.select :nodeType_id, 
+          options_from_collection_for_select(NodeType.all, :id, :name, @node.nodeType.id),
+          {:include_blank => true},
+          {:class => "form-control"} %>
   <% else %>
-    <%= f.select :nodeType_id, options_from_collection_for_select(NodeType.all, :id, :name), :include_blank => true %>
+    <%= f.select :nodeType_id, 
+          options_from_collection_for_select(NodeType.all, :id, :name), 
+          {:include_blank => true}, 
+          {:class => "form-control"} %>
   <% end %>
+  <br/>
 
-  <%= f.text_field :name %>  <br/> part of
-
+  <%= f.text_area :name , options = {class: "form-control", cols: 40, rows: 1} %> 
+</div>
+<div class="col-md-6"
 <!-- SELECT PARENT NODE -->  
+part of
   <% if @node.parent != nil %>
-    <%= f.select :parent_id, options_from_collection_for_select(Node.all, :id, :name, @node.parent.id), :include_blank => true %>
+    <%= f.select :parent_id, 
+          options_from_collection_for_select(Node.all, :id, :name, @node.parent.id), 
+          {:include_blank => true}, 
+          {:class => "form-control"}  %>
   <% elsif @origin_node != nil %>
-    <%= f.select :parent_id, options_from_collection_for_select(Node.all, :id, :name, @origin_node.id), :include_blank => true %>
+    <%= f.select :parent_id, 
+          options_from_collection_for_select(Node.all, :id, :name, @origin_node.id), 
+          {:include_blank => true}, 
+          {:class => "form-control"}  %>
   <% else %>
-    <%= f.select :parent_id, options_from_collection_for_select(Node.all, :id, :name), :include_blank => true %>
+    <%= f.select :parent_id, 
+          options_from_collection_for_select(Node.all, :id, :name), 
+          {:include_blank => true}, 
+          {:class => "form-control"}  %>
   <% end %>
 <br/>
-<strong>Description:</strong><br/>
-<%= f.text_area :description %>
+</div>
+<div class="col-md-12">
+  <p>
+  </br>
+    <strong>Description:</strong><br/>
+    <%= f.text_area :description, options = {class: "form-control"} %>
+  </p>
+
 <br/><br/>
 <strong>Has Phases:</strong><br>
 
@@ -39,7 +71,7 @@
 <br/>
 <br/> -->
 
-  <%= f.submit %>
+  <%= f.submit 'Update Node', :class => 'btn btn-default' %>
   <% if @origin_node != nil %>
     <%= link_to 'Cancel', @origin_node %>
   <% else %>
@@ -47,3 +79,5 @@
   <% end %>
 </p>
 <% end %>
+</div>
+</div>
