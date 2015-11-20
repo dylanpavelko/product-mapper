@@ -15,10 +15,10 @@
 <div class="col-md">
 <div class="col-md-6">
   <p>
-    <% @node_context = @node.parent
+    <%# @node_context = @node.parent
        @node_label = "Parent Node: "
        @button_text = "Choose A Different Parent Product Node" %>
-    <%= render "node_chooser" %>
+    <%#= render "node_chooser" %>
   </p>
   <% if @node.nodeType != nil %>
     <%= f.select :nodeType_id, 

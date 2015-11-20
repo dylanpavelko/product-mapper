@@ -1,4 +1,4 @@
-<%= @node_label %><%= @node_context.name %> <button class="btn btn-sm btn-default" style="background-color:white; margin-left:3em;"><%= @button_text %></button>
+<p><%= @node_label %><%= @node_context.name %> <button class="btn btn-sm btn-default pull-right" style="background-color:white;"><%= @button_text %></button></p><br/>
 
 <div class="panel panel-default">
   <input type="text" class="form-control" placeholder="Search..." >
@@ -11,7 +11,7 @@
     <!-- Table -->
   <table class="table table-hover">
     <% @node_context.parent.children.each do |child|%>
-      <tr>
+      <tr <% if child.id == @node_context.id %> class="info" <% end %> >
         <td><%= child.name %><% if child.children != nil and child.children.count > 0 %> > <% end %></td>
         <td><a href>Select</a></td></tr>
     <% end %>
