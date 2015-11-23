@@ -46,7 +46,7 @@
     alert("Sorry, search doesn't work yet");
   });
 
-  $(".node_row").click(function(){
+  $(document.body).on('click', '.node_row' ,(function(){
     var $id = $(this).attr('data-id');
     //check to see if node has kids
     //if node has kids... go get 'em
@@ -59,7 +59,7 @@
             }).fail(function(e, ts, et)  {
                 alert("Sorry. Server unavailable. " + ts);
             }); 
-  });
+  }));
 
   function updateNodeChooser(data){
     //set parents/breadcrumbs
