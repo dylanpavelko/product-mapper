@@ -1,6 +1,13 @@
-<p><%= @node_label %><%= @node_context.name %> <button class="btn btn-sm btn-default pull-right" style="background-color:white;"><%= @button_text %></button></p><br/>
+<p>
+  <%= @node_label %> 
+  <span id="node_name"><%= @node_context.name %></span> 
+  <input type="hidden" id="<%= @node_form_id %>" name="<%= @node_form_name %>" value="<%= @node_context.id %>">
 
-<div class="panel panel-default">
+  <input class="btn btn-sm btn-default pull-right" type="button" name="answer" value="<%= @button_text %>" onclick="showDiv()" />
+</p>
+<br/>
+
+<div id="node_chooser" class="panel panel-default" style="display:none;">
   <input type="text" class="form-control" placeholder="Search..." >
   <div class="panel-body">
 
@@ -13,9 +20,25 @@
     <% @node_context.parent.children.each do |child|%>
       <tr <% if child.id == @node_context.id %> class="info" <% end %> >
         <td><%= child.name %><% if child.children != nil and child.children.count > 0 %> > <% end %></td>
-        <td><a href>Select</a></td></tr>
+        <td><a class="select_node" id=" <%=child.id %>" data-name="<%= child.name %>">Select</a></td></tr>
     <% end %>
   </table>
-  <a href class="pull-right">Cancel</a>
+  <a class="pull-right" id="cancel_chooser">Cancel</a>
   </div>
 </div>
+
+<script type="text/javascript">
+  function showDiv() {
+   document.getElementById('node_chooser').style.display = "block";
+  }
+
+  $("#cancel_chooser").click(function(){
+    document.getElementById('node_chooser').style.display = "none";
+  });
+
+  $(".select_node").click(function(){
+    $('#node_name').html($(this).attr('data-name'));
+    $('#<%= @node_form_id %>').val($(this).attr('id'));
+    document.getElementById('node_chooser').style.display = "none";
+  });
+</script>
