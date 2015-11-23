@@ -11,6 +11,15 @@ class NodesController < ApplicationController
       @origin_node = Node.find(params[:format])
     end
     @node = Node.new
+
+    @parents = Array.new
+    @i = @origin_node
+
+    @node.parent = @origin_node
+    while @i.parent != nil do 
+      @parents << @i.parent
+      @i = @i.parent
+    end
   end
 
   def create
