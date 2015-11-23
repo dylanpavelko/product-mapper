@@ -12,15 +12,19 @@
   <div class="panel-body">
 
   <ol class="breadcrumb">
-  <li><a href="#"><%= @node_context.parent.parent.name %></a></li>
-  <li class="active"><%= @node_context.parent.name %></li>
+    <% @node_parents.reverse_each do |p| %>
+      <li><a href="#" class="node_row" data-id="<%= p.id %>"><%= p.name %></a></li>
+    <%end %>
+  
+  <li class="active"><strong><%= @node_context.name %></strong></li>
+  <a class="pull-right select_node" id="<%= @node_context.id %>" data-name="<%= @node_context.name %>">Select</a>
   </ol>
     <!-- Table -->
   <table class="table table-hover" id="chooser_children">
-    <% @node_context.parent.children.each do |child|%>
+    <% @node_context.children.each do |child|%>
       <tr class="node_row <% if child.id == @node_context.id %> info <% end %>"  data-id="<%= child.id %>">
         <td><%= child.name %><% if child.children != nil and child.children.count > 0 %> > <% end %></td>
-        <td><a class="select_node" id=" <%=child.id %>" data-name="<%= child.name %>">Select</a></td></tr>
+        
     <% end %>
   </table>
   <a class="pull-right" id="cancel_chooser">Cancel</a>
@@ -65,9 +69,10 @@
     //set parents/breadcrumbs
     $parentString = "";
     $.each(data.parents, function(i, parent) {
-      $parentString += ("<li><a href='#'>" + parent.name + "</a></li>" );
+      $parentString += ("<li><a href='#' class='node_row' data-id='" + parent.id + "'>" + parent.name + "</a></li>" );
     })
-    $('.breadcrumb').html($parentString + "<li class='active'>" + data.node.name + "</li>");
+    $selectString = "<a class='select_node pull-right' id='"+ data.node.id +"' data-name='"+data.node.name+"'>Select</a>";
+    $('.breadcrumb').html($parentString + "<li class='active'><strong>" + data.node.name + "</strong></li>" + $selectString);
 
     //set child nodes
     $childrenString = "";
@@ -84,8 +89,7 @@
         $kids = "";
       }
       $childrenString += ("<tr class='node_row " + $alreadySelected +"'  data-id='"+ child.id +"'> "+
-        "<td>" + child.name + $kids + "</td>" + 
-        "<td><a class='select_node' id='"+ child.id +"' data-name='" + child.name + "''>Select</a></td></tr>");
+        "<td>" + child.name + $kids + "</td>");
     })
     $("#chooser_children").html($childrenString);
 
@@ -93,9 +97,17 @@
 
   function handler(event) {
     event.stopPropagation();
-    // now do your stuff        
+    // now do your stuff 
+    alert("test");       
   }
-  $('a.select_node').click(handler);
+
+  $(document.body).on('click', 'a.select_node' ,(function(){
+    handler;
+    $('#node_name').html($(this).attr('data-name'));
+    $('#<%= @node_form_id %>').val($(this).attr('id'));
+    document.getElementById('node_chooser').style.display = "none";
+  }));
+
 </script>
 
 

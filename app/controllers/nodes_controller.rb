@@ -121,6 +121,13 @@ class NodesController < ApplicationController
 
   def edit
     @node = Node.find(params[:id])
+
+    @parents = Array.new
+    @i = @node
+    while @i.parent != nil do 
+      @parents << @i.parent
+      @i = @i.parent
+    end
   end
 
   def update
@@ -164,7 +171,6 @@ class NodesController < ApplicationController
   end
 
   def chooser_get
-    puts "Hello Dylan you called the chooser get"
     @primary_node = Node.find(params[:id])
     @primary_node_lite = { :id => @primary_node.id, :name => @primary_node.name}
 
