@@ -66,6 +66,8 @@ Rails.application.routes.draw do
 
   get 'sessions/profile'
 
+  get 'chooser_get' => 'nodes#chooser_get' , as: :chooser_get
+
   get 'sessions/setting'
 
   get 'backlog(/:id)' => 'nodes#backlog' , as: :backlog

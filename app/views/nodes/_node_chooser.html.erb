@@ -8,7 +8,7 @@
 <br/>
 
 <div id="node_chooser" class="panel panel-default" style="display:none;">
-  <input type="text" class="form-control" placeholder="Search..." >
+  <input id="node_search" type="text" class="form-control" placeholder="Search..." >
   <div class="panel-body">
 
   <ol class="breadcrumb">
@@ -16,9 +16,9 @@
   <li class="active"><%= @node_context.parent.name %></li>
   </ol>
     <!-- Table -->
-  <table class="table table-hover">
+  <table class="table table-hover" id="chooser_children">
     <% @node_context.parent.children.each do |child|%>
-      <tr <% if child.id == @node_context.id %> class="info" <% end %> >
+      <tr class="node_row <% if child.id == @node_context.id %> info <% end %>"  data-id="<%= child.id %>">
         <td><%= child.name %><% if child.children != nil and child.children.count > 0 %> > <% end %></td>
         <td><a class="select_node" id=" <%=child.id %>" data-name="<%= child.name %>">Select</a></td></tr>
     <% end %>
@@ -41,4 +41,62 @@
     $('#<%= @node_form_id %>').val($(this).attr('id'));
     document.getElementById('node_chooser').style.display = "none";
   });
+
+  $('#node_search').click(function(){
+    alert("Sorry, search doesn't work yet");
+  });
+
+  $(".node_row").click(function(){
+    var $id = $(this).attr('data-id');
+    //check to see if node has kids
+    //if node has kids... go get 'em
+    $.ajax({url: "/chooser_get", 
+            type: "GET", 
+            data: {'id': $id}, 
+            dataType: 'json'}).done(function(data)  {
+                console.log(data);
+                updateNodeChooser(data);
+            }).fail(function(e, ts, et)  {
+                alert("Sorry. Server unavailable. " + ts);
+            }); 
+  });
+
+  function updateNodeChooser(data){
+    //set parents/breadcrumbs
+    $parentString = "";
+    $.each(data.parents, function(i, parent) {
+      $parentString += ("<li><a href='#'>" + parent.name + "</a></li>" );
+    })
+    $('.breadcrumb').html($parentString + "<li class='active'>" + data.node.name + "</li>");
+
+    //set child nodes
+    $childrenString = "";
+    $.each(data.children, function(i, child) {
+      if(child.id == <%= @node_context.id %>){
+        $alreadySelected = "info";
+      }else{
+        $alreadySelected = "";
+      }
+
+      if(child.has_kids){
+        $kids = " >";
+      }else{
+        $kids = "";
+      }
+      $childrenString += ("<tr class='node_row " + $alreadySelected +"'  data-id='"+ child.id +"'> "+
+        "<td>" + child.name + $kids + "</td>" + 
+        "<td><a class='select_node' id='"+ child.id +"' data-name='" + child.name + "''>Select</a></td></tr>");
+    })
+    $("#chooser_children").html($childrenString);
+
+  }
+
+  function handler(event) {
+    event.stopPropagation();
+    // now do your stuff        
+  }
+  $('a.select_node').click(handler);
 </script>
+
+
+

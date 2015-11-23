@@ -163,6 +163,45 @@ class NodesController < ApplicationController
     render nothing: true # this is a POST action, updates sent via AJAX, no view rendered
   end
 
+  def chooser_get
+    puts "Hello Dylan you called the chooser get"
+    @primary_node = Node.find(params[:id])
+    @primary_node_lite = { :id => @primary_node.id, :name => @primary_node.name}
+
+    #get parents
+    @parents = Array.new
+    @i = @primary_node
+    while @i.parent != nil do 
+      @parents << @i.parent
+      @i = @i.parent
+    end
+
+    @parents_lite = Array.new
+    @parents.reverse_each do |p|
+      @parents_lite << {:id => p.id, :name => p.name}
+    end
+
+    #get kids
+    @children = @primary_node.children
+    @children_lite = Array.new
+    @children.each do |c|
+      if c.children != nil and c.children.count > 0
+        @children_lite << {:id => c.id, :name => c.name, :has_kids => true}
+      else
+        @children_lite << {:id => c.id, :name => c.name, :has_kids => false}
+      end
+    end
+
+    @data = {:node => @primary_node_lite,
+             :parents => @parents_lite, 
+             :children => @children_lite}
+
+    respond_to do |format|
+      format.html
+      format.json {render json: @data }
+    end
+  end
+
   private
     def node_params
       params.require(:node).permit(:name, :node_id, :parent_id, :nodeType_id, :phaseTypes, :description, :row_order_position)
