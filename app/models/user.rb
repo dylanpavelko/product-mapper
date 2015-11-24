@@ -97,4 +97,14 @@ class User < ActiveRecord::Base
 		end
 		return false
 	end
+
+	def can_manage_people
+		@has_roles = UserHasRoleForNode.where(:user_id => self.id)
+		@has_roles.each do |has_role|
+			if has_role.role.manage_people
+				return true
+			end
+		end
+		return false
+	end
 end

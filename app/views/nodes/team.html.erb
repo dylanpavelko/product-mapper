@@ -1,11 +1,15 @@
 <h3><%= link_to @node.name, @node %></h3>  
 <% @node.team_members.each do |team_member| %>
+  <% if !team_member.role.administrative %>
   <%= team_member.user.display_name %> - <%= team_member.role.name %>
   <% if team_member.lead %>
    Lead
   <% end %>
-  <%= link_to "Edit", edit_user_has_role_for_node_path(team_member) %>
+  <% if @current_user.can_manage_people %>
+    <%= link_to "Edit", edit_user_has_role_for_node_path(team_member) %>
+  <% end %>
   <br/>
+  <% end %>
 <% end %>
 
 <h4>Features</h4>

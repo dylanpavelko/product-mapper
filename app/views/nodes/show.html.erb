@@ -293,7 +293,9 @@
   <br/>
 <% end %>
 <% end %>
+<% if @current_user.can_manage_people %>
 <%= link_to "Add Team Member", new_user_has_role_for_node_path(@node) %>
+<% end %>
   </div>
 </div>
 
