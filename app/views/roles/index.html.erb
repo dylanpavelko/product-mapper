@@ -9,6 +9,8 @@
       <th>Prioritize</th>
       <th>Manage issues</th>
       <th>Manage phases</th>
+      <th>Manage people</th>
+      <th>Administrative</th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -22,6 +24,8 @@
         <td><% if role.prioritize %>&#x2714;<% end %></td>
         <td><%if role.manage_issues %>&#x2714;<% end %></td>
         <td><%if role.manage_phases %>&#x2714;<% end %></td>
+        <td><%if role.manage_people %>&#x2714;<% end %></td>
+        <td><%if role.administrative %>&#x2714;<% end %></td>
         <td><%= link_to 'Edit ', edit_role_path(role) %></td>
         <td><%= link_to ' X', role, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

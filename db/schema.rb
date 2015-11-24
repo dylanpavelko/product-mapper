@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151124203622) do
+ActiveRecord::Schema.define(version: 20151124230111) do
 
   create_table "delivery_dates", force: true do |t|
     t.integer  "node_id"
@@ -238,6 +238,8 @@ ActiveRecord::Schema.define(version: 20151124203622) do
     t.boolean  "manage_phases"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "manage_people"
+    t.boolean  "administrative"
   end
 
   create_table "tasks", force: true do |t|

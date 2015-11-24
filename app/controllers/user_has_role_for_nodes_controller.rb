@@ -17,9 +17,11 @@ class UserHasRoleForNodesController < ApplicationController
   # GET /user_has_role_for_nodes/new
   def new
     @user_has_role_for_node = UserHasRoleForNode.new
-    @node = Node.find(params[:format])
-    if @node == nil
+    
+    if params[:format] == nil
       @node = Node.find(1)
+    else
+      @node = Node.find(params[:format])
     end
     @parents = Array.new
   end

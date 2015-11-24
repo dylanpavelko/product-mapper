@@ -13,8 +13,8 @@
 <% @feature_owner = @features.first.team_members.first.user %>
 
 <div class="col-md-4" style="background-color:#DDD;margin:2em;">
-
-<%= @feature_owner.display_name %>
+<img src='<%= @feature_owner.picture %>' class="profile_header_pic"/>
+<strong><%= @feature_owner.display_name %></strong>
 <% end %>
 <ul>
 <% @features.each do |feature| %>
@@ -22,7 +22,8 @@
   </div>
   <% @feature_owner = feature.team_members.first.user %>
   <div class="col-md-4" style="background-color:#DDD;margin:2em;">
-  <%= @feature_owner.display_name %> 
+  <img src='<%= @feature_owner.picture %>' class="profile_header_pic"/>
+  <strong><%= @feature_owner.display_name %></strong>
   <ul>
 <% end %>
   <li><%= link_to feature.name, feature %></li>
