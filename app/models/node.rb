@@ -29,6 +29,10 @@ class Node < ActiveRecord::Base
     @nodePhases = Phase.where(:node_id => self.id)
   end
 
+  def team_members
+    @users_has_roles_for_node = UserHasRoleForNode.where(:node_id => self.id)
+  end
+
   def fdds
     @has_fdds = NodeHasFunctionalDesignDocument.where(:node_id => self.id)
     @fdds = Array.new
@@ -293,6 +297,19 @@ class Node < ActiveRecord::Base
 
   def open_issues
     GitHubIssue.where(:node_id => self.id) + NativeIssue.where(:issue_with_id => self.id)
+  end
+
+  def features
+    @features = Array.new
+    self.children.each do |child|
+      if child.nodeType.feature
+        @features << child
+      end
+      if child.children.count > 0
+        @features = @features + child.features
+      end
+    end
+    return @features
   end
 
   def filtered_children(filters)

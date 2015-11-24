@@ -8,11 +8,16 @@
 <p>
   <strong>Role:</strong>
   <%= link_to @user_has_role_for_node.role.name, @user_has_role_for_node.role %>
+  <% if @user_has_role_for_node.lead %>
+   Lead
+  <% end %>
 </p>
 
 <p>
   <strong>Node:</strong>
-  <%= @user_has_role_for_node.node %>
+  <% if @user_has_role_for_node.node != nil %>
+  	<%= link_to @user_has_role_for_node.node.name, @user_has_role_for_node.node %>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_user_has_role_for_node_path(@user_has_role_for_node) %> |

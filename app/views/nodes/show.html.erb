@@ -34,6 +34,7 @@
   <% if @current_user.power_admin %>
     | <%= link_to 'View External Dependencies', backlog_path(@node) %>
     | <%= link_to 'View Dependencies From', backlog_path(@node) %>
+    | <%= link_to 'View Team', team_path(@node) %>
   <% end %>
 <% end %>
 | <%= link_to 'History', show_node_history_path(@node) %>
@@ -281,6 +282,18 @@
 <br/>
 <%= link_to "Add Link", new_node_has_functional_design_document_path(@node) %>
 <% end %>
+<% if @node.nodeType.feature %>
+<strong>Team:</strong><br/>
+<% @node.team_members.each do |team_member| %>
+  <%= team_member.user.display_name %> - <%= team_member.role.name %>
+  <% if team_member.lead %>
+   Lead
+  <% end %>
+  <%= link_to "Edit", edit_user_has_role_for_node_path(team_member) %>
+  <br/>
+<% end %>
+<% end %>
+<%= link_to "Add Team Member", new_user_has_role_for_node_path(@node) %>
   </div>
 </div>
 

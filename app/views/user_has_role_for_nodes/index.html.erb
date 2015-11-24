@@ -14,8 +14,17 @@
     <% @user_has_role_for_nodes.each do |user_has_role_for_node| %>
       <tr>
         <td><%= link_to user_has_role_for_node.user.display_name, user_has_role_for_node.user %></td>
-        <td><%= user_has_role_for_node.role.name %></td>
-        <td><%= user_has_role_for_node.node %></td>
+        <td>
+          <%= user_has_role_for_node.role.name %>
+          <% if user_has_role_for_node.lead %>
+            Lead
+          <% end %>
+        </td>
+        <td>
+          <% if user_has_role_for_node.node != nil %>
+            <%= link_to user_has_role_for_node.node.name, user_has_role_for_node.node %>
+          <% end %>
+        </td>
         <td><%= link_to 'Show', user_has_role_for_node %></td>
         <td><%= link_to 'Edit', edit_user_has_role_for_node_path(user_has_role_for_node) %></td>
         <td><%= link_to 'Destroy', user_has_role_for_node, method: :delete, data: { confirm: 'Are you sure?' } %></td>

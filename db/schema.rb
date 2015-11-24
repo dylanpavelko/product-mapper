@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151115195520) do
+ActiveRecord::Schema.define(version: 20151124203622) do
 
   create_table "delivery_dates", force: true do |t|
     t.integer  "node_id"
@@ -270,6 +270,7 @@ ActiveRecord::Schema.define(version: 20151115195520) do
     t.integer  "node_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "lead"
   end
 
   add_index "user_has_role_for_nodes", ["node_id"], name: "index_user_has_role_for_nodes_on_node_id"

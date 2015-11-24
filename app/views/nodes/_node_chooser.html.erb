@@ -12,9 +12,11 @@
   <div class="panel-body">
 
   <ol class="breadcrumb">
+    <% if @node_parents != nil %>
     <% @node_parents.reverse_each do |p| %>
       <li><a href="#" class="node_row" data-id="<%= p.id %>"><%= p.name %></a></li>
     <%end %>
+    <% end %>
   
   <li class="active"><strong><%= @node_context.name %></strong></li>
   <a class="pull-right select_node" id="<%= @node_context.id %>" data-name="<%= @node_context.name %>">Select</a>

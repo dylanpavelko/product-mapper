@@ -74,6 +74,8 @@ Rails.application.routes.draw do
 
   get 'diagram(/:id)' => 'nodes#diagram' , as: :diagram
 
+  get 'team(/:id)' => 'nodes#team' , as: :team
+
   get 'change_password(/:id)' => 'users#change_password', as: :change_password
 
   get 'show_node_history(/:id)' => 'node_histories#show_node_history' , as: :show_node_history

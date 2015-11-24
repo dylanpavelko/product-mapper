@@ -17,19 +17,45 @@ class UserHasRoleForNodesController < ApplicationController
   # GET /user_has_role_for_nodes/new
   def new
     @user_has_role_for_node = UserHasRoleForNode.new
+    @node = Node.find(params[:format])
+    if @node == nil
+      @node = Node.find(1)
+    end
+    @parents = Array.new
   end
 
   # GET /user_has_role_for_nodes/1/edit
   def edit
+    @node = @user_has_role_for_node.node
+    if @node == nil 
+      @node = Node.find(1)
+    end
+
+    @parents = Array.new
+    @i = @node
+    while @i.parent != nil do 
+      @parents << @i.parent
+      @i = @i.parent
+    end
   end
 
   # POST /user_has_role_for_nodes
   # POST /user_has_role_for_nodes.json
   def create
     @user_has_role_for_node = UserHasRoleForNode.new(user_has_role_for_node_params)
-
+    if @user_has_role_for_node.lead
+      @lead = " Lead"
+    else
+      @lead = ""
+    end
+    @log_statement = "Added " + @user_has_role_for_node.user.display_name + " as a " + @user_has_role_for_node.role.name + @lead
     respond_to do |format|
       if @user_has_role_for_node.save
+        if @user_has_role_for_node.node != nil
+          @log = NodeHistory.new(:user_id => @current_user.id, :node_id => @user_has_role_for_node.node.id,
+          :log => @log_statement)
+          @log.save
+        end
         format.html { redirect_to @user_has_role_for_node, notice: 'User has role for node was successfully created.' }
         format.json { render :show, status: :created, location: @user_has_role_for_node }
       else
@@ -42,8 +68,20 @@ class UserHasRoleForNodesController < ApplicationController
   # PATCH/PUT /user_has_role_for_nodes/1
   # PATCH/PUT /user_has_role_for_nodes/1.json
   def update
+
+
     respond_to do |format|
       if @user_has_role_for_node.update(user_has_role_for_node_params)
+        if @user_has_role_for_node.lead
+          @lead = " Lead"
+        else
+          @lead =""
+        end
+        @log_statement = "Changed " + @user_has_role_for_node.user.display_name + "'s Role to " + @user_has_role_for_node.role.name + @lead
+        @log = NodeHistory.new(:user_id => @current_user.id, :node_id => @user_has_role_for_node.node.id,
+          :log => @log_statement)
+          @log.save
+
         format.html { redirect_to @user_has_role_for_node, notice: 'User has role for node was successfully updated.' }
         format.json { render :show, status: :ok, location: @user_has_role_for_node }
       else
@@ -71,6 +109,6 @@ class UserHasRoleForNodesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_has_role_for_node_params
-      params.require(:user_has_role_for_node).permit(:user_id, :role_id, :node_id)
+      params.require(:user_has_role_for_node).permit(:user_id, :role_id, :node_id, :lead)
     end
 end

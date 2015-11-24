@@ -139,6 +139,21 @@ class NodesController < ApplicationController
     end
   end
 
+  def team
+    @node = Node.find(params[:id])
+    @features = @node.features
+
+    @unassigned_features = Array.new
+    @features.delete_if do |feature|
+      if feature.team_members.count == 0
+        @unassigned_features << feature
+        true
+      end
+    end
+
+    @features.sort! { |a,b| a.team_members.first.user <=> b.team_members.first.user }
+  end
+
   def update
     @node = Node.find(params[:id])
     # @phasesParams = params[:phaseType][:id]

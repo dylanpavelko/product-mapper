@@ -13,15 +13,32 @@
 
   <div class="field">
     <%= f.label :user_id %><br>
-    <%= f.select :user_id, options_from_collection_for_select(User.all, :id, :display_name), :include_blank => true %>
+    <% if @user_has_role_for_node.user != nil %>
+      <%= f.select :user_id, options_from_collection_for_select(User.all, :id, :display_name, @user_has_role_for_node.user.id), :include_blank => true %>
+    <% else %>
+      <%= f.select :user_id, options_from_collection_for_select(User.all, :id, :display_name), :include_blank => true %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :role_id %><br>
-    <%= f.select :role_id, options_from_collection_for_select(Role.all, :id, :name), :include_blank => true %>
+    <% if @user_has_role_for_node.role != nil %>
+      <%= f.select :role_id, options_from_collection_for_select(Role.all, :id, :name, @user_has_role_for_node.role.id), :include_blank => true %>
+    <% else %>
+      <%= f.select :role_id, options_from_collection_for_select(Role.all, :id, :name), :include_blank => true %>
+    <% end %>
   </div>
   <div class="field">
-    <%= f.label :node_id %><br>
-    <%= f.text_field :node_id %>
+    <% @node_context    = @node
+       @node_parents    = @parents
+       @node_label      = "Product Node: "
+       @button_text     = "Select a Product Node"
+       @node_form_id    = "user_has_role_for_node_node_id"
+       @node_form_name  = "user_has_role_for_node[node_id]" %>
+    <%= render "/nodes/node_chooser" %>
+  </div>
+  <div class="field">
+      <%= f.label :lead %><br>
+      <%= f.check_box :lead %>
   </div>
   <div class="actions">
     <%= f.submit %>

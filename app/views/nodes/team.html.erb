@@ -1,0 +1,39 @@
+<h3><%= link_to @node.name, @node %></h3>  
+<% @node.team_members.each do |team_member| %>
+  <%= team_member.user.display_name %> - <%= team_member.role.name %>
+  <% if team_member.lead %>
+   Lead
+  <% end %>
+  <%= link_to "Edit", edit_user_has_role_for_node_path(team_member) %>
+  <br/>
+<% end %>
+
+<h4>Features</h4>
+<% if @features.count > 0 %>
+<% @feature_owner = @features.first.team_members.first.user %>
+
+<div class="col-md-4" style="background-color:#DDD;margin:2em;">
+
+<%= @feature_owner.display_name %>
+<% end %>
+<ul>
+<% @features.each do |feature| %>
+<% if @feature_owner != feature.team_members.first.user %>
+  </div>
+  <% @feature_owner = feature.team_members.first.user %>
+  <div class="col-md-4" style="background-color:#DDD;margin:2em;">
+  <%= @feature_owner.display_name %> 
+  <ul>
+<% end %>
+  <li><%= link_to feature.name, feature %></li>
+<% end %>
+</ul>
+</div>
+<div class="col-md-12">
+Unassigned
+<ul>
+<% @unassigned_features.each do |feature|%>
+  <li><%= link_to feature.name, feature %></li>
+<% end %>
+</ul>
+</div>
