@@ -11,9 +11,9 @@
   <% end %>
 
   <h1>View User: <%= @user.first_name %> <%= @user.last_name %></h1>
-  <img src="<%= @user.picture %>" />
-    <p> Username:</br> <%= @user.username %> </p>
-    <p> Email:</br> <%= @user.email %> </p>
+  <img src="<%= @user.picture %>" width="150"/>
+    <p> <strong>Username:</strong></br> <%= @user.username %> </p>
+    <p> <strong>Email:</strong></br> <%= @user.email %> </p>
     <% if @user.password_reset == 1 %><p> Re-set Password on Login:  true </p><% end %>
 
     <p>
