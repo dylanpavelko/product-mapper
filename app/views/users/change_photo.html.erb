@@ -1,0 +1,24 @@
+<%= form_for @profile_image, html: { multipart: true }, :url => set_photo_path do |f| %>
+  <% if @profile_image.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@profile_image.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+      <% @profile_image.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <h1>Change Profile Picture for <%= @user.display_name %></h1>
+<p>
+  <%= f.label 'Photo' %><br />
+  <%= f.file_field :image %>
+  <%= f.hidden_field :user_id, :value => @user.id%>
+</p>
+
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

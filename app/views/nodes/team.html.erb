@@ -17,8 +17,8 @@
 <% @feature_owner = @features.first.team_members.first.user %>
 
 <div class="col-md-4" style="background-color:#DDD;margin:2em;">
-<img src='<%= @feature_owner.picture %>' class="profile_header_pic"/>
-<strong><%= @feature_owner.display_name %></strong>
+<img src='<%= @feature_owner.picture %>' class="profile_header_pic" style="width:100px;"/>
+<strong><%= link_to @feature_owner.display_name, @feature_owner %></strong>
 <% end %>
 <ul>
 <% @features.each do |feature| %>
@@ -26,8 +26,8 @@
   </div>
   <% @feature_owner = feature.team_members.first.user %>
   <div class="col-md-4" style="background-color:#DDD;margin:2em;">
-  <img src='<%= @feature_owner.picture %>' class="profile_header_pic"/>
-  <strong><%= @feature_owner.display_name %></strong>
+  <img src='<%= @feature_owner.picture %>' class="profile_header_pic" style="width:100px;"/>
+  <strong><%= link_to @feature_owner.display_name, @feature_owner %></strong>
   <ul>
 <% end %>
   <li><%= link_to feature.name, feature %></li>

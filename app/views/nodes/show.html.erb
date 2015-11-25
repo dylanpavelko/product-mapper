@@ -33,9 +33,9 @@
   <% end %>
   <% if @current_user.power_admin %>
     | <%= link_to 'View External Dependencies', backlog_path(@node) %>
-    | <%= link_to 'View Dependencies From', backlog_path(@node) %>
-    | <%= link_to 'View Team', team_path(@node) %>
+    | <%= link_to 'View Dependencies From', backlog_path(@node) %> 
   <% end %>
+  | <%= link_to 'View PM Team', team_path(@node) %>
 <% end %>
 | <%= link_to 'History', show_node_history_path(@node) %>
 </div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151124230111) do
+ActiveRecord::Schema.define(version: 20151125012117) do
 
   create_table "delivery_dates", force: true do |t|
     t.integer  "node_id"
@@ -215,6 +215,18 @@ ActiveRecord::Schema.define(version: 20151124230111) do
   end
 
   add_index "phases", ["dependencies_id"], name: "index_phases_on_dependencies_id"
+
+  create_table "profile_images", force: true do |t|
+    t.integer  "user_id"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "profile_images", ["user_id"], name: "index_profile_images_on_user_id"
 
   create_table "questions", force: true do |t|
     t.string   "question"

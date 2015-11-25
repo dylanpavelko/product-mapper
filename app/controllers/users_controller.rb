@@ -71,12 +71,27 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
+  def change_photo
+    @profile_image = ProfileImage.new
+    @user = User.find(params[:id])
+  end
+
+  def set_photo
+    @user = params[:profile_image][:user_id]
+    @profile_image = ProfileImage.create( image_params )
+    redirect_to user_path(@user)
+  end
+
   def destroy
     @user.destroy
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def image_params
+    params.require(:profile_image).permit(:image, :user_id)
   end
 
     private

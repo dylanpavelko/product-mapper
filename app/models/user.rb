@@ -42,16 +42,22 @@ class User < ActiveRecord::Base
 
 
 	def picture
-		# get the email from URL-parameters or what have you and make lowercase
-		email_address = self.email.downcase
- 
-		# create the md5 hash
-		hash = Digest::MD5.hexdigest(email_address)
- 
-		# compile URL which can be used in <img src="RIGHT_HERE"...
-		image_src = "https://www.gravatar.com/avatar/#{hash}"
+		@pictures = ProfileImage.where(:user_id => self.id)
+		if @pictures.count > 0
+			return @pictures.first.image.url
+		else
 
-		return image_src
+			# get the email from URL-parameters or what have you and make lowercase
+			email_address = self.email.downcase
+	 
+			# create the md5 hash
+			hash = Digest::MD5.hexdigest(email_address)
+	 
+			# compile URL which can be used in <img src="RIGHT_HERE"...
+			image_src = "https://www.gravatar.com/avatar/#{hash}"
+
+			return image_src
+		end
 	end
 
 	def display_name

@@ -63,8 +63,11 @@ Rails.application.routes.draw do
   post 'sessions/login'
   get "logout" => "sessions#logout"
   get 'sessions/home'
+  get 'change_photo(/:id)' => 'users#change_photo' , as: :change_photo
+  post 'set_photo' => 'users#set_photo'
 
   get 'sessions/profile'
+
 
   get 'chooser_get' => 'nodes#chooser_get' , as: :chooser_get
 
