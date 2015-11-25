@@ -78,6 +78,10 @@ class UsersController < ApplicationController
 
   def set_photo
     @user = params[:profile_image][:user_id]
+    @existing = ProfileImage.where(:user_id => @user)
+    @existing.each do |exists|
+      exists.delete
+    end
     @profile_image = ProfileImage.create( image_params )
     redirect_to user_path(@user)
   end
