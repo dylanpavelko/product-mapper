@@ -54,32 +54,32 @@ class NodesController < ApplicationController
   end
 
   def show
-    Node.all.each do |this_node|
-      if this_node.nodeType.specification
-        @node_status = true
-        this_node.phases.each do |phase|
-          if !phase.status
-            @node_status = false
-          end
-        end
-        if this_node.phases.count < 1
-          @node_status = false
-        end
-        if @node_status
-          this_node.update(:dev_status => 1)
-        else
-          this_node.update(:dev_status => nil)
-        end
-      end
-    end
+    # Node.all.each do |this_node|
+    #   if this_node.nodeType.specification
+    #     @node_status = true
+    #     this_node.phases.each do |phase|
+    #       if !phase.status
+    #         @node_status = false
+    #       end
+    #     end
+    #     if this_node.phases.count < 1
+    #       @node_status = false
+    #     end
+    #     if @node_status
+    #       this_node.update(:dev_status => 1)
+    #     else
+    #       this_node.update(:dev_status => nil)
+    #     end
+    #   end
+    # end
 
-    Node.all.each do |this_node|
-      if this_node.nodeType.specification
-        if this_node.progress_status == "In Progress"
-          this_node.update(:dev_status => 2)
-        end
-      end
-    end
+    # Node.all.each do |this_node|
+    #   if this_node.nodeType.specification
+    #     if this_node.progress_status == "In Progress"
+    #       this_node.update(:dev_status => 2)
+    #     end
+    #   end
+    # end
 
     @node = Node.find(params[:id])
     @fdds = NodeHasFunctionalDesignDocument.where(:node_id => @node)
