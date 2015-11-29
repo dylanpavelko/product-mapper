@@ -362,9 +362,13 @@ function initPage() {
 
 
         item_id = item.data('item-id');
+        prior_position = item.data('item-position');
         position = item.next().data('item-position');
+
         if(position == undefined){
-          position = "last";
+          position = item.prev().data('item-position') + 1;
+        }else if(prior_position < position){
+          position = position - 1;
         }
         console.log("move to position " + position);
 

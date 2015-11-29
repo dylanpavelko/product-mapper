@@ -18,15 +18,12 @@
 <div class="page-header" style="margin-top:0px;">
   <h2><%= @node.name %> 
     <small>[<%= @node.nodeType.name %> - <%= @node.progress_status %>]</small>
-    <small>
-      <% if @current_user.can_manage_product %>
-        <%= link_to 'Edit', edit_node_path(@node) %>
-      <% end %>
-    </small>
   </h2>
-
+  <% if @current_user.can_manage_product %>
+    <%= link_to 'Edit', edit_node_path(@node) %>
+  <% end %>
 <% if !@node.nodeType.specification %>
-  <%= link_to 'Feature Inventory', feature_inventory_path(@node) %>
+  | <%= link_to 'Feature Inventory', feature_inventory_path(@node) %>
   | <%= link_to 'Delivery Schedule', delivery_schedule_path(@node) %>
   <% if @current_user.can_groom_backlog %>
     | <%= link_to 'Groom Backlog', backlog_path(@node) %>
