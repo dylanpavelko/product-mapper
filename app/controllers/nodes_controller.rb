@@ -194,6 +194,12 @@ class NodesController < ApplicationController
     render nothing: true # this is a POST action, updates sent via AJAX, no view rendered
   end
 
+  def search_results
+    @search_string = params[:str]
+    puts "this is the search string"
+    puts @search_string
+  end
+
   def chooser_get
     @primary_node = Node.find(params[:id])
     @primary_node_lite = { :id => @primary_node.id, :name => @primary_node.name}

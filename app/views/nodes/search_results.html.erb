@@ -1,0 +1,63 @@
+<%= text_area_tag :page_search , @search_string , options = {class: "form-control", cols: 40, rows: 1} %> 
+<br/>
+<br/>
+<div id="page_search_results">
+</div>
+
+<script type="text/javascript">
+$('.add_milestone_filter').click(function(){
+  var milestone_id = $(this).attr('id');
+  console.log(milestone_id);
+    $.ajax({url: "/add_filter", type: "POST", data: {'filter_type': 1 ,'filter_data': milestone_id}, dataType: 'json'}).done(function(data){
+      window.location.reload(false); 
+    });
+});
+
+   var timeoutID = null;
+
+  function findMemberForPage(str) {
+      $.ajax({url: "<%= search_path %>", type: "POST", data: {'search_string': str, 'include_specs': true}, dataType: 'json'}).done(function(data){ 
+console.log(data);
+        var $items = "";
+        for(i=0; i < data.length -1; i++){
+          if(data[i][0]==0){
+            $row = "<div id='result_row'><a href=/nodes/"+data[i][2]+">" + data[i][1] + "</a></div>";
+          }else if(data[i][0]==1){
+            $row = "<div id='result_row'><a href=/inventory_items/"+data[i][2]+"'>" + data[i][1] + "</a></div>";
+          }else if(data[i][0]==2){
+            $row = "<div id='result_row'><a href=/trips/"+data[i][2]+"'>" + data[i][1] + "</a></div>";
+          }else if(data[i][0]==3){
+            $row = "<div id='result_row'><a href=/attractions/"+data[i][2]+"'>" + data[i][1] + "</a></div>";
+          }
+          
+          $items = $items + $row;
+        }
+          $('div#page_search_results').html($items + "<div id='result_row'><em>" + data[data.length -1] + '</em></div>');
+      });
+    
+  }
+
+var ready;
+ready = function() {
+  $target = $('#page_search').val()
+  if($target.length > 2){ 
+        findMemberForPage($target); 
+      }
+};
+
+$(document).ready(ready);
+$(document).on('page:load', ready);
+
+  $('#page_search').keyup(function() {
+    clearTimeout(timeoutID);
+    var $target = $(this);
+    timeoutID = setTimeout(function() {
+      var searchString = $target.val();
+      if(searchString.length > 2){ 
+        findMemberForPage($target.val()); 
+      }else{
+        $('div#page_search_results').html("");
+      }
+    }, 500); 
+  });
+</script>

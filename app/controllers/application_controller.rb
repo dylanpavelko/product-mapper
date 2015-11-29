@@ -53,7 +53,12 @@ class ApplicationController < ActionController::Base
 
 
 	    #find matching nodes
-	    @nodes = Node.select { |x| x.nodeType.specification != true }
+	    if !(params[:include_specs])
+	    	@nodes = Node.select { |x| x.nodeType.specification != true }
+	    else
+	    	@nodes = Node.all
+	    end
+
 	    @matched_items = Array.new
 	    @nodes.each do |node|
 	      if node.matches(@search_string) #and node.user_has_access(@current_user)

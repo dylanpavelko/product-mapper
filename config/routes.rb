@@ -90,6 +90,8 @@ Rails.application.routes.draw do
 
   post 'search', to: 'application#header_search'
 
+  get 'search_results', to: 'nodes#search_results'
+
   post ':controller(/:action(/:id))(.:format)'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
