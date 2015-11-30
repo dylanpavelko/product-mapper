@@ -163,4 +163,17 @@ console.log(data);
       }
     }, 500); 
   });
+
+  $("#search_button").click(function(){
+    $search_string = $('#header_search').val();
+    window.location.href = "/search_results?str=" + $search_string;
+  });
+
+  $('#header_search').keypress(function(e) {
+    if(e.which == 13) {
+      e.preventDefault();
+      $search_string = $('#header_search').val();
+      window.location.href = "/search_results?str=" + $search_string;
+    }
+});
 </script>
