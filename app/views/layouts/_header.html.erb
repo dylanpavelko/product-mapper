@@ -48,7 +48,7 @@
         <ul class="dropdown-menu">
           <li><a href="#">By Milestone</a></li>
             <ul>
-              <% Milestone.all.each do |milestone| %>
+              <% Milestone.all.sort_by {|milestone| milestone.date}.each do |milestone| %>
                 <li><a href="#" class="add_milestone_filter" id="<%= milestone.id %>"><%= milestone.name %></a></li>
               <% end %>  
             </ul>
