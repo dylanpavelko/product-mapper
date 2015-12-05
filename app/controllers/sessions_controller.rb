@@ -40,7 +40,7 @@ class SessionsController < ApplicationController
 				@my_feature_roles << has_node_role
 			end
 		end
-		@my_feature_roles = @my_feature_roles.sort_by {|has_node| has_node.node.belongs_to_product}
+		@my_feature_roles = @my_feature_roles.sort_by {|has_node| [has_node.node.belongs_to_product, has_node.node.name]}
 	end
 
 	def profile
