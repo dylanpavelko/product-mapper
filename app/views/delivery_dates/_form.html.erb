@@ -29,14 +29,14 @@
   <% end %>
  with 
   <% if @delivery_date.milestone != nil %>
-    <%= f.select :milestone_id, options_from_collection_for_select(Milestone.all, :id, :name, @delivery_date.milestone.id), :include_blank => true %>
+    <%= f.select :milestone_id, options_from_collection_for_select(Milestone.all.sort_by {|milestone| milestone.date}, :id, :name, @delivery_date.milestone.id), :include_blank => true %>
   <% else %>
-    <%= f.select :milestone_id, options_from_collection_for_select(Milestone.all, :id, :name), :include_blank => true %>
+    <%= f.select :milestone_id, options_from_collection_for_select(Milestone.all.sort_by {|milestone| milestone.date}, :id, :name), :include_blank => true %>
   <% end %>
   </div>
   <div class="field">
-    <%= f.label :date %><br>
-    <%= f.date_field :date %>
+    <%#= f.label :date %><br>
+    <%#= f.date_field :date %>
   </div>
   <div class="actions">
     <%= f.submit %>
