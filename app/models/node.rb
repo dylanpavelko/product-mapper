@@ -199,6 +199,19 @@ class Node < ActiveRecord::Base
     return @issues
   end
 
+  def getAllSubQuestions
+    @asks = Array.new
+    if self.children.count > 0
+      self.children.each do |childNode|
+        childNode.getAllQuestions.each do |question| 
+          @asks << question
+        end
+      end
+    end
+    return @asks
+  end
+
+
   def getAllQuestions
     @asks = Question.where(:node_id => self.id) + Array.new
     if self.children.count > 0

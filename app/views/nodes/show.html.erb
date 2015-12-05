@@ -226,6 +226,13 @@
     </ul>
   <% end %>
   <strong>Subordinate Node Questions</strong>
+   <ul>
+    <% @subQuestions.each do |question| %>
+      <li>
+          <%= link_to question.node.name, question.node %> > <%= link_to question.question, question %>
+      </li>
+    <% end %>
+  </ul>
   <br/>
   <strong>Related Nodes:</strong>
   <br/>

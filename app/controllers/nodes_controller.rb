@@ -86,6 +86,7 @@ class NodesController < ApplicationController
     @nodePhases = Phase.where(:node_id => @node)
     @nodeDeepPhases = Array.new
     @nodeQuestions = Question.where(:node_id => @node)
+    @subQuestions = @node.getAllSubQuestions()
     @issues = GitHubIssue.where(:node_id => @node) + NativeIssue.where(:issue_with_id => @node)
     @subIssues = @node.getAllSubIssues()
     @issue_resolutions = NativeIssue.where(:resolved_with_id => @node)
