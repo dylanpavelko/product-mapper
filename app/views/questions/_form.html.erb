@@ -10,15 +10,20 @@
       </ul>
     </div>
   <% end %>
-
+  <div class="field">
+    <% @node_context    = @question.node
+       @node_parents    = @parents
+       @node_label      = "Question with Node: "
+       @button_text     = "Choose A Different Node"
+       @node_form_id    = "node_id"
+       @node_form_name  = "question[node_id]" %>
+    <%= render "nodes/node_chooser" %>
+  </div>
   <div class="field">
     <%= f.label :question %><br>
     <%= f.text_field :question %>
   </div>
-  <div class="field">
-    <%= f.label :node_id %><br>
-    <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name), :include_blank => true %>
-  </div>
+
   <div class="field">
     <%= f.label :phase_id %><br>
     <%= f.select :phase_id, options_from_collection_for_select(PhaseType.all, :id, :name), :include_blank => true %>

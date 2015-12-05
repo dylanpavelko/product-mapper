@@ -16,11 +16,26 @@ class QuestionsController < ApplicationController
 
   # GET /questions/new
   def new
-    @question = Question.new
+    @node = Node.find(params[:format])
+    @question = Question.new(:node_id => @node.id)
+
+    set_parents
+
+  end
+
+  def set_parents
+    @parents = Array.new
+    @i = @question.node
+    while @i.parent != nil do 
+      @parents << @i.parent
+      @i = @i.parent
+    end
   end
 
   # GET /questions/1/edit
   def edit
+    set_parents
+
   end
 
   # POST /questions

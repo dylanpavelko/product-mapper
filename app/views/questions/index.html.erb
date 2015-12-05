@@ -15,8 +15,8 @@
     <% @questions.each do |question| %>
       <tr>
         <td><%= question.question %></td>
-        <td><%= question.node.name %></td>
-        <td><%= question.phaseType.name %></td>
+        <td><%= link_to question.node.name, question.node %></td>
+        <td><% if question.phaseType != nil %><%= question.phaseType.name %><% end %></td>
         <td><%= question.resolved_id %></td>
         <td><%= link_to 'Show', question %></td>
         <td><%= link_to 'Edit', edit_question_path(question) %></td>

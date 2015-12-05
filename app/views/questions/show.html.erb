@@ -7,17 +7,18 @@
 
 <p>
   <strong>Node:</strong>
-  <%= @question.node.name %>
+  <%= link_to @question.node.name, @question.node %>
 </p>
 
+<% if @question.phaseType != nil %>
 <p>
   <strong>Phasetype:</strong>
   <%= @question.phaseType.name %>
 </p>
+<% end %>
 
 <p>
   <strong>Resolved:</strong>
-  <%= :resolved_id %>
 </p>
 
 <%= link_to 'Edit', edit_question_path(@question) %> |

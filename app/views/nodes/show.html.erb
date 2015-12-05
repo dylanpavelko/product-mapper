@@ -116,7 +116,7 @@
 
 
   <div class="col-md-6">
-    <strong>Percent Done:</strong> Toggle between Summary and Breakdown by Phase
+    <strong>Percent Done:</strong> 
       <div class="progress">
         <% @node_perecent_done = @node.calc_percent_done %>
         <% if @node_perecent_done != 0 %>
@@ -215,20 +215,21 @@
     <!-- End of Phase Container -->
 <% end %>    
 <!-- End of Phases -->
-<% if @current_user.power_admin %>
   <strong>Has Questions:</strong> <%= link_to 'Add' , new_question_path(@node) %> <br/>
   <% if @nodeQuestions.count > 0 %>
     <ul>
       <% @nodeQuestions.each do |question| %>
         <li>
-          <%= question.question %>
+          <%= link_to question.question, question %>
         </li>
       <% end %>
     </ul>
-  <% end %> 
+  <% end %>
+  <strong>Subordinate Node Questions</strong>
+  <br/>
   <strong>Related Nodes:</strong>
   <br/>
-<% end %>
+
 <strong>Has Issues:</strong><br/>
 <% if @issues.count > 0 %>
   <ul>
@@ -247,7 +248,7 @@
 <% end %> 
 <%= link_to 'Open New Issue', new_native_issue_path(@node) %><br/>
 <% if @subIssues.count > 0 %>
-<strong>Subordinate Issues:</strong><br/>
+<strong>Subordinate Node Issues:</strong><br/>
   <ul>
     <% @subIssues.each do |issue| %>
       <li>
