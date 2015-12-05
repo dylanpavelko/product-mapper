@@ -151,7 +151,7 @@ class NodesController < ApplicationController
       end
     end
 
-    @features.sort! { |a,b| a.team_members.first.user <=> b.team_members.first.user }
+    @features.sort! { |a,b| [a.team_members.first.user, a.name] <=> [b.team_members.first.user, b.name]}
   end
 
   def update

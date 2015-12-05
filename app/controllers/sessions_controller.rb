@@ -33,6 +33,14 @@ class SessionsController < ApplicationController
 	end
 
 	def home
+		@has_node_roles = UserHasRoleForNode.where(:user_id => @current_user.id)
+		@my_feature_roles = Array.new
+		@has_node_roles.each do |has_node_role|
+			if has_node_role.node != nil and has_node_role.node.nodeType.feature
+				@my_feature_roles << has_node_role
+			end
+		end
+		@my_feature_roles = @my_feature_roles.sort_by {|has_node| has_node.node.belongs_to_product}
 	end
 
 	def profile

@@ -481,4 +481,23 @@ class Node < ActiveRecord::Base
     return true
   end
 
+  def belongs_to_product
+    if self.nodeType.product 
+      return self
+    elsif self.nodeType.feature
+      @i = self
+      @parents = Array.new
+      while @i.parent != nil do 
+        @parents << @i.parent
+        @i = @i.parent
+      end
+      @parents.each do |parent|
+        if parent.nodeType.product
+          return parent
+        end
+      end
+    end
+    return nil
+  end
+
 end
