@@ -12,6 +12,7 @@ class FunctionalDesignDocumentsController < ApplicationController
   # GET /functional_design_documents/1
   # GET /functional_design_documents/1.json
   def show
+    @has_specs = NodeHasFunctionalDesignDocument.where(:fdd_id => @functional_design_document.id)
   end
 
   # GET /functional_design_documents/new
