@@ -28,6 +28,13 @@
     <%= f.label :phase_id %><br>
     <%= f.select :phase_id, options_from_collection_for_select(PhaseType.all, :id, :name), :include_blank => true %>
   </div>
+
+
+  <div class="field">
+    <%= f.label :asked_by_user_id, "Asked by User" %><br>
+    <%= f.select :asked_by_user_id, options_from_collection_for_select(User.all, :id, :display_name), :include_blank => true %>
+  </div>
+
   <div class="field">
     <%= f.label :resolved_id %><br>
     <%= f.check_box :resolved_id %>

@@ -1,13 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Question:</strong>
-  <%= @question.question %>
-</p>
-
-<p>
-  <strong>Node:</strong>
-  <%= link_to @question.node.name, @question.node %>
+  <%= @question.asked_by_user.display_name %> asked: <br/>
+  <strong><%= @question.question %></strong>
+  about <%= link_to @question.node.name, @question.node %>
 </p>
 
 <% if @question.phaseType != nil %>

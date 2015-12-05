@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151125012117) do
+ActiveRecord::Schema.define(version: 20151205224544) do
 
   create_table "delivery_dates", force: true do |t|
     t.integer  "node_id"
@@ -235,8 +235,10 @@ ActiveRecord::Schema.define(version: 20151125012117) do
     t.integer  "resolved_id"
     t.integer  "node_id"
     t.integer  "phase_id"
+    t.integer  "asked_by_user_id"
   end
 
+  add_index "questions", ["asked_by_user_id"], name: "index_questions_on_asked_by_user_id"
   add_index "questions", ["node_id"], name: "index_questions_on_node_id"
   add_index "questions", ["phase_id"], name: "index_questions_on_phase_id"
   add_index "questions", ["resolved_id"], name: "index_questions_on_resolved_id"
