@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151205224544) do
+ActiveRecord::Schema.define(version: 20151206000721) do
 
   create_table "delivery_dates", force: true do |t|
     t.integer  "node_id"
@@ -228,6 +228,17 @@ ActiveRecord::Schema.define(version: 20151205224544) do
 
   add_index "profile_images", ["user_id"], name: "index_profile_images_on_user_id"
 
+  create_table "question_has_responses", force: true do |t|
+    t.integer  "question_id"
+    t.integer  "response_id"
+    t.boolean  "answers"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "question_has_responses", ["question_id"], name: "index_question_has_responses_on_question_id"
+  add_index "question_has_responses", ["response_id"], name: "index_question_has_responses_on_response_id"
+
   create_table "questions", force: true do |t|
     t.string   "question"
     t.datetime "created_at"
@@ -242,6 +253,15 @@ ActiveRecord::Schema.define(version: 20151205224544) do
   add_index "questions", ["node_id"], name: "index_questions_on_node_id"
   add_index "questions", ["phase_id"], name: "index_questions_on_phase_id"
   add_index "questions", ["resolved_id"], name: "index_questions_on_resolved_id"
+
+  create_table "responses", force: true do |t|
+    t.text     "content"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "responses", ["user_id"], name: "index_responses_on_user_id"
 
   create_table "roles", force: true do |t|
     t.string   "name"

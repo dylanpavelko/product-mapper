@@ -39,7 +39,7 @@
 			<div class="col-md-2">
 				<%= feature_role.node.getAllIssues.count %>
 			</div>
-			<div class="col-md-2"><%= feature_role.node.getAllQuestions.count %></div>
+			<div class="col-md-2"><%= feature_role.node.getAllOpenQuestions.count %></div>
 			<div class="col-md-5">
 				  <% feature_role.node.set_deep_filtered_node(@node_filters) %>
 			      <div class="progress">

@@ -1,9 +1,13 @@
 <p id="notice"><%= notice %></p>
 
+
 <p>
-  <%= @question.asked_by_user.display_name %> asked: <br/>
-  <strong><%= @question.question %></strong>
-  about <%= link_to @question.node.name, @question.node %>
+  <h5> <%= @question.asked_by_user.display_name %> asked on <%= @question.created_at.strftime("%m/%d/%Y at %I:%M%p")%>: </h5>
+    <h3><%= @question.question %>
+    <small>[<%= link_to 'Edit', edit_question_path(@question) %>]</small>
+  </h3>
+  <h4>about <%= link_to @question.node.name, @question.node %></h4>
+  
 </p>
 
 <% if @question.phaseType != nil %>
@@ -13,9 +17,67 @@
 </p>
 <% end %>
 
-<p>
-  <strong>Resolved:</strong>
-</p>
 
-<%= link_to 'Edit', edit_question_path(@question) %> |
-<%= link_to 'Back', questions_path %>
+<hr>
+
+<% if @question.resolved_id == 1 %>
+<div class="bs-callout bs-callout-success">
+  <h4>Answered</h4>
+  <%= @answer.first.response.content %>
+</div>
+<hr>
+<h5><strong>All Responses</strong></h5>
+<% end %>
+
+
+
+<% @has_responses.each do |has_response| %>
+	<%= has_response.response.user.display_name %> Responsed on <%= has_response.response.created_at.strftime("%m/%d/%Y at %I:%M%p") %>:
+	<% if has_response.answers %>
+		<blockquote class="answer">
+	<% else %>
+		<blockquote>
+	<% end %>
+	<p>
+		<%= has_response.response.content %>
+	</p>
+	</blockquote>
+	<hr>
+<% end %>
+
+<%= hidden_field_tag :question_id, @question.id %> 
+<%= hidden_field_tag :user_id, @current_user.id %> 
+<%= text_area_tag :response , "", options = {class: "form-control", cols: 40, rows: 6} %> 
+<h5>Answers Question <%= check_box_tag :answered  %> </h5>
+<br/>
+<button id="post-response" class="btn btn-default btn-success">Post Response</button>
+
+
+<script type="text/javascript">
+	
+
+
+$(document.body).on('click', '#post-response' ,(function(){
+    //get question id
+	$question = $('#question_id').val();
+	//get response
+	$response = $('#response').val();
+	//get current user id
+	$user = $('#user_id').val();
+	//get answer status
+	$answered = $('#answered').is(":checked")
+	//send to ajax call
+	//when done update view to make it look like the response has been posted and reset the response options
+    $.ajax({url: "/add_response_to_question", 
+            type: "POST", 
+            data: {'question_id': $question,
+        			'response' : $response,
+        			'user_id': $user,
+        			'answered': $answered}, 
+            dataType: 'json'}).done(function(data)  {
+                if(!data.error) location.reload(true);
+            }).fail(function(e, ts, et)  {
+                alert("Sorry. Server unavailable. " + ts);
+            }); 
+  }));
+</script>

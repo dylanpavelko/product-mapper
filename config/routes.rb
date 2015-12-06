@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  post '/add_response_to_question' => 'responses#add_response_to_question'
+
+  resources :question_has_responses
+
+  resources :responses
+
   resources :node_histories
 
   resources :user_has_role_for_nodes
@@ -49,6 +55,8 @@ Rails.application.routes.draw do
   post 'phase/set_status' => 'phases#set_phase_status'
 
   post 'phase/set_progress_status' => 'phases#set_progress_status'
+
+
 
   post 'add_filter' => 'sessions#add_filter'
   post 'remove_filter' => 'sessions#remove_filter'

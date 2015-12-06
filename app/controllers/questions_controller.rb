@@ -12,6 +12,8 @@ class QuestionsController < ApplicationController
   # GET /questions/1
   # GET /questions/1.json
   def show
+    @has_responses = QuestionHasResponse.where(:question_id => @question)
+    @answer = QuestionHasResponse.where(:question_id => @question, :answers => true)
   end
 
   # GET /questions/new
