@@ -1,5 +1,13 @@
 <p id="notice"><%= notice %></p>
 
+<script type="text/javascript">
+	var currentTime = new Date();
+	var utcOffset   = currentTime.getTimezoneOffset()
+	document.cookie = 'time_zone_offset='+utcOffset+';';
+</script>
+<% 	offset = cookies["time_zone_offset"].to_i
+	time_zone = ActiveSupport::TimeZone[-offset.minutes] %>
+
 <p>
   <strong>Node:</strong>
   <%= link_to @node.name, @node %>
@@ -7,7 +15,7 @@
 
 <% @history_items.each do |item| %>
 <p>
-	<%= item.created_at.strftime("%m/%d/%Y at %I:%M%p %z") %> - <%= item.user.display_name %> <%= item.log %>
+	<%= item.created_at.in_time_zone(time_zone).strftime("%m/%d/%Y at %I:%M%p") %> - <%= item.user.display_name %> <%= item.log %>
 	<% if item.log_type == 2 %>
 		<%= link_to item.other_node.name, item.other_node %>
 	<% end %>

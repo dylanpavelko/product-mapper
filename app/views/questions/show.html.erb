@@ -1,8 +1,17 @@
 <p id="notice"><%= notice %></p>
 
+<script type="text/javascript">
 
+var currentTime = new Date();
+var utcOffset   = currentTime.getTimezoneOffset()
+document.cookie = 'time_zone_offset='+utcOffset+';';
+
+</script>
+
+<% 	offset = cookies["time_zone_offset"].to_i
+	time_zone = ActiveSupport::TimeZone[-offset.minutes] %>
 <p>
-  <h5> <%= @question.asked_by_user.display_name %> asked on <%= @question.created_at.strftime("%m/%d/%Y at %I:%M%p")%>: </h5>
+  <h5> <%= @question.asked_by_user.display_name %> asked on <%= @question.created_at.in_time_zone(time_zone).strftime("%m/%d/%Y at %I:%M%p")%>: </h5>
     <h3><%= @question.question %>
     <small>[<%= link_to 'Edit', edit_question_path(@question) %>]</small>
   </h3>
@@ -29,10 +38,8 @@
 <h5><strong>All Responses</strong></h5>
 <% end %>
 
-
-
 <% @has_responses.each do |has_response| %>
-	<%= has_response.response.user.display_name %> Responsed on <%= has_response.response.created_at.strftime("%m/%d/%Y at %I:%M%p") %>:
+	<%= has_response.response.user.display_name %> Responsed on <%= has_response.response.created_at.in_time_zone(time_zone).strftime("%m/%d/%Y at %I:%M%p") %>:
 	<% if has_response.answers %>
 		<blockquote class="answer">
 	<% else %>
@@ -54,8 +61,6 @@
 
 
 <script type="text/javascript">
-	
-
 
 $(document.body).on('click', '#post-response' ,(function(){
     //get question id
