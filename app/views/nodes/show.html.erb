@@ -108,6 +108,10 @@
         
       <% end %>
     <% end %>
+  <% else # it is a specification %> 
+    <div class="col-md-6">
+      <%= render 'dev_process' %>
+    </div>
   <% end %> 
   <% if !@node.nodeType.specification and @current_user.can_manage_product %>
     <%= link_to 'Add Node' , new_node_path(@node) %> 
@@ -132,14 +136,14 @@
     <% end %>
     </div>
 
-   <strong>Delivery Dates:</strong>
+   <strong>Delivery Dates:</strong> <%= link_to 'Add', new_delivery_date_path(@node) %>
    <ul>
     <% @delivery_dates.each do |date| %>
       <li><%= date.delivery_type %> <%= date.environment.name %> with <%= date.milestone.name %> <%= link_to 'edit', edit_delivery_date_path(date) %> </li>
     <% end %>
    </ul>
   <% if @node.nodeType.specification %>
-   <%= link_to 'Add Delivery Date', new_delivery_date_path(@node) %><br/>
+   <br/>
 
    <% end %>
 
@@ -147,75 +151,12 @@
   <% if @current_user.can_manage_phases %>
     <%= link_to 'Add' , new_phase_path(@node) %>
   <% end %>
+  <% if !@node.nodeType.specification %>
+    <%= render 'dev_process' %>
+  <% end %>
   <br/> 
-  <% if @nodePhases.count > 0 %>
-    <% @nodePhases.each do |phase| %>
-      <div class="panel panel-default col-md-3">
-        <div class="panel-heading">
-          <h3 class="panel-title">
-              <%= phase.type %>
-          </h3>
-          <div class="btn-group">
-            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <%= phase.get_progress_status_text %> <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-              <% if phase.progress_status != 2 %>
-              <li><a href class="set-phase-status-in-progress" id="<%=phase.id=%>" >Set to In Progress</a></li>
-              <% end %>
-              <% if phase.progress_status != 1 %>
-              <li><a href class="set-phase-status-done" id="<%=phase.id=%>" >Set to Done</a></li>
-              <% end %>
-              <% if phase.progress_status != nil %>
-              <li><a href class="set-phase-status-backlog" id="<%=phase.id=%>" >Move Back to Backlog</a></li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
 
-        <!-- Tasks Associated to Phase -->
-        <ul class="list-group">
-        <% @tasks = Task.where(:phase_id => phase) %>
-        <lh><h5>Tasks</h5> </lh>
-        <% if @tasks.count > 0 %>
-          <% @tasks.each do |task| %>
-            <li class="list-group-item">
-              <%= link_to task.name, task %>
-            </li>
-          <% end %>
-        <% end %>
-        <%= link_to 'Add Task' , new_task_path(phase) %>
-        </ul>
-
-        <!-- Dependencies -->
-        <ul class="list-group">
-        <% @dependencies = Dependable.where(:dependentPhase_id => phase.id) %>
-        <% if @dependencies.count>0 %>
-          <lh><h5>Depends On</h5>
-        <% end %>
-            <%= link_to "Add Dependency" , new_dependable_path(:phase_id => phase) %>
-            <% @dependencies.each do |dependency| %>
-              <li class="list-group-item"><%= link_to dependency.name, dependency.phase.node %> </li>
-            <% end %>
-        </ul>
-
-        <!-- Depended On -->
-        <% @dependencies = Dependable.where(:phase_id => phase.id) %>
-        <% if @dependencies.count>0 %>
-        <ul class="list-group">
-          <h5>Depency For</h5>
-            <% @dependencies.each do |dependency| %>
-              <li class="list-group-item"><%= link_to dependency.forPhase.name, dependency.forPhase.node %> </li>
-            <% end %>
-        </ul>
-        <% end %>
-      </div>
-    <% end %>
-    
-    <!-- End of Phase Container -->
-<% end %>    
-<!-- End of Phases -->
-  <strong>Has Questions:</strong> <%= link_to 'Add' , new_question_path(@node) %> <br/>
+  <strong>Questions:</strong> <%= link_to 'Add' , new_question_path(@node) %> <br/>
   <% if @nodeQuestions.count > 0 %>
     <ul>
       <% @nodeQuestions.each do |question| %>
@@ -225,6 +166,7 @@
       <% end %>
     </ul>
   <% end %>
+  <% if !@node.nodeType.specification and @subQuestions.count > 0 %>
   <strong>Subordinate Node Questions</strong>
    <ul>
     <% @subQuestions.each do |question| %>
@@ -233,11 +175,12 @@
       </li>
     <% end %>
   </ul>
+  <% end %>
   <br/>
   <strong>Related Nodes:</strong>
   <br/>
 
-<strong>Has Issues:</strong><br/>
+<strong>Issues:</strong><br/>
 <% if @issues.count > 0 %>
   <ul>
     <% @issues.each do |issue| %>
