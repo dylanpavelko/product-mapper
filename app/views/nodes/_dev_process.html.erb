@@ -37,7 +37,7 @@
             </li>
           <% end %>
         <% end %>
-        <%= link_to 'Add Task' , new_task_path(phase) %>
+        <%= link_to 'Add Task' , new_task_path(phase), {:style=>'color:#999;'} %>
         </ul>
 
         <!-- Dependencies -->
@@ -49,7 +49,7 @@
             <% @dependencies.each do |dependency| %>
               <li class="list-group-item"><%= link_to dependency.name, dependency.phase.node %> </li>
             <% end %>
-            <%= link_to "Add Dependency" , new_dependable_path(:phase_id => phase) %>
+            <%= link_to "Add Dependency" , new_dependable_path(:phase_id => phase), {:style=>'color:#999;'} %>
         </ul>
 
         <!-- Depended On -->
