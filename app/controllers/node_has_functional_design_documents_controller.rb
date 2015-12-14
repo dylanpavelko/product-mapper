@@ -22,6 +22,7 @@ class NodeHasFunctionalDesignDocumentsController < ApplicationController
 
   # GET /node_has_functional_design_documents/1/edit
   def edit
+    @node = @node_has_functional_design_document.node
   end
 
   # POST /node_has_functional_design_documents
@@ -72,6 +73,6 @@ class NodeHasFunctionalDesignDocumentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def node_has_functional_design_document_params
-      params.require(:node_has_functional_design_document).permit(:node_id, :FDD_id)
+      params.require(:node_has_functional_design_document).permit(:node_id, :FDD_id, :presented)
     end
 end

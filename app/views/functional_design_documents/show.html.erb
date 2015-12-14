@@ -13,6 +13,7 @@
     <table class="table table-striped table-hover">
         <th>Feature</th>
         <th>Specification</th>
+        <th>Presented</th>
         <% @environments = Environment.all %>
         <% @environments.each do |environment| %>
           <th><%= environment.name %></th>
@@ -28,6 +29,13 @@
             <td><%= link_to child.node.parent.name, child.node.parent %></td>
             <td><%= link_to child.node.name, child.node %></td>
           <% end %>
+          <td>
+            <% if child.presented != nil %>
+              <%= link_to child.presented.strftime("%m/%d/%Y"), edit_node_has_functional_design_document_path(child) %>
+            <% else %>
+              <%= link_to 'Set Presented Date', edit_node_has_functional_design_document_path(child) %>
+            <% end %>
+          </td>
           <% @environments.each do |environment| %>
             <td>
               <% date = child.node.get_next_delivery_for_environment(environment) %>
@@ -38,6 +46,7 @@
               <% end %>
             </td>
           <% end %>
+
         </tr>
       <% end %>
     </table>

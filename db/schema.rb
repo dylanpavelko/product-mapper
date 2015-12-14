@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151206000721) do
+ActiveRecord::Schema.define(version: 20151214052149) do
 
   create_table "delivery_dates", force: true do |t|
     t.integer  "node_id"
@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 20151206000721) do
     t.integer  "FDD_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "presented"
   end
 
   add_index "node_has_functional_design_documents", ["FDD_id"], name: "index_node_has_functional_design_documents_on_FDD_id"
