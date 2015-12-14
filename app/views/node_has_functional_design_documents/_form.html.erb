@@ -18,9 +18,9 @@
   <div class="field">
     <strong>Functional Design Document</strong><br>
     <% if @node_has_functional_design_document.FDD == nil %>
-      <%= f.select :FDD_id, options_from_collection_for_select(FunctionalDesignDocument.all, :id, :name), :include_blank => true %>
+      <%= f.select :FDD_id, options_from_collection_for_select(FunctionalDesignDocument.all.sort_by {|doc| doc.name}, :id, :name), :include_blank => true %>
     <% else %>
-      <%= f.select :FDD_id, options_from_collection_for_select(FunctionalDesignDocument.all, :id, :name, @node_has_functional_design_document.FDD.id), :include_blank => true %>
+      <%= f.select :FDD_id, options_from_collection_for_select(FunctionalDesignDocument.all.sort_by {|doc| doc.name}, :id, :name, @node_has_functional_design_document.FDD.id), :include_blank => true %>
     <% end %>
   </div>
   Don't see your FDD? <%= link_to "Add it here, and then refresh this page.", new_functional_design_document_path, :target => "_blank"  %>
