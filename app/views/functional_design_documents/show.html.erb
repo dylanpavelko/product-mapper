@@ -26,7 +26,7 @@
             <td></td>
           <% else %>
             <td><%= link_to child.node.parent.name, child.node.parent %></td>
-            <td><%= link_to child.node.name, child %></td>
+            <td><%= link_to child.node.name, child.node %></td>
           <% end %>
           <% @environments.each do |environment| %>
             <td>
@@ -34,7 +34,7 @@
               <% if date != nil %>
                 <%= link_to date.short_string, edit_delivery_date_path(date) %>
               <% else %>
-                <%= link_to 'Add Delivery Date', new_delivery_date_path(child), {:style=>'color:blue;'} %>
+                <%= link_to 'Add Delivery Date', new_delivery_date_path(child.node), {:style=>'color:blue;'} %>
               <% end %>
             </td>
           <% end %>
