@@ -8,8 +8,10 @@
   <% else %>
     <span id="node_name"><%= @node_context.name %></span> 
     <input type="hidden" id="<%= @node_form_id %>" name="<%= @node_form_name %>" value="<%= @node_context.id %>">
-
-
+  <% end %>
+  <% if @choose_phases %>
+    <span id="node_name"><%= @phase_context.phaseType.name %></span> 
+    <input type="hidden" id="<%= @phase_form_id %>" name="<%= @phase_form_name %>" value="<%= @phase_context.id %>">
   <% end %>
   <input class="btn btn-sm btn-default pull-right" type="button" name="answer" value="<%= @button_text %>" onclick="showDiv()" />
 </p>

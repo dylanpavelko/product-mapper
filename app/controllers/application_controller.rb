@@ -69,6 +69,20 @@ class ApplicationController < ActionController::Base
 	      @response << [0, item.nodeType.name + ': ' + item.name, item.id]
 	    end
 
+	   	#find functional design documents
+	    @FDDs = FunctionalDesignDocument.all
+
+	    @matched_items = Array.new
+	    @FDDs.each do |fdd|
+	      if fdd.matches(@search_string) #and node.user_has_access(@current_user)
+	        @matched_items << fdd
+	      end
+	    end
+	    @matched_items.each do |item|
+	      @response << [1, 'Functional Design Document: ' + item.name, item.id]
+	    end
+
+
         @response << [@response.count.to_s + ' item(s) found: for ' + @search_string]
     	render json: @response
 

@@ -22,6 +22,7 @@ class DependablesController < ApplicationController
 
   # GET /dependables/1/edit
   def edit
+    @dependentPhase = @dependable.dependentPhase
   end
 
   # POST /dependables

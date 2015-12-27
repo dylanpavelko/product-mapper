@@ -537,4 +537,14 @@ class Node < ActiveRecord::Base
     return nil
   end
 
+  def parents
+    @parents = Array.new
+    @i = self
+    while @i.parent != nil do 
+      @parents << @i.parent
+      @i = @i.parent
+    end
+    return @parents
+  end
+
 end

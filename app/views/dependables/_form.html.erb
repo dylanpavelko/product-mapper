@@ -13,22 +13,30 @@
 
 
 <!-- Node FIELD -->
-<%= @dependentPhase.name %> <strong>depends on</strong><br/> <br/>
+<%= @dependentPhase.phaseType.name %> of
+<em><%= @dependentPhase.node.name %> </em>depends on
+
 <%= f.hidden_field :dependentNode_id %>
 <%= f.hidden_field :dependentPhase_id , value: @dependentPhase.id %>
 <input type="hidden" id="dependentTask_id" readonly>
+    <% if @dependable.phase == nil
+        @node_context    = @dependentPhase.node
+        @node_parents    = @dependentPhase.node.parents
+       else 
+        @node_context    = @dependable.phase.node
+        @node_parents    = @dependable.phase.node.parents
+       end
 
+       @node_label      = ""
+       @button_text     = "Choose the Dependency"
+       @node_form_id    = "dependable_node_id"
+       @node_form_name  = "dependable[node_id]" 
+       @choose_phases   = true
+       @phase_context   = @dependable.phase
+       @phase_form_id   = "dependable_phase_id"
+       @phase_form_name = "dependable[phase_id]"             %>
+    <%= render "nodes/node_chooser" %>
 
-
-
-  <div class="field">
-    <%= f.label :node %><br>
-    <% if @dependable.phase != nil %>
-    <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, :name, @task.phase.id), :include_blank => true %>
-  <% else %>
-    <%= f.select :node_id, options_from_collection_for_select(Node.all, :id, "name"), :include_blank => true %>
-  <% end %>
-  </div>
 
 
 
@@ -36,7 +44,7 @@
   <div class="field">
     <%= f.label :phase %><br>
     <% if @dependable.phase != nil %>
-    <%= f.select :phase_id, options_from_collection_for_select(Phase.all, :id, :name, @task.phase.id), :include_blank => true %>
+    <%= f.select :phase_id, options_from_collection_for_select(Phase.all, :id, :name, @dependable.phase.id), :include_blank => true %>
   <% else %>
     <%= f.select :phase_id, options_from_collection_for_select(Phase.all, :id, "name"), :include_blank => true %>
   <% end %>
@@ -45,16 +53,12 @@
 
 <!-- PHASE FIELD -->
   <div class="field">
-    <%= f.label :task %><br>
-    <% if @dependable.phase != nil %>
-    <%= f.select :task_id, options_from_collection_for_select(Task.all, :id, :name, @task.phase.id), :include_blank => true %>
-  <% else %>
-    <%= f.select :task_id, options_from_collection_for_select(Task.all, :id, "name"), :include_blank => true %>
-  <% end %>
+    <%#= f.label :task %><br>
+    <%#= f.select :task_id, options_from_collection_for_select(Task.all, :id, "name"), :include_blank => true %>
   </div>
 
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :class => "btn btn-success"%>
   </div>
 <% end %>

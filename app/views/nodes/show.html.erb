@@ -177,11 +177,8 @@
     <% end %>
   </ul>
   <% end %>
-  <br/>
-  <strong>Related Nodes:</strong>
-  <br/>
 
-<strong>Issues:</strong><br/>
+<strong>Issues:</strong> <%= link_to 'Open New Issue', new_native_issue_path(@node) %><br/><br/>
 <% if @issues.count > 0 %>
   <ul>
     <% @issues.each do |issue| %>
@@ -197,7 +194,7 @@
     <% end %>
   </ul>
 <% end %> 
-<%= link_to 'Open New Issue', new_native_issue_path(@node) %><br/>
+
 <% if @subIssues.count > 0 %>
 <strong>Subordinate Node Issues:</strong><br/>
   <ul>
@@ -226,6 +223,8 @@
   <% end %>
   <ul>
 <% end %>
+  <strong>Related Nodes:</strong>
+  <br/>
 <% if @node.nodeType.specification %>
 <strong>Functional Design Document</strong>
 <% @fdds.each do |has_fdd| %>
