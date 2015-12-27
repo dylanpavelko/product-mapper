@@ -6,6 +6,7 @@
       <th>User</th>
       <th>Role</th>
       <th>Node</th>
+      <th>Lead</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -24,6 +25,10 @@
           <% if user_has_role_for_node.node != nil %>
             <%= link_to user_has_role_for_node.node.name, user_has_role_for_node.node %>
           <% end %>
+        </td>
+        <td>
+
+            <%= user_has_role_for_node.lead %>
         </td>
         <td><%= link_to 'Show', user_has_role_for_node %></td>
         <td><%= link_to 'Edit', edit_user_has_role_for_node_path(user_has_role_for_node) %></td>

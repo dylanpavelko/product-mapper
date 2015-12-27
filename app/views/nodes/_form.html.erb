@@ -37,9 +37,7 @@
   <br/>
 
   <%= f.text_area :name , options = {class: "form-control", cols: 40, rows: 1} %> 
-</div>
 
-<div class="col-md-12">
   <p>
   </br>
     <strong>Description:</strong><br/>
@@ -54,7 +52,7 @@
 <br/>
 <br/> -->
 
-  <%= f.submit 'Update Node', :class => 'btn btn-default' %>
+  <%= f.submit 'Update Node', :class => 'btn btn-success' %>
   <% if @origin_node != nil %>
     <%= link_to 'Cancel', @origin_node %>
   <% else %>

@@ -14,17 +14,25 @@
   <div class="field">
     <%= f.label :user_id %><br>
     <% if @user_has_role_for_node.user != nil %>
-      <%= f.select :user_id, options_from_collection_for_select(User.all, :id, :display_name, @user_has_role_for_node.user.id), :include_blank => true %>
+      <%= f.select :user_id, options_from_collection_for_select(User.all, :id, :display_name, @user_has_role_for_node.user.id), 
+          {:include_blank => true}, 
+          {:class => "form-control"} %>
     <% else %>
-      <%= f.select :user_id, options_from_collection_for_select(User.all, :id, :display_name), :include_blank => true %>
+      <%= f.select :user_id, options_from_collection_for_select(User.all, :id, :display_name), 
+          {:include_blank => true}, 
+          {:class => "form-control"} %>
     <% end %>
   </div>
   <div class="field">
     <%= f.label :role_id %><br>
     <% if @user_has_role_for_node.role != nil %>
-      <%= f.select :role_id, options_from_collection_for_select(Role.all, :id, :name, @user_has_role_for_node.role.id), :include_blank => true %>
+      <%= f.select :role_id, options_from_collection_for_select(Role.all, :id, :name, @user_has_role_for_node.role.id), 
+          {:include_blank => true}, 
+          {:class => "form-control"} %>
     <% else %>
-      <%= f.select :role_id, options_from_collection_for_select(Role.all, :id, :name), :include_blank => true %>
+      <%= f.select :role_id, options_from_collection_for_select(Role.all, :id, :name), 
+          {:include_blank => true}, 
+          {:class => "form-control"} %>
     <% end %>
   </div>
   <div class="field">
@@ -41,6 +49,6 @@
       <%= f.check_box :lead %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :class => 'btn btn-success' %>
   </div>
 <% end %>

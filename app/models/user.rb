@@ -74,6 +74,29 @@ class User < ActiveRecord::Base
 		return false
 	end
 
+	def can_groom_backlog_for_node(node)
+		@has_roles = UserHasRoleForNode.where(:user_id => self.id)
+
+		@ancestry_nodes = Array.new
+	    @i = node
+	    while @i.parent != nil do 
+	      @ancestry_nodes << @i.parent
+	      @i = @i.parent
+	    end
+	    @ancestry_nodes << node 
+
+		@ancestry_nodes.each do |node|
+			#for each node check to see if they have a role that gives them edit access
+			@has_node_roles = @has_roles.where(:node_id => node.id)
+				@has_node_roles.each do |has_role|
+					if has_role.role.prioritize or has_role.lead
+						return true
+					end
+				end
+			end
+		return false
+	end
+
 	def can_view_nodes
 		@has_roles = UserHasRoleForNode.where(:user_id => self.id)
 		@has_roles.each do |has_role|
@@ -104,6 +127,29 @@ class User < ActiveRecord::Base
 		return false
 	end
 
+	def can_manage_product_for_node(node)
+		@has_roles = UserHasRoleForNode.where(:user_id => self.id)
+
+		@ancestry_nodes = Array.new
+	    @i = node
+	    while @i.parent != nil do 
+	      @ancestry_nodes << @i.parent
+	      @i = @i.parent
+	    end
+	    @ancestry_nodes << node 
+
+		@ancestry_nodes.each do |node|
+			#for each node check to see if they have a role that gives them edit access
+			@has_node_roles = @has_roles.where(:node_id => node.id)
+				@has_node_roles.each do |has_role|
+					if has_role.role.edit_nodes
+						return true
+					end
+				end
+			end
+		return false
+	end
+
 	def can_manage_people
 		@has_roles = UserHasRoleForNode.where(:user_id => self.id)
 		@has_roles.each do |has_role|
@@ -113,4 +159,5 @@ class User < ActiveRecord::Base
 		end
 		return false
 	end
+
 end
