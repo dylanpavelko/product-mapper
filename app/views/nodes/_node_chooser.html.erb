@@ -1,12 +1,23 @@
-<p>
-  <%= @node_label %> 
-  <span id="node_name"><%= @node_context.name %></span> 
-  <input type="hidden" id="<%= @node_form_id %>" name="<%= @node_form_name %>" value="<%= @node_context.id %>">
 
+<p>
+  <strong><%= @node_label %> </strong>
+  <% if @node_context == nil %>
+    <span id="node_name"></span> 
+    <input type="hidden" id="<%= @node_form_id %>" name="<%= @node_form_name %>" value="">
+
+  <% else %>
+    <span id="node_name"><%= @node_context.name %></span> 
+    <input type="hidden" id="<%= @node_form_id %>" name="<%= @node_form_name %>" value="<%= @node_context.id %>">
+
+
+  <% end %>
   <input class="btn btn-sm btn-default pull-right" type="button" name="answer" value="<%= @button_text %>" onclick="showDiv()" />
 </p>
 <br/>
 
+<% if @node_context == nil %>
+  <% @node_context = Node.find(1) %>
+<% end %>
 <div id="node_chooser" class="panel panel-default" style="display:none;">
   <input id="node_search" type="text" class="form-control" placeholder="Search..." >
   <div class="panel-body">

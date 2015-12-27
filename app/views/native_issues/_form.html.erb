@@ -15,25 +15,32 @@
     <%= f.hidden_field :issue_with_id, :value => @node.id %>
   </div>
   <div class="field">
-    <%= f.label :summary %> <%= f.text_field :summary %>
+    <%= f.label :summary %> <%= f.text_field :summary , :class => "form-control" %>
   </div>
   <div class="field">
     <%= f.label :description %><br>
-    <%= f.text_area :description %>
+    <%= f.text_area :description, :class => "form-control" %>
   </div>
   <div class="field">
     <%= f.label :enhancement %><br>
     <%= f.check_box :enhancement %>
   </div>
+<% if @native_issue.persisted? %> 
   <div class="field">
-    <%= f.label :resolved_with_id %><br>
-    <%= f.select :resolved_with_id, options_from_collection_for_select(Node.all, :id, :name), :include_blank => true %>
+    <% @node_context    = nil
+       @node_parents    = nil
+       @node_label      = "Resolved with: "
+       @button_text     = "Choose A Different Node that Resolves Issue"
+       @node_form_id    = "native_issue_resolved_with_id"
+       @node_form_name  = "native_issue[resolved_with_id]" %>
+    <%= render "nodes/node_chooser" %>
   </div>
   <div class="field">
     <%= f.label :close_without_resolution %><br>
     <%= f.check_box :close_without_resolution %>
   </div>
+<% end %>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Open Issue", :class => "btn btn-success" %>
   </div>
 <% end %>

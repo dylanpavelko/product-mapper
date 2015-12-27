@@ -16,7 +16,7 @@
     <% if @user_has_role_for_node.user != nil %>
       <%= f.select :user_id, options_from_collection_for_select(User.all, :id, :display_name, @user_has_role_for_node.user.id), 
           {:include_blank => true}, 
-          {:class => "form-control"} %>
+          {:class => "form-control"}  %>
     <% else %>
       <%= f.select :user_id, options_from_collection_for_select(User.all, :id, :display_name), 
           {:include_blank => true}, 
