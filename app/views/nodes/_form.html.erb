@@ -16,7 +16,7 @@
 <div class="col-md-6">
   <p>
     <% @node_context    = @node.parent
-       @node_parents    = @parents
+       @node_parents    = @node.parent.parents
        @node_label      = "Parent Node: "
        @button_text     = "Choose A Different Parent Product Node"
        @node_form_id    = "node_parent_id"

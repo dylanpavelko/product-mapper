@@ -89,7 +89,7 @@ class User < ActiveRecord::Base
 			#for each node check to see if they have a role that gives them edit access
 			@has_node_roles = @has_roles.where(:node_id => node.id)
 				@has_node_roles.each do |has_role|
-					if has_role.role.prioritize or has_role.lead
+					if has_role.role.prioritize or (has_role.lead and has_role.role.edit_nodes)
 						return true
 					end
 				end

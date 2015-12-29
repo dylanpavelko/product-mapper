@@ -229,9 +229,16 @@ class NodesController < ApplicationController
       end
     end
 
+    @phases = Phase.where(:node_id => @primary_node.id)
+    @phases_lite = Array.new
+    @phases.each do |p|
+      @phases_lite << {:id => p.id, :name => p.phaseType.name}
+    end
+
     @data = {:node => @primary_node_lite,
              :parents => @parents_lite, 
-             :children => @children_lite}
+             :children => @children_lite,
+             :phases => @phases_lite}
 
     respond_to do |format|
       format.html

@@ -31,24 +31,12 @@
        @button_text     = "Choose the Dependency"
        @node_form_id    = "dependable_node_id"
        @node_form_name  = "dependable[node_id]" 
-       @choose_phases   = true
+       @phase_chooser   = true
        @phase_context   = @dependable.phase
        @phase_form_id   = "dependable_phase_id"
        @phase_form_name = "dependable[phase_id]"             %>
     <%= render "nodes/node_chooser" %>
 
-
-
-
-<!-- PHASE FIELD -->
-  <div class="field">
-    <%= f.label :phase %><br>
-    <% if @dependable.phase != nil %>
-    <%= f.select :phase_id, options_from_collection_for_select(Phase.all, :id, :name, @dependable.phase.id), :include_blank => true %>
-  <% else %>
-    <%= f.select :phase_id, options_from_collection_for_select(Phase.all, :id, "name"), :include_blank => true %>
-  <% end %>
-  </div>
 
 
 <!-- PHASE FIELD -->

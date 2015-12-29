@@ -9,9 +9,15 @@
     <span id="node_name"><%= @node_context.name %></span> 
     <input type="hidden" id="<%= @node_form_id %>" name="<%= @node_form_name %>" value="<%= @node_context.id %>">
   <% end %>
-  <% if @choose_phases %>
-    <span id="node_name"><%= @phase_context.phaseType.name %></span> 
-    <input type="hidden" id="<%= @phase_form_id %>" name="<%= @phase_form_name %>" value="<%= @phase_context.id %>">
+  <% if @phase_chooser %>
+    <span id="node_name">
+      <% if @phase_context != nil %>
+        <%= @phase_context.phaseType.name %>
+      <% end %>
+    </span> 
+    <input type="hidden" id="<%= @phase_form_id %>" name="<%= @phase_form_name %>" value="<%= if @phase_context != nil 
+    @phase_context.id 
+    end %>">
   <% end %>
   <input class="btn btn-sm btn-default pull-right" type="button" name="answer" value="<%= @button_text %>" onclick="showDiv()" />
 </p>
@@ -31,8 +37,10 @@
     <%end %>
     <% end %>
   
-  <li class="active"><strong><%= @node_context.name %></strong></li>
-  <a class="pull-right select_node" id="<%= @node_context.id %>" data-name="<%= @node_context.name %>">Select</a>
+    <li class="active"><strong><%= @node_context.name %></strong></li>
+    <% if !@phase_chooser %>
+      <span id="phase_select_link"><a class="pull-right select_phase" id="<%= @node_context.id %>" data-name="<%= @node_context.name %>">Select</a></span>
+    <% end %>
   </ol>
     <!-- Table -->
   <table class="table table-hover" id="chooser_children">
@@ -42,7 +50,12 @@
         
     <% end %>
   </table>
+  <%= select_tag options_from_collection_for_select(Phase.where(:node_id => @node_context), :id, "name"), {:include_blank => true}, {:id => "phase_selector", :class => "form-control"} %>
+
   <a class="pull-right" id="cancel_chooser">Cancel</a>
+  <% if @phase_chooser %>
+    <a class="pull-right select_phase" id="<%= @node_context.id %>" data-name="<%= @node_context.name %>">Select&nbsp; </a>
+  <% end %>
   </div>
 </div>
 
@@ -61,6 +74,12 @@
     document.getElementById('node_chooser').style.display = "none";
   });
 
+  $(".select_phase").click(function(){
+    $('#node_name').html($('#phase_selector option:selected' ).text() + " of " + $('li.active').html());
+    $('#<%= @phase_form_id %>').val($('#phase_selector').val());
+    document.getElementById('node_chooser').style.display = "none";
+  });
+
   $('#node_search').click(function(){
     alert("Sorry, search doesn't work yet");
   });
@@ -75,6 +94,7 @@
             dataType: 'json'}).done(function(data)  {
                 console.log(data);
                 updateNodeChooser(data);
+                updatePhaseChooser(data);
             }).fail(function(e, ts, et)  {
                 alert("Sorry. Server unavailable. " + ts);
             }); 
@@ -86,7 +106,11 @@
     $.each(data.parents, function(i, parent) {
       $parentString += ("<li><a href='#' class='node_row' data-id='" + parent.id + "'>" + parent.name + "</a></li>" );
     })
-    $selectString = "<a class='select_node pull-right' id='"+ data.node.id +"' data-name='"+data.node.name+"'>Select</a>";
+    <% if !@phase_chooser %>
+      $selectString = "<a class='select_node pull-right' id='"+ data.node.id +"' data-name='"+data.node.name+"'>Select</a>";
+    <% else %>
+      $selectString = "";
+    <% end %>
     $('.breadcrumb').html($parentString + "<li class='active'><strong>" + data.node.name + "</strong></li>" + $selectString);
 
     //set child nodes
@@ -107,6 +131,15 @@
         "<td>" + child.name + $kids + "</td>");
     })
     $("#chooser_children").html($childrenString);
+  }
+
+  function updatePhaseChooser(data){
+    $phasesString = "";
+    $.each(data.phases, function(i, phase) {
+      $phasesString += ("<option value='" + phase.id + "'>" + phase.name + "</option>" );
+    })
+    $('#phase_selector').html($phasesString + "<li class='active'><strong>" + data.node.name + "</strong></li>");
+
 
   }
 

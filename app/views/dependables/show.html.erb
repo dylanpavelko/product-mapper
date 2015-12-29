@@ -1,4 +1,10 @@
 <p id="notice"><%= notice %></p>
 
+<%= @dependable.dependentPhase.phaseType.name %> of <%= link_to @dependable.dependentPhase.node.name, @dependable.dependentPhase.node %>
+<br/>
+dependent on
+<br/>
+<%= @dependable.phase.phaseType.name %> of <%= link_to @dependable.phase.node.name, @dependable.phase.node %>
+<br/><br/>
 <%= link_to 'Edit', edit_dependable_path(@dependable) %> |
 <%= link_to 'Back', dependables_path %>
