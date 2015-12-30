@@ -1,8 +1,16 @@
 <h1>Listing node_histories</h1>
-
+<script type="text/javascript">
+  var currentTime = new Date();
+  var utcOffset   = currentTime.getTimezoneOffset()
+  document.cookie = 'time_zone_offset='+utcOffset+';';
+</script>
+<%  offset = cookies["time_zone_offset"].to_i
+  time_zone = ActiveSupport::TimeZone[-offset.minutes] %>
+  
 <table>
   <thead>
     <tr>
+      <th>Date/Time</th>
       <th>User</th>
       <th>Node</th>
       <th>Log</th>
@@ -15,6 +23,7 @@
   <tbody>
     <% @node_histories.each do |node_history| %>
       <tr>
+        <td><%= node_history.created_at.in_time_zone(time_zone).strftime("%m/%d/%Y at %I:%M%p") %></td>
         <td><%= node_history.user.display_name %></td>
         <td><%= link_to node_history.node.name, node_history.node %></td>
         <td><%= node_history.log %></td>
