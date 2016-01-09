@@ -13,8 +13,8 @@
     <% @dependables.each do |dependable| %>
       <tr>
         <td>
-           <% if dependable.phase != nil %>
-            <%= link_to dependable.depentPhase.name, dependable.depentPhase.node %>
+           <% if dependable.dependentPhase != nil %>
+            <%= link_to dependable.dependentPhase.name, dependable.dependentPhase.node %>
             <% end %>
         </td>
         <td>

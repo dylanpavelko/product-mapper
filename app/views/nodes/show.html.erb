@@ -114,7 +114,7 @@
       <%= render 'dev_process' %>
     </div>
   <% end %> 
-  <% if !@node.nodeType.specification and @current_user.can_manage_product %>
+  <% if !@node.nodeType.specification and @current_user.can_manage_product_for_node(@node) %>
     <%= link_to 'Add Node' , new_node_path(@node) %> 
   <% end %>
   </div>
@@ -143,16 +143,15 @@
    <% end %>
    <ul>
     <% @delivery_dates.each do |date| %>
-      <li><%= date.delivery_type %> <%= date.environment.name %> with <%= date.milestone.name %> <%= link_to 'edit', edit_delivery_date_path(date) %> </li>
+      <li><%= date.delivery_type %> <%= date.environment.name %> with <%= date.milestone.name %> 
+        <% if @current_user.can_manage_product_for_node(@node) %>
+          <%= link_to 'edit', edit_delivery_date_path(date) %> 
+        <% end %>
+      </li>
     <% end %>
    </ul>
-  <% if @node.nodeType.specification %>
-   <br/>
-
-   <% end %>
-
-  <strong>Phases:</strong> 
   <% if @current_user.can_manage_phases %>
+  <strong>Phases:</strong> 
     <%= link_to 'Add' , new_phase_path(@node) %>
   <% end %>
   <% if !@node.nodeType.specification %>
@@ -234,7 +233,9 @@
   <br/><%= link_to has_fdd.FDD.name, has_fdd.FDD.url, :target => "_blank" %> <%= link_to "View All Specs for FDD", has_fdd.FDD %>
 <% end %> 
 <br/>
-<%= link_to "Add Link", new_node_has_functional_design_document_path(@node) %>
+<% if @current_user.can_manage_product_for_node(@node) %>
+  <%= link_to "Add Link", new_node_has_functional_design_document_path(@node) %>
+  <% end %>
 <% end %>
 <% if @node.nodeType.feature %>
 <strong>Team:</strong><br/>
@@ -243,7 +244,9 @@
   <% if team_member.lead %>
    Lead
   <% end %>
+  <% if @current_user.can_manage_people %>
   <%= link_to "Edit", edit_user_has_role_for_node_path(team_member) %>
+  <% end %>
   <br/>
 <% end %>
 <% end %>

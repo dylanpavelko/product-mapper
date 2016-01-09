@@ -9,8 +9,9 @@
         </div>
         <div class="btn-group pull-right">
             <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <%= phase.get_progress_status_text %> <span class="caret"></span>
+              <%= phase.get_progress_status_text %> <% if @current_user.can_manage_phases %><span class="caret"></span><% end %>
             </button>
+            <% if @current_user.can_manage_phases %>
             <ul class="dropdown-menu">
               <% if phase.progress_status != 2 %>
               <li><a href class="set-phase-status-in-progress" id="<%=phase.id=%>" >Set to In Progress</a></li>
@@ -22,6 +23,7 @@
               <li><a href class="set-phase-status-backlog" id="<%=phase.id=%>" >Move Back to Backlog</a></li>
               <% end %>
             </ul>
+            <% end %>
           </div>
 
 
@@ -47,9 +49,15 @@
           <lh><h5>Depends On</h5>
         <% end %>
             <% @dependencies.each do |dependency| %>
-              <li class="list-group-item"><%= link_to dependency.name, dependency.phase.node %> </li>
+              <li class="list-group-item"><%= link_to dependency.name, dependency.phase.node %> 
+                <% if @current_user.can_manage_product_for_node(@node) %>
+                  <%= link_to "edit", edit_dependable_path(dependency) %>
+                <% end %>
+              </li>
             <% end %>
-            <%= link_to "Add Dependency" , new_dependable_path(:phase_id => phase), {:style=>'color:#999;'} %>
+            <% if @current_user.can_manage_product_for_node(@node) %>
+              <%= link_to "Add Dependency" , new_dependable_path(:phase_id => phase), {:style=>'color:#999;'} %>
+            <% end %>
         </ul>
 
         <!-- Depended On -->
