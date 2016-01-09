@@ -35,9 +35,17 @@
             <td>
               <% date = child.get_next_delivery_for_environment(environment) %>
               <% if date != nil %>
-                <%= link_to date.short_string, edit_delivery_date_path(date) %>
+                <% if @current_user.can_manage_product_for_node(child) %>
+                  <%= link_to date.short_string, edit_delivery_date_path(date) %>
+                <% else %>
+                  <%= date.short_string %>
+                <% end %>
               <% else %>
-                <%= link_to 'Add Delivery Date', new_delivery_date_path(child), {:style=>'color:blue;'} %>
+                <% if @current_user.can_manage_product_for_node(@node) %>
+                  <%= link_to 'Add Delivery Date', new_delivery_date_path(child), {:style=>'color:blue;'} %>
+                <% else %>
+                  --
+                <% end %>
               <% end %>
             </td>
           <% end %>

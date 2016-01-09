@@ -137,7 +137,10 @@
     <% end %>
     </div>
 
-   <strong>Delivery Dates:</strong> <%= link_to 'Add', new_delivery_date_path(@node) %>
+   <strong>Delivery Dates:</strong> 
+   <% if @current_user.can_manage_product_for_node(@node) %>
+    <%= link_to 'Add', new_delivery_date_path(@node) %>
+   <% end %>
    <ul>
     <% @delivery_dates.each do |date| %>
       <li><%= date.delivery_type %> <%= date.environment.name %> with <%= date.milestone.name %> <%= link_to 'edit', edit_delivery_date_path(date) %> </li>
