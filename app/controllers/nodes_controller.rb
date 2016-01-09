@@ -99,9 +99,14 @@ class NodesController < ApplicationController
   end
 
   def feature_inventory
+      @hide_completed = params[:hide_completed]
+      @granularity = params[:granularity]
       @node = Node.find(params[:id])
       @terminalNodes = @node.getTerminalNodes()
       @terminalNodes = @terminalNodes.sort_by {|obj| [obj.status ? 0 : 1 , obj.row_order ] }
+      if @hide_completed == "true"
+        @terminalNodes = @terminalNodes.select {|s| !s.status }
+      end
 
   end
 
