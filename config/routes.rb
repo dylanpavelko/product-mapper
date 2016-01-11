@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  resources :asana_auth_end_points
+
+  resources :asana_workspaces
+
   post '/add_response_to_question' => 'responses#add_response_to_question'
 
   resources :question_has_responses

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  workspace: MyString
+  node_id: 
+  added_by_id: 
+
+two:
+  workspace: MyString
+  node_id: 
+  added_by_id: 

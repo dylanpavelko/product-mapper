@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<% @asana_auth_end_point.access %>
+<p>
+  <strong>User:</strong>
+  <%= @asana_auth_end_point.user %>
+</p>
+
+<p>
+  <strong>Auth code:</strong>
+  <%= @asana_auth_end_point.auth_code %>
+</p>
+
+<p>
+  <strong>Bearer token:</strong>
+  <%= @asana_auth_end_point.bearer_token %>
+</p>
+
+<p>
+  <strong>Token date:</strong>
+  <%= @asana_auth_end_point.token_date %>
+</p>
+
+<p>
+  <strong>Refresh token:</strong>
+  <%= @asana_auth_end_point.refresh_token %>
+</p>
+
+
+
+
+<br/>
+
+<%= link_to 'Edit', edit_asana_auth_end_point_path(@asana_auth_end_point) %> |
+<%= link_to 'Back', asana_auth_end_points_path %>

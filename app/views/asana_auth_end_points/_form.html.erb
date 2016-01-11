@@ -1,0 +1,37 @@
+<%= form_for(@asana_auth_end_point) do |f| %>
+  <% if @asana_auth_end_point.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@asana_auth_end_point.errors.count, "error") %> prohibited this asana_auth_end_point from being saved:</h2>
+
+      <ul>
+      <% @asana_auth_end_point.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id, :value => @current_user.id %>
+  </div>
+  <div class="field">
+    <%= f.label :auth_code %><br>
+    <%= f.text_field :auth_code, :value => params[:code] %>
+  </div>
+  <div class="field">
+    <%= f.label :bearer_token %><br>
+    <%= f.text_field :bearer_token %>
+  </div>
+  <div class="field">
+    <%= f.label :token_date %><br>
+    <%= f.datetime_select :token_date %>
+  </div>
+  <div class="field">
+    <%= f.label :refresh_token %><br>
+    <%= f.text_field :refresh_token %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

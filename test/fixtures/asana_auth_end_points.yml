@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  auth_code: MyString
+  bearer_token_id: 
+  token_date: 2016-01-09 17:31:25
+  refresh_token: MyString
+
+two:
+  user_id: 
+  auth_code: MyString
+  bearer_token_id: 
+  token_date: 2016-01-09 17:31:25
+  refresh_token: MyString

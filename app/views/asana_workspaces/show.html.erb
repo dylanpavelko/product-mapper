@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Workspace:</strong>
+  <%= @asana_workspace.workspace %>
+</p>
+
+<p>
+  <strong>Node:</strong>
+  <%= @asana_workspace.node %>
+</p>
+
+<p>
+  <strong>Added by:</strong>
+  <%= @asana_workspace.added_by %>
+</p>
+
+<%= link_to 'Edit', edit_asana_workspace_path(@asana_workspace) %> |
+<%= link_to 'Back', asana_workspaces_path %>

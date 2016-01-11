@@ -1,0 +1,29 @@
+<%= form_for(@asana_workspace) do |f| %>
+  <% if @asana_workspace.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@asana_workspace.errors.count, "error") %> prohibited this asana_workspace from being saved:</h2>
+
+      <ul>
+      <% @asana_workspace.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :workspace %><br>
+    <%= f.text_field :workspace %>
+  </div>
+  <div class="field">
+    <%= f.label :node_id %><br>
+    <%= f.text_field :node_id %>
+  </div>
+  <div class="field">
+    <%= f.label :added_by_id %><br>
+    <%= f.text_field :added_by_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

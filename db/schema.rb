@@ -11,7 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151214052149) do
+ActiveRecord::Schema.define(version: 20160110013210) do
+
+  create_table "asana_auth_end_points", force: true do |t|
+    t.integer  "user_id"
+    t.string   "auth_code"
+    t.string   "bearer_token"
+    t.datetime "token_date"
+    t.string   "refresh_token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "asana_auth_end_points", ["user_id"], name: "index_asana_auth_end_points_on_user_id"
+
+  create_table "asana_workspaces", force: true do |t|
+    t.string   "workspace"
+    t.integer  "node_id"
+    t.integer  "added_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "auth_endpoint_id"
+  end
+
+  add_index "asana_workspaces", ["added_by_id"], name: "index_asana_workspaces_on_added_by_id"
+  add_index "asana_workspaces", ["auth_endpoint_id"], name: "index_asana_workspaces_on_auth_endpoint_id"
+  add_index "asana_workspaces", ["node_id"], name: "index_asana_workspaces_on_node_id"
 
   create_table "delivery_dates", force: true do |t|
     t.integer  "node_id"
