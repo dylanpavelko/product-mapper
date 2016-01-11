@@ -1,0 +1,29 @@
+<h1>Listing asana_tasks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Asana</th>
+      <th>Asana workspace</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @asana_tasks.each do |asana_task| %>
+      <tr>
+        <td><%= asana_task.name %></td>
+        <td><%= asana_task.asana_id %></td>
+        <td><%= asana_task.asana_workspace %></td>
+        <td><%= link_to 'Show', asana_task %></td>
+        <td><%= link_to 'Edit', edit_asana_task_path(asana_task) %></td>
+        <td><%= link_to 'Destroy', asana_task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Asana task', new_asana_task_path %>

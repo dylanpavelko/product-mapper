@@ -30,6 +30,7 @@
   <strong>Close without resolution:</strong>
   <%= @native_issue.close_without_resolution %>
 </p>
-
+<%= link_to "Add Asana Link", new_native_issue_has_asana_path %>
+<br/>
 <%= link_to 'Edit', edit_native_issue_path(@native_issue) %> |
 <%= link_to 'Back', native_issues_path %>

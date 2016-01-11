@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  asana_id: MyString
+  asana_workspace_id: 
+
+two:
+  name: MyString
+  asana_id: MyString
+  asana_workspace_id: 

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @asana_task.name %>
+</p>
+
+<p>
+  <strong>Asana:</strong>
+  <%= @asana_task.asana_id %>
+</p>
+
+<p>
+  <strong>Asana workspace:</strong>
+  <%= @asana_task.asana_workspace %>
+</p>
+
+<%= link_to 'Edit', edit_asana_task_path(@asana_task) %> |
+<%= link_to 'Back', asana_tasks_path %>

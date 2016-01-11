@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Asana task:</strong>
+  <%= @native_issue_has_asana.asana_task %>
+</p>
+
+<p>
+  <strong>Native issue:</strong>
+  <%= @native_issue_has_asana.native_issue %>
+</p>
+
+<%= link_to 'Edit', edit_native_issue_has_asana_path(@native_issue_has_asana) %> |
+<%= link_to 'Back', native_issue_has_asanas_path %>

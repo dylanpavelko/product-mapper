@@ -1,0 +1,25 @@
+<%= form_for(@native_issue_has_asana) do |f| %>
+  <% if @native_issue_has_asana.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@native_issue_has_asana.errors.count, "error") %> prohibited this native_issue_has_asana from being saved:</h2>
+
+      <ul>
+      <% @native_issue_has_asana.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :asana_task_id %><br>
+    <%= f.text_field :asana_task_id %>
+  </div>
+  <div class="field">
+    <%= f.label :native_issue_id %><br>
+    <%= f.text_field :native_issue_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

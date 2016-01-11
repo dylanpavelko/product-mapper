@@ -26,6 +26,8 @@
 
 <br>
 
+<%= link_to "New Asana Workspace" , new_asana_workspace_path %>
+<br/><br/>
 <% @auth_redirect_uri = "http://localhost:3000/asana_auth_end_points/new" %>
 <%= link_to 'New Asana Authentication End Point', 
             "https://app.asana.com/-/oauth_authorize?client_id=79018136406691&redirect_uri=" + @auth_redirect_uri + "&response_type=code&state=123", 

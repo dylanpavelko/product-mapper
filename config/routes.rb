@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  resources :native_issue_has_asanas
+
+  resources :asana_tasks
+
   resources :asana_auth_end_points
 
   resources :asana_workspaces

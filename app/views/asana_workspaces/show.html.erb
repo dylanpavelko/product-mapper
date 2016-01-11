@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+<img src="https://lh3.googleusercontent.com/EJEviNAy8fAdCNMrcxaZDYLH1AnDnvficaxztxPnEF-fN97TPHud2yKS1sKsuA_kT9Y=w300" />
 <p>
   <strong>Workspace:</strong>
   <%= @asana_workspace.workspace %>
@@ -7,12 +7,12 @@
 
 <p>
   <strong>Node:</strong>
-  <%= @asana_workspace.node %>
+  <%= @asana_workspace.node.name %>
 </p>
 
 <p>
   <strong>Added by:</strong>
-  <%= @asana_workspace.added_by %>
+  <%= @asana_workspace.added_by.display_name %>
 </p>
 
 <%= link_to 'Edit', edit_asana_workspace_path(@asana_workspace) %> |

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160110013210) do
+ActiveRecord::Schema.define(version: 20160111041411) do
 
   create_table "asana_auth_end_points", force: true do |t|
     t.integer  "user_id"
@@ -24,6 +24,16 @@ ActiveRecord::Schema.define(version: 20160110013210) do
   end
 
   add_index "asana_auth_end_points", ["user_id"], name: "index_asana_auth_end_points_on_user_id"
+
+  create_table "asana_tasks", force: true do |t|
+    t.string   "name"
+    t.string   "asana_id"
+    t.integer  "asana_workspace_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "asana_tasks", ["asana_workspace_id"], name: "index_asana_tasks_on_asana_workspace_id"
 
   create_table "asana_workspaces", force: true do |t|
     t.string   "workspace"
@@ -128,6 +138,16 @@ ActiveRecord::Schema.define(version: 20160110013210) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "native_issue_has_asanas", force: true do |t|
+    t.integer  "asana_task_id"
+    t.integer  "native_issue_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "native_issue_has_asanas", ["asana_task_id"], name: "index_native_issue_has_asanas_on_asana_task_id"
+  add_index "native_issue_has_asanas", ["native_issue_id"], name: "index_native_issue_has_asanas_on_native_issue_id"
 
   create_table "native_issues", force: true do |t|
     t.string   "summary"

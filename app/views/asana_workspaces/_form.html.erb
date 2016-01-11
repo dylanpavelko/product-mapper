@@ -21,7 +21,7 @@
   </div>
   <div class="field">
     <%= f.label :added_by_id %><br>
-    <%= f.text_field :added_by_id %>
+    <%= f.text_field :added_by_id, :value => @current_user.id %>
   </div>
   <div class="actions">
     <%= f.submit %>

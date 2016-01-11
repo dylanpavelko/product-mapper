@@ -5,7 +5,7 @@ class AsanaAuthEndPoint < ActiveRecord::Base
   require "net/http"
 
   def access
-  	if self.refresh_token != nil #check to see if you have a refresh token
+  	if self.refresh_token != nil and self.refresh_token != ""#check to see if you have a refresh token
   		if self.token_date < 1.hours.ago #if you do check to see if it hase expired
   			self.request_token_with_refresh_token
   		end
@@ -22,7 +22,7 @@ class AsanaAuthEndPoint < ActiveRecord::Base
 					'redirect_uri' => 'http://localhost:3000/asana_auth_end_points/new',
 					'refresh_token' => self.refresh_token}
 	x = Net::HTTP.post_form(URI.parse('https://app.asana.com/-/oauth_token'), params)
-	data = JSON.parse(x.body)
+	puts data = JSON.parse(x.body)
 	@now = DateTime.now
 	self.update(:bearer_token => data["access_token"], :refresh_token => data["refresh_token"], :token_date => @now)
   end
