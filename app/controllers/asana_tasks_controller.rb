@@ -1,5 +1,7 @@
 class AsanaTasksController < ApplicationController
   before_action :set_asana_task, only: [:show, :edit, :update, :destroy]
+            before_filter :authenticate_user
+    before_filter :authorized_only
 
   # GET /asana_tasks
   # GET /asana_tasks.json

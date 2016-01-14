@@ -2,23 +2,12 @@
 
 <img src="https://blog.asana.com/wp-content/post-images/logo_horiz1.png" width="250"/>
 <p>
-  <strong>Name:</strong>
-  <%= @asana_task.name %>
-</p>
-
-<p>
-  <strong>Asana:</strong>
-  <%= @asana_task.asana_id %>
+  <strong><%= @asana_task.name %> </strong>  <%= link_to "(View in Asana)", @asana_task.url, :target => "_blank" %>
 </p>
 
 <p>
   <strong>Asana workspace:</strong>
   <%= @asana_task.asana_workspace_id %>
-</p>
-
-<p>
-  <strong>Asana URL:</strong>
-  <%= link_to @asana_task.url, @asana_task.url, :target => "_blank" %>
 </p>
 
 <p>
