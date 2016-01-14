@@ -2,12 +2,12 @@
 
 <p>
   <strong>Asana task:</strong>
-  <%= @native_issue_has_asana.asana_task %>
+  <%= link_to @native_issue_has_asana.asana_task.display, @native_issue_has_asana.asana_task %>
 </p>
 
 <p>
   <strong>Native issue:</strong>
-  <%= @native_issue_has_asana.native_issue %>
+  <%= link_to @native_issue_has_asana.native_issue.summary, @native_issue_has_asana.native_issue %>
 </p>
 
 <%= link_to 'Edit', edit_native_issue_has_asana_path(@native_issue_has_asana) %> |

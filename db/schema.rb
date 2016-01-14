@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160111041411) do
+ActiveRecord::Schema.define(version: 20160114045624) do
 
   create_table "asana_auth_end_points", force: true do |t|
     t.integer  "user_id"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20160111041411) do
     t.integer  "asana_workspace_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "url"
   end
 
   add_index "asana_tasks", ["asana_workspace_id"], name: "index_asana_tasks_on_asana_workspace_id"

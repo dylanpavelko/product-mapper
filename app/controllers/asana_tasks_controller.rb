@@ -69,6 +69,6 @@ class AsanaTasksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def asana_task_params
-      params.require(:asana_task).permit(:name, :asana_id, :asana_workspace_id)
+      params.require(:asana_task).permit(:name, :asana_id, :asana_workspace_id, :url)
     end
 end

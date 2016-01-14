@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
 
+<img src="https://blog.asana.com/wp-content/post-images/logo_horiz1.png" width="250"/>
 <p>
   <strong>Name:</strong>
   <%= @asana_task.name %>
@@ -12,8 +13,32 @@
 
 <p>
   <strong>Asana workspace:</strong>
-  <%= @asana_task.asana_workspace %>
+  <%= @asana_task.asana_workspace_id %>
 </p>
+
+<p>
+  <strong>Asana URL:</strong>
+  <%= link_to @asana_task.url, @asana_task.url, :target => "_blank" %>
+</p>
+
+<p>
+	<strong>Asana Derived ID</strong>
+	<%= @asana_task.derived_id %>
+</p>
+
+
+<% @asana = @asana_task.get_task_data_from_asana %>
+<strong>Asana</strong>
+<%= @asana.name %>
+<br/>
+<strong>Notes</strong>
+<%= @asana.notes %>
+
+<br/>
+<strong>Completed?</strong> <%= @asana.completed %><br/>
+<strong>Assignee</strong> <%= @asana.assignee["name"] %>
+
+<br/>
 
 <%= link_to 'Edit', edit_asana_task_path(@asana_task) %> |
 <%= link_to 'Back', asana_tasks_path %>

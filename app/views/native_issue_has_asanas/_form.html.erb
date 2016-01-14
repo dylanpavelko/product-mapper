@@ -13,11 +13,16 @@
 
   <div class="field">
     <%= f.label :asana_task_id %><br>
-    <%= f.text_field :asana_task_id %>
+      <% if @native_issue_has_asana.asana_task != nil %>
+    <%= f.select :asana_task_id, options_from_collection_for_select(AsanaTask.all, :id, :display, @native_issue_has_asana.asana_task), :include_blank => true %>
+  <% else %>
+    <%= f.select :asana_task_id, options_from_collection_for_select(AsanaTask.all, :id, :display), :include_blank => true %>
+  <% end %>
+  <%= link_to "Add Asana Task Link" , new_asana_task_path, :target => "_blank" %>
   </div>
   <div class="field">
     <%= f.label :native_issue_id %><br>
-    <%= f.text_field :native_issue_id %>
+    <%= f.text_field :native_issue_id, :value => params[:native_issue] %>
   </div>
   <div class="actions">
     <%= f.submit %>
