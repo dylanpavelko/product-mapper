@@ -39,16 +39,20 @@ class NativeIssuesController < ApplicationController
 
     #you should be looking for the asana, and if you can't find it, then creating one here instead of always just creating one
     @existing_asana = AsanaTask.where(:asana_id => params[:native_issue][:asana_id]) + AsanaTask.where(:url => params[:native_issue][:asana_url])
-    if @existing_asana != nil 
+    if @existing_asana != nil and @existing_asana.count != 0
+      puts "here i am"
+      puts @existing_asana.count
+      puts "no but really"
       @asana_task = @existing_asana.first
     else
       @asana_task = AsanaTask.new(:url => params[:native_issue][:asana_url], 
                                   :asana_workspace_id => params[:native_issue][:asana_workspace_id], 
-                                  :asana_id => params[:native_issue][:asana_id])
+                                  :asana_id => params[:native_issue][:asana_id],
+                                  :name => params[:native_issue][:asana_name])
+      @asana_task.save
     end
     respond_to do |format|
       if @native_issue.save
-        @asana_task.save
         @native_issue_has_asana = NativeIssueHasAsana.new(:asana_task_id => @asana_task.id, :native_issue_id => @native_issue.id)
         @native_issue_has_asana.save
         format.html { redirect_to @native_issue, notice: 'Native issue was successfully created.' }
@@ -93,6 +97,6 @@ class NativeIssuesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def native_issue_params
       params.require(:native_issue).permit(:summary, :description, :enhancement, :issue_with_id, 
-        :resolved_with_id, :close_without_resolution, :asana_id, :asana_url, :asana_workspace_id)
+        :resolved_with_id, :close_without_resolution, :asana_id, :asana_url, :asana_workspace_id, :asana_name)
     end
 end

@@ -17,7 +17,9 @@
   <div class="field col-md-6" id="import_asana_container">
     <strong>Import Issue (Asana) URL:</strong>
     <%= f.text_field :asana_url, :class => "form-control" %>
+    <button id="import" class="btn btn-sm btn-default" type="button">Import</button>
     <%= f.hidden_field :asana_id %>
+    <%= f.hidden_field :asana_name %>
     <%= f.hidden_field :asana_workspace_id, :value => @workspace.id %>
     <span id="import_asana"></a>
   </div>
@@ -62,6 +64,15 @@ $('body').on('keypress', '#native_issue_asana_url', function (e) {
      }
 });
 
+
+$('#import').click(function(){
+  $url = $('#native_issue_asana_url').val();
+  $('#import').text("Importing...")
+  $('#import').removeClass("btn-default");
+  $('#import').addClass("btn-warning");
+   get_asana_data_from_url($url)
+})
+
 function get_asana_data_from_url(url_string){
   $workspace = $('#native_issue_asana_workspace_id').val()
   $.ajax({
@@ -73,8 +84,12 @@ function get_asana_data_from_url(url_string){
     success: function(data){
       //console.log(data[1][0]);
       $('#native_issue_summary').val(data[1][0].name);
+      $('#native_issue_asana_name').val(data[1][0].name);
       $('#native_issue_asana_id').val(data[1][0].id);
       $('#native_issue_description').val(data[1][0].notes);
+      $('#import').text("Import")
+      $('#import').removeClass("btn-warning");
+      $('#import').addClass("btn-default");
     }
   });
 }

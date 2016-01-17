@@ -5,4 +5,5 @@ class NativeIssue < ActiveRecord::Base
   attr_accessor :asana_id
   attr_accessor :asana_url
   attr_accessor :asana_workspace_id
+  attr_accessor :asana_name
 end
