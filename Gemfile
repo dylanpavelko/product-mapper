@@ -47,6 +47,8 @@ gem 'asana' #asana api
 gem 'curb'	#curling in rails for api calls
 gem 'figaro' #writing to environments file
 
+gem 'rails_real_favicon'
+
 #gem 'asana'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
