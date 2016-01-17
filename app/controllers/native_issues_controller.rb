@@ -38,8 +38,14 @@ class NativeIssuesController < ApplicationController
     @native_issue = NativeIssue.new(native_issue_params)
 
     #you should be looking for the asana, and if you can't find it, then creating one here instead of always just creating one
-    @asana_task = AsanaTask.new(:url => params[:native_issue][:asana_url], :asana_workspace_id => params[:native_issue][:asana_workspace_id])
-
+    @existing_asana = AsanaTask.where(:asana_id => params[:native_issue][:asana_id]) + AsanaTask.where(:url => params[:native_issue][:asana_url])
+    if @existing_asana != nil 
+      @asana_task = @existing_asana.first
+    else
+      @asana_task = AsanaTask.new(:url => params[:native_issue][:asana_url], 
+                                  :asana_workspace_id => params[:native_issue][:asana_workspace_id], 
+                                  :asana_id => params[:native_issue][:asana_id])
+    end
     respond_to do |format|
       if @native_issue.save
         @asana_task.save
