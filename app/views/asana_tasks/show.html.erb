@@ -1,3 +1,10 @@
+<% @native_issues.each do |has_native| %>
+<ol class="breadcrumb">
+  <li><%= link_to "Issue With: " + has_native.native_issue.issue_with.name, has_native.native_issue.issue_with %></li>
+  <li><%= link_to "Native Issue: " + has_native.native_issue.summary, has_native.native_issue %></li>
+</ol>
+<% end %>
+
 <p id="notice"><%= notice %></p>
 
 <img src="https://blog.asana.com/wp-content/post-images/logo_horiz1.png" width="250"/>
@@ -21,7 +28,7 @@
 <%= @asana.name %>
 <br/>
 <strong>Notes</strong>
-<%= @asana.notes %>
+<%= simple_format @asana.notes %>
 
 <br/>
 <strong>Completed?</strong> <%= @asana.completed %><br/>

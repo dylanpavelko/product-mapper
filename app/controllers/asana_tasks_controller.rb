@@ -12,6 +12,7 @@ class AsanaTasksController < ApplicationController
   # GET /asana_tasks/1
   # GET /asana_tasks/1.json
   def show
+    @native_issues = NativeIssueHasAsana.where(:asana_task_id => @asana_task.id)
   end
 
   # GET /asana_tasks/new
@@ -55,10 +56,9 @@ class AsanaTasksController < ApplicationController
 
   def get_from_url
      @response = Array.new()
-     #this will need to be improved
-     @workspace = AsanaWorkspace.all.first
 
-     @asana = AsanaTask.new(:url => params[:url], :asana_workspace_id => @workspace.id)
+
+     @asana = AsanaTask.new(:url => params[:url], :asana_workspace_id => params[:workspace_id])
      @response << true
      @response << [@asana.get_task_data_from_asana]
     render json: @response

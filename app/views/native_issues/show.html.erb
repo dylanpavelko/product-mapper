@@ -11,7 +11,7 @@
 
 <p>
   <strong>Description:</strong><br/>
-  <%= @native_issue.description %>
+  <%= simple_format @native_issue.description %>
 </p>
 
 <p>
@@ -30,6 +30,14 @@
   <strong>Close without resolution:</strong>
   <%= @native_issue.close_without_resolution %>
 </p>
+<% if @has_asanas.count > 0 %>
+  Asanas
+  <ul>
+    <% @has_asanas.each do |has_asana| %>
+      <li><%= link_to has_asana.asana_task.display, has_asana.asana_task %></li>
+    <% end %>
+  </ul>
+<% end %>
 <%= link_to "Add Asana Link", new_native_issue_has_asana_path(:native_issue => @native_issue.id) %>
 <br/>
 <%= link_to 'Edit', edit_native_issue_path(@native_issue) %> |

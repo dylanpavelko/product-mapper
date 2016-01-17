@@ -12,17 +12,24 @@ class NativeIssuesController < ApplicationController
   # GET /native_issues/1
   # GET /native_issues/1.json
   def show
+    @has_asanas = NativeIssueHasAsana.where(:native_issue_id => @native_issue.id)
   end
 
   # GET /native_issues/new
   def new
     @native_issue = NativeIssue.new
     @node = Node.find(params[:format])
+
+    #this will need to be improved
+    @workspace = AsanaWorkspace.all.first
   end
 
   # GET /native_issues/1/edit
   def edit
     @node = @native_issue.issue_with
+
+    #this will need to be improved
+    @workspace = AsanaWorkspace.all.first
   end
 
   # POST /native_issues
@@ -30,8 +37,14 @@ class NativeIssuesController < ApplicationController
   def create
     @native_issue = NativeIssue.new(native_issue_params)
 
+    #you should be looking for the asana, and if you can't find it, then creating one here instead of always just creating one
+    @asana_task = AsanaTask.new(:url => params[:native_issue][:asana_url], :asana_workspace_id => params[:native_issue][:asana_workspace_id])
+
     respond_to do |format|
       if @native_issue.save
+        @asana_task.save
+        @native_issue_has_asana = NativeIssueHasAsana.new(:asana_task_id => @asana_task.id, :native_issue_id => @native_issue.id)
+        @native_issue_has_asana.save
         format.html { redirect_to @native_issue, notice: 'Native issue was successfully created.' }
         format.json { render :show, status: :created, location: @native_issue }
       else
@@ -73,6 +86,7 @@ class NativeIssuesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def native_issue_params
-      params.require(:native_issue).permit(:summary, :description, :enhancement, :issue_with_id, :resolved_with_id, :close_without_resolution)
+      params.require(:native_issue).permit(:summary, :description, :enhancement, :issue_with_id, 
+        :resolved_with_id, :close_without_resolution, :asana_id, :asana_url, :asana_workspace_id)
     end
 end
