@@ -23,6 +23,14 @@
     <%= f.label :added_by_id %><br>
     <%= f.text_field :added_by_id, :value => @current_user.id %>
   </div>
+  <div class="field">
+    <%= f.label :asana_auth_endpoint %><br>
+    <% if @asana_workspace.auth_endpoint_id != nil %>
+    <%= f.select :auth_endpoint_id, options_from_collection_for_select(AsanaAuthEndPoint.all, :id, :user, @asana_workspace.asana_auth_endpoint.id), :include_blank => true %>
+  <% else %>
+    <%= f.select :auth_endpoint_id, options_from_collection_for_select(AsanaAuthEndPoint.all, :id, :user), :include_blank => true %>
+  <% end %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

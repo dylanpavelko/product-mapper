@@ -108,6 +108,8 @@ Rails.application.routes.draw do
 
   get 'search_results', to: 'nodes#search_results'
 
+  get '/get_asana_task_from_url', to: 'asana_tasks#get_from_url'
+
   post ':controller(/:action(/:id))(.:format)'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

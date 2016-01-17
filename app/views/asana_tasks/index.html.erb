@@ -15,7 +15,7 @@
       <tr>
         <td><%= asana_task.name %></td>
         <td><%= asana_task.asana_id %></td>
-        <td><%= asana_task.asana_workspace %></td>
+        <td><%= asana_task.asana_workspace_id %></td>
         <td><%= link_to 'Show', asana_task %></td>
         <td><%= link_to 'Edit', edit_asana_task_path(asana_task) %></td>
         <td><%= link_to 'Destroy', asana_task, method: :delete, data: { confirm: 'Are you sure?' } %></td>

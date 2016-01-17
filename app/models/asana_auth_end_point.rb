@@ -17,21 +17,22 @@ class AsanaAuthEndPoint < ActiveRecord::Base
 
   def request_token_with_refresh_token
   	params = {'grant_type' => 'refresh_token',
-					'client_id' => '79018136406691',
-					'client_secret' => '07191864d5950231a706ece685eb1859',
-					'redirect_uri' => 'http://localhost:3000/asana_auth_end_points/new',
+					'client_id' => ENV["ASANA_CLIENT_ID"],
+					'client_secret' => ENV["ASANA_CLIENT_SECRET"],
+					'redirect_uri' => ENV["ASANA_REDIRECT_URI"],
 					'refresh_token' => self.refresh_token}
+
 	x = Net::HTTP.post_form(URI.parse('https://app.asana.com/-/oauth_token'), params)
 	puts data = JSON.parse(x.body)
 	@now = DateTime.now
-	self.update(:bearer_token => data["access_token"], :refresh_token => data["refresh_token"], :token_date => @now)
+	self.update(:bearer_token => data["access_token"], :token_date => @now)
   end
 
   def request_token_with_code
 	params = {'grant_type' => 'authorization_code',
-					'client_id' => '79018136406691',
-					'client_secret' => '07191864d5950231a706ece685eb1859',
-					'redirect_uri' => 'http://localhost:3000/asana_auth_end_points/new',
+					'client_id' => ENV["ASANA_CLIENT_ID"],
+					'client_secret' => ENV["ASANA_CLIENT_SECRET"],
+					'redirect_uri' => ENV["ASANA_REDIRECT_URI"],
 					'code' => self.auth_code}
 	#puts params
 	x = Net::HTTP.post_form(URI.parse('https://app.asana.com/-/oauth_token'), params)

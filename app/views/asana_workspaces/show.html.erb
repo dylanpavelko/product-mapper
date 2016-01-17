@@ -15,5 +15,10 @@
   <%= @asana_workspace.added_by.display_name %>
 </p>
 
+<p>
+  <strong>Asana Endpoint by:</strong>
+  <%= @asana_workspace.auth_endpoint_id %>
+</p>
+
 <%= link_to 'Edit', edit_asana_workspace_path(@asana_workspace) %> |
 <%= link_to 'Back', asana_workspaces_path %>

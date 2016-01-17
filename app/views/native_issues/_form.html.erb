@@ -14,6 +14,11 @@
     <%= f.label :issue_with_id %>: <%= @node.name %><br>
     <%= f.hidden_field :issue_with_id, :value => @node.id %>
   </div>
+  <div class="field" id="import_asana_container">
+    <strong>Import Issue (Asana) URL:</strong>
+    <input class='form-control' id='asana_url' name='asana_url' type='text'><br/>
+    <span id="import_asana"></a>
+  </div>
   <div class="field">
     <%= f.label :summary %> <%= f.text_field :summary , :class => "form-control" %>
   </div>
@@ -44,3 +49,30 @@
     <%= f.submit "Open Issue", :class => "btn btn-success" %>
   </div>
 <% end %>
+
+<script type="text/javascript">
+
+$('body').on('keypress', '#asana_url', function (e) {
+     if(e.which == 13) {
+      e.preventDefault();
+       $url = $('#asana_url').val();
+       get_asana_data_from_url($url)
+     }
+});
+
+function get_asana_data_from_url(url_string){
+  $.ajax({
+    url: "/get_asana_task_from_url",
+    data: {
+      url: url_string
+    },
+    success: function(data){
+      //console.log(data[1][0]);
+      $('#native_issue_summary').val(data[1][0].name);
+      $id = data[1][0].id;
+      $('#native_issue_description').val(data[1][0].notes);
+    }
+  });
+}
+</script>
+

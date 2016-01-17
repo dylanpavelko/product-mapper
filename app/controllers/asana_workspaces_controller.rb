@@ -71,6 +71,6 @@ class AsanaWorkspacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def asana_workspace_params
-      params.require(:asana_workspace).permit(:workspace, :node_id, :added_by_id)
+      params.require(:asana_workspace).permit(:workspace, :node_id, :added_by_id, :auth_endpoint_id)
     end
 end

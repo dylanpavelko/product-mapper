@@ -41,8 +41,11 @@ gem 'jquery-turbolinks'
 gem 'ranked-model', :git => 'git://github.com/mixonic/ranked-model.git'
 gem 'paperclip'
 
-gem 'asana'
-gem 'curb'
+
+#things needed for asana integration
+gem 'asana' #asana api
+gem 'curb'	#curling in rails for api calls
+gem 'figaro' #writing to environments file
 
 #gem 'asana'
 # Use ActiveModel has_secure_password

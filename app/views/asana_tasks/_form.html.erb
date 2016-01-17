@@ -24,7 +24,11 @@
   </div>
   <div class="field">
     <%= f.label :asana_workspace_id %><br>
-    <%= f.text_field :asana_workspace_id %>
+    <% if @asana_task.asana_workspace_id != nil %>
+    <%= f.select :asana_workspace_id, options_from_collection_for_select(AsanaWorkspace.all, :id, :workspace, @asana_task.asana_workspace_id), :include_blank => true %>
+  <% else %>
+    <%= f.select :asana_workspace_id, options_from_collection_for_select(AsanaWorkspace.all, :id, :workspace), :include_blank => true %>
+  <% end %>
   </div>
   <div class="actions">
     <%= f.submit %>
