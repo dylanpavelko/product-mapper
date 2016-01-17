@@ -40,9 +40,6 @@ class NativeIssuesController < ApplicationController
     #you should be looking for the asana, and if you can't find it, then creating one here instead of always just creating one
     @existing_asana = AsanaTask.where(:asana_id => params[:native_issue][:asana_id]) + AsanaTask.where(:url => params[:native_issue][:asana_url])
     if @existing_asana != nil and @existing_asana.count != 0
-      puts "here i am"
-      puts @existing_asana.count
-      puts "no but really"
       @asana_task = @existing_asana.first
     else
       @asana_task = AsanaTask.new(:url => params[:native_issue][:asana_url], 
