@@ -122,6 +122,7 @@
 
 
   <div class="col-md-6">
+    <% if @node.nodeType.specification %>
     <div>
       <strong>Themes: </strong>
       <% @has_Themes.each do |has_theme| %>
@@ -135,6 +136,7 @@
         <%= link_to "Add", new_node_has_theme_path(@node.id) %>
       <% end %>
     </div>
+    <% end %>
     <strong>Percent Done:</strong> 
       <div class="progress">
         <% @node_perecent_done = @node.calc_percent_done %>
