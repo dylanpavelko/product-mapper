@@ -1,0 +1,13 @@
+<% content_for :title, @theme.name + " Theme" %>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Product Theme:</strong>
+  <%= @theme.name %>
+</p>
+<% @terminalNodes = Array.new %>
+<% @node_has_themes.each do |node_has_theme| %>
+	<% @terminalNodes << node_has_theme.node %>
+<% end %>
+
+<%= render 'nodes/terminal_nodes' %>

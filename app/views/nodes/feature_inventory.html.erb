@@ -1,3 +1,4 @@
+<% content_for :title, @node.name + " Feature Inventory"%>
 <% if @node.parent != nil %>
   <ol class="breadcrumb">
     <% if @node.parent.parent != nil %>
@@ -27,73 +28,7 @@
     <h2><%= link_to @node.name, @node %> Feature Inventory</h2> 
 
 
-<div class="table-responsive">
-    <table class="table table-striped table-hover">
-        <th>Feature</th>
-        <% if @granularity == "features_only" %>
-        <% else %>
-          <th>Specification</th>
-        <% end %>
-        <th>Next Delivery</th>
-        <th>Current Dependencies</th>
-        <th>Issues</th>
-        <th>Priority</th>
-        <th>Done?</th>
-        <th>FDD</th>
-        <% @completed = @terminalNodes.select {|s| s.status } %>
-
-          <% @features = Array.new %>
-      <% @terminalNodes.each_with_index do |child, i|  %>
-      <% if @granularity == "features_only" and (child.nodeType.feature or child.nodeType.feature_organizer) and @features.include?(child) %>
-      <% elsif @granularity == "features_only" and @features.include?(child.parent) %>
-      <% else %>
-        
-        <% if @granularity == "features_only" %>
-          <tr>
-        <% else %>
-          <tr <% if child.status %>class="success"<% end %>>
-        <% end %>
-          <% if child.nodeType.feature or child.nodeType.feature_organizer %>
-            <% @features << child %>
-            <td><%= link_to child.name, child %></td>
-            <% if @granularity == "features_only" %>
-            <% else %>
-              <td></td>
-            <% end %>
-          <% else %>
-            <% @features << child.parent %>
-            <td><%= link_to child.parent.name, child.parent %></td>
-            <% if @granularity == "features_only" %>
-            <% else %>
-              <td><%= link_to child.name, child %></td>
-            <% end %>
-          <% end %>
-          <td>
-            <% if child.get_next_delivery != nil %>
-              <%= child.get_next_delivery.string %>
-            <% else %>
-              <% if @current_user.can_manage_product_for_node(child) %>
-                <%= link_to 'Add Delivery Date', new_delivery_date_path(child) %>
-              <% else %>
-              --
-              <% end %>
-            <% end %>
-          </td>
-          <td>
-              <%= child.dependencies.count %>
-          </td>
-          <td></td>
-            
-              
-            
-          <td><% if !child.status %><%= i + 1 - @completed.count %><% end %></td>
-          <td><%= child.status %></td>
-          <td><%= child.fdds.count %></td>
-        </tr>
-        <% end %>
-      <% end %>
-    </table>
-</div>
+<%= render 'terminal_nodes' %>
 
 <script type="text/javascript">
   function getURLParameter(name) {

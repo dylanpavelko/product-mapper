@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Node:</strong>
+  <%= @node_has_theme.node %>
+</p>
+
+<p>
+  <strong>Theme:</strong>
+  <%= @node_has_theme.theme %>
+</p>
+
+<%= link_to 'Edit', edit_node_has_theme_path(@node_has_theme) %> |
+<%= link_to 'Back', node_has_themes_path %>

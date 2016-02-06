@@ -1,4 +1,4 @@
-<% content_for :title, "Product Mapper - " + @node.name %>
+<% content_for :title, @node.name %>
 <%= render 'filters' %>
 
 <% @node_filters = session[:filters] %>
@@ -122,6 +122,14 @@
 
 
   <div class="col-md-6">
+    <div>
+      <strong>Themes: </strong>
+      <% @has_Themes.each do |has_theme| %>
+        <span class="label label-default"><%= link_to has_theme.theme.name, has_theme.theme, {:style=>'color:#FFFFFF;'} %> 
+          <%= link_to 'X', has_theme, method: :delete, data: { confirm: 'Are you sure?' } %></span>
+      <% end %>
+      <%= link_to "Add", new_node_has_theme_path(@node.id) %>
+    </div>
     <strong>Percent Done:</strong> 
       <div class="progress">
         <% @node_perecent_done = @node.calc_percent_done %>

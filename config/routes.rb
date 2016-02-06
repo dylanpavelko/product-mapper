@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  resources :node_has_themes
+
+  resources :themes
+
   resources :native_issue_has_asanas
 
   resources :asana_tasks

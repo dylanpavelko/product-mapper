@@ -1,0 +1,27 @@
+<h1>Listing node_has_themes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Node</th>
+      <th>Theme</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @node_has_themes.each do |node_has_theme| %>
+      <tr>
+        <td><%= node_has_theme.node %></td>
+        <td><%= node_has_theme.theme %></td>
+        <td><%= link_to 'Show', node_has_theme %></td>
+        <td><%= link_to 'Edit', edit_node_has_theme_path(node_has_theme) %></td>
+        <td><%= link_to 'Destroy', node_has_theme, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Node has theme', new_node_has_theme_path %>

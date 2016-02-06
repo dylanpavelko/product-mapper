@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114045624) do
+ActiveRecord::Schema.define(version: 20160206183021) do
 
   create_table "asana_auth_end_points", force: true do |t|
     t.integer  "user_id"
@@ -187,6 +187,16 @@ ActiveRecord::Schema.define(version: 20160114045624) do
   add_index "node_has_phase_type_defaults", ["node_type_id"], name: "index_node_has_phase_type_defaults_on_node_type_id"
   add_index "node_has_phase_type_defaults", ["phase_type_default_id"], name: "index_node_has_phase_type_defaults_on_phase_type_default_id"
 
+  create_table "node_has_themes", force: true do |t|
+    t.integer  "node_id"
+    t.integer  "theme_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "node_has_themes", ["node_id"], name: "index_node_has_themes_on_node_id"
+  add_index "node_has_themes", ["theme_id"], name: "index_node_has_themes_on_theme_id"
+
   create_table "node_histories", force: true do |t|
     t.integer  "node_id"
     t.integer  "user_id"
@@ -336,6 +346,12 @@ ActiveRecord::Schema.define(version: 20160114045624) do
 
   add_index "tasks", ["dependencies_id"], name: "index_tasks_on_dependencies_id"
   add_index "tasks", ["questions_id"], name: "index_tasks_on_questions_id"
+
+  create_table "themes", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "user_has_favorite_nodes", force: true do |t|
     t.integer  "user_id"
