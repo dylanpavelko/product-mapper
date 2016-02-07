@@ -17,7 +17,14 @@ class DeliveryDatesController < ApplicationController
   # GET /delivery_dates/new
   def new
     @delivery_date = DeliveryDate.new
-    @node = Node.find(params[:format])
+    
+    if params[:format] == nil 
+      @node = Node.find(params[:node])
+      @environment = Environment.find(params[:environment])
+      @delivery_date = DeliveryDate.new(:envrionment_id => @environment.id)
+    else
+      @node = Node.find(params[:format])
+    end
     session[:return_to] ||= request.referer
   end
 

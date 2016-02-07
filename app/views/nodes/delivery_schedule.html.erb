@@ -42,7 +42,7 @@
                 <% end %>
               <% else %>
                 <% if @current_user.can_manage_product_for_node(@node) %>
-                  <%= link_to 'Add Delivery Date', new_delivery_date_path(child), {:style=>'color:blue;'} %>
+                  <%= link_to 'Add Delivery Date', new_delivery_date_path(:node => child, :environment =>environment), {:style=>'color:blue;'} %>
                 <% else %>
                   --
                 <% end %>
