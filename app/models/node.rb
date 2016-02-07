@@ -395,6 +395,11 @@ class Node < ActiveRecord::Base
     self.filtered_children2(filters)
   end
 
+  def deep_filtered_node(filters)
+    self.filtered_children2(filters)
+    return self
+  end
+
   def filtered_children2(filters)
     self.children.each do |child|
       if child.nodeType.specification
