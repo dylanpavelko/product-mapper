@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160206183021) do
+ActiveRecord::Schema.define(version: 20160213194703) do
 
   create_table "asana_auth_end_points", force: true do |t|
     t.integer  "user_id"
@@ -159,8 +159,10 @@ ActiveRecord::Schema.define(version: 20160206183021) do
     t.boolean  "close_without_resolution"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "added_by_id"
   end
 
+  add_index "native_issues", ["added_by_id"], name: "index_native_issues_on_added_by_id"
   add_index "native_issues", ["issue_with_id"], name: "index_native_issues_on_issue_with_id"
   add_index "native_issues", ["resolved_with_id"], name: "index_native_issues_on_resolved_with_id"
 

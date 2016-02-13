@@ -14,6 +14,7 @@
     <%= f.label :issue_with_id %>: <%= @node.name %><br>
     <%= f.hidden_field :issue_with_id, :value => @node.id %>
   </div>
+  <% if !@native_issue.persisted? %>
   <div class="field col-md-6" id="import_asana_container">
     <strong>Import Issue (Asana) URL:</strong>
     <%= f.text_field :asana_url, :class => "form-control" %>
@@ -23,19 +24,21 @@
     <%= f.hidden_field :asana_workspace_id, :value => @workspace.id %>
     <span id="import_asana"></a>
   </div>
-  <div class="field">
+  <% end %>
+  <div class="field col-md-12">
     <%= f.label :summary %> <%= f.text_field :summary , :class => "form-control" %>
   </div>
-  <div class="field">
+  <div class="field col-md-12">
     <%= f.label :description %><br>
+    Please specify and steps necessary to reproduce the issue.<br/>
     <%= f.text_area :description, :class => "form-control" %>
   </div>
-  <div class="field">
+  <div class="field col-md-12">
     <%= f.label :enhancement %><br>
     <%= f.check_box :enhancement %>
   </div>
 <% if @native_issue.persisted? %> 
-  <div class="field">
+  <div class="field col-md-12">
     <% @node_context    = nil
        @node_parents    = nil
        @node_label      = "Resolved with: "
@@ -44,13 +47,27 @@
        @node_form_name  = "native_issue[resolved_with_id]" %>
     <%= render "nodes/node_chooser" %>
   </div>
-  <div class="field">
+
+  <div class="field col-md-12">
+    <%= f.label :added_by_id, "Added by User" %><br>
+    <% if @native_issue.added_by_id != nil %>
+        <%= f.select :added_by_id, options_from_collection_for_select(User.all, :id, :display_name, @native_issue.added_by_id), {:include_blank => true}, {:class => "form-control"} %>
+    <% else %>
+      <%= f.select :added_by_id, options_from_collection_for_select(User.all, :id, :display_name), {:include_blank => true}, {:class => "form-control"} %>
+    <% end %>
+  </div>
+
+  <div class="field col-md-12">
     <%= f.label :close_without_resolution %><br>
     <%= f.check_box :close_without_resolution %>
   </div>
 <% end %>
-  <div class="actions">
-    <%= f.submit "Open Issue", :class => "btn btn-success" %>
+  <div class="actions col-md-12">
+    <% if @native_issue.persisted? %>
+      <%= f.submit "Update Issue", :class => "btn btn-success" %> 
+    <% else %>
+      <%= f.submit "Open Issue", :class => "btn btn-success" %>
+    <% end %>
   </div>
 <% end %>
 

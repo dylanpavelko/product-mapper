@@ -94,6 +94,6 @@ class NativeIssuesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def native_issue_params
       params.require(:native_issue).permit(:summary, :description, :enhancement, :issue_with_id, 
-        :resolved_with_id, :close_without_resolution, :asana_id, :asana_url, :asana_workspace_id, :asana_name)
+        :resolved_with_id, :close_without_resolution, :asana_id, :asana_url, :asana_workspace_id, :asana_name, :added_by_id)
     end
 end

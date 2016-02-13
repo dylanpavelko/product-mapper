@@ -1,44 +1,69 @@
+<% content_for :title, "Issue - " + @native_issue.summary %>
 <p id="notice"><%= notice %></p>
-<p>
-  <strong>Issue with:</strong>
-  <%= link_to @native_issue.issue_with.name, @native_issue.issue_with %>
-</p>
 
-<p>
-  <strong>Summary:</strong>
-  <%= @native_issue.summary %>
-</p>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><strong>Issue:</strong> <%= @native_issue.summary %></h3>
+  </div>
+  <div class="panel-body">
+    <p>
+      <strong>Issue with:</strong>
+      <%= link_to @native_issue.issue_with.name, @native_issue.issue_with %>
+    </p>
 
-<p>
-  <strong>Description:</strong><br/>
-  <%= simple_format @native_issue.description %>
-</p>
+    <p>
+      <strong>Issue Type:</strong>
+      <% if @native_issue.enhancement %>
+        Enhancement
+      <% else %>
+        Defect
+      <% end %>
+    </p>
 
-<p>
-  <strong>Enhancement:</strong>
-  <%= @native_issue.enhancement %>
-</p>
+    <p>
+      <strong>Resolved with:</strong>
+      <% if @native_issue.resolved_with != nil %>
+      <%= link_to @native_issue.resolved_with.name, @native_issue.resolved_with %>
+      <% end %>
+    </p>
 
-<p>
-  <strong>Resolved with:</strong>
-  <% if @native_issue.resolved_with != nil %>
-  <%= link_to @native_issue.resolved_with.name, @native_issue.resolved_with %>
-  <% end %>
-</p>
+    <p>
+      <strong>Description:</strong><br/>
+      <%= simple_format @native_issue.description %>
+    </p>
+    </div>
 
+  <% if @has_asanas.count > 0 %>
+    <div class="panel-body" style="padding-bottom:0px;"> <strong>Linked Asanas</strong> <%= link_to "Add Asana Link", new_native_issue_has_asana_path(:native_issue => @native_issue.id) %></div>
+    <table class="table">
+    <% @has_asanas.each do |has_asana| %>
+      <tr><td>
+        <a href="<%= has_asana.asana_task.url %>" target="_blank"><img src="http://asanatraining.com/wp-content/uploads/2015/10/Asana-Logo_Full-Color-Mark.png" width="15"/></a>
+         <%= link_to has_asana.asana_task.display, has_asana.asana_task %>
+       </td></tr>
+    <% end %>
+  </table>
+<% end %>
+
+</div>
+
+
+
+
+
+
+<% if @native_issue.close_without_resolution %>
 <p>
   <strong>Close without resolution:</strong>
   <%= @native_issue.close_without_resolution %>
 </p>
-<% if @has_asanas.count > 0 %>
-  Asanas
-  <ul>
-    <% @has_asanas.each do |has_asana| %>
-      <li><%= link_to has_asana.asana_task.display, has_asana.asana_task %></li>
-    <% end %>
-  </ul>
 <% end %>
-<%= link_to "Add Asana Link", new_native_issue_has_asana_path(:native_issue => @native_issue.id) %>
+
+
+<br/>
+<% if @native_issue.added_by != nil %>
+  Added by <%= @native_issue.added_by.display_name %>
+<% end %>
 <br/>
 <%= link_to 'Edit', edit_native_issue_path(@native_issue) %> |
 <%= link_to 'Back', native_issues_path %>

@@ -1,6 +1,8 @@
-<h1>Editing native_issue</h1>
+<% content_for :title, "Edit Issue - " + @native_issue.summary %>
+<h1>Editing Issue</h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @native_issue %> |
-<%= link_to 'Back', native_issues_path %>
+<div class="col-md-12">
+	<%= link_to 'Cancel', @native_issue %>
+</div>
