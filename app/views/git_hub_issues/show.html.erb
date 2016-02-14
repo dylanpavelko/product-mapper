@@ -47,3 +47,8 @@
 
 <%= link_to 'Edit', edit_git_hub_issue_path(@git_hub_issue) %> |
 <%= link_to 'Back', git_hub_issues_path %>
+
+
+<% if @current_user.power_admin? %>
+  <%= link_to "Delete GitHub Issue", @git_hub_issue, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>

@@ -9,8 +9,12 @@
 
   <% @nodes.each do |node| %>
     <tr>
-      <td><%= link_to node.name, node %></td>
-      <td><%= link_to 'Edit', edit_node_path(node) %></td>
+      <td>
+        <% if node.parent != nil %>
+        <%= node.parent.name %> >
+        <% end %>
+        <%= link_to node.name, node %>
+      </td>
     </tr>
   <% end %>
 </table>

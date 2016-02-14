@@ -3,7 +3,7 @@ class NodesController < ApplicationController
   before_filter :authorized_only
 
   def index
-    @node = Node.all
+    @nodes = Node.all.select { |n| n.nodeType.product? == true }.sort { |x, y| x.id <=> y.id }
   end
 
   def new
@@ -181,10 +181,6 @@ class NodesController < ApplicationController
     else
       render :edit
     end
-  end
-
-  def index
-    @nodes = Node.all
   end
 
   def update_row_order

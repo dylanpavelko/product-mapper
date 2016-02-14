@@ -1,35 +1,51 @@
-<h1>Listing native_issues</h1>
+<% content_for :title, "Issues" %>
+<script type="text/javascript">
+  var currentTime = new Date();
+  var utcOffset   = currentTime.getTimezoneOffset()
+  document.cookie = 'time_zone_offset='+utcOffset+';';
+</script>
+<%  offset = cookies["time_zone_offset"].to_i
+  time_zone = ActiveSupport::TimeZone[-offset.minutes] %>
+<h1>Product Issues</h1>
 
-<table>
+<% if @current_user.power_admin? %>
+Filter Issues with #NODE CHOOSER# Opened By <%= select_tag :opened_by, options_from_collection_for_select(User.all, :id, :display_name), {:include_blank => true} %> Between <%= date_field_tag :range_begin %> to <%= date_field_tag :range_end %> <button class="btn btn-default">Filter Issues</button>
+<hr>
+<% end %>
+<table class="table table-striped table-hover">
   <thead>
     <tr>
-      <th>Summary</th>
-      <th>Description</th>
-      <th>Enhancement</th>
       <th>Issue with</th>
-      <th>Resolved with</th>
-      <th>Close without resolution</th>
-      <th colspan="3"></th>
+      <th>Issue Type</th>      
+      <th>Issue Summary</th>
+      <th>Resolve with</th>
+      <th>Status</th>
+      <th>Opened</th>
     </tr>
   </thead>
 
   <tbody>
     <% @native_issues.each do |native_issue| %>
       <tr>
-        <td><%= native_issue.summary %></td>
-        <td><%= native_issue.description %></td>
-        <td><%= native_issue.enhancement %></td>
-        <td><%= native_issue.issue_with %></td>
-        <td><%= native_issue.resolved_with %></td>
-        <td><%= native_issue.close_without_resolution %></td>
-        <td><%= link_to 'Show', native_issue %></td>
-        <td><%= link_to 'Edit', edit_native_issue_path(native_issue) %></td>
-        <td><%= link_to 'Destroy', native_issue, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to native_issue.issue_with.name, native_issue.issue_with %></td>
+        <td>
+          <% if native_issue.enhancement %>
+            Enhancement
+          <% else %>
+            Defect
+          <% end %>
+        </td>
+        <td><%= link_to native_issue.summary, native_issue %></td>
+
+
+        <td>
+          <% if native_issue.resolved_with != nil %>
+            <%= link_to native_issue.resolved_with.name, native_issue.resolved_with %>
+          <% end %>
+        </td>
+        <td></td>
+        <td><%= native_issue.created_at.in_time_zone(time_zone).strftime("%m/%d/%Y") %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Native issue', new_native_issue_path %>

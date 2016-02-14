@@ -278,7 +278,9 @@
 </div>
 <div>
 </div>
-
+<% if @current_user.power_admin? %>
+  <%= link_to "Delete Node", @node, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
 <script type="text/javascript">
 function handler(event) {
     event.stopPropagation();

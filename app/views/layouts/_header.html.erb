@@ -18,10 +18,16 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <% if @current_user!= nil and @current_user.power_admin %>
+
       <ul class="nav navbar-nav">
-       <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-        <li class="dropdown">
+        <% if @current_user!= nil and @current_user.power_admin %>
+          <li><%= link_to "Products", nodes_path %></li>
+        <% end %>
+        <% if @current_user != nil %>
+        <li><%= link_to "Issues", native_issues_path %></li>
+        <% end %>
+        <% if @current_user!= nil and @current_user.power_admin %>
+              <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin Tasks <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><%= link_to 'Task List', tasks_path %></li>
@@ -33,8 +39,9 @@
             <li><%= link_to 'Manage GitHub Integrations', git_hub_repos_path %></li>
           </ul>
         </li>
+              <% end %>
       </ul>
-      <% end %>
+      <% if @current_user != nil %>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" id="header_search" autocomplete="off">
@@ -43,6 +50,7 @@
 
         <div id="header_search_results">
         </div>
+
         <!-- Filter -->
 
 
@@ -85,6 +93,7 @@
     </div>
     <!-- /input-group -->
       </form>
+      <% end %>
   <% if @current_user!=nil%>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
