@@ -9,4 +9,5 @@ class NativeIssue < ActiveRecord::Base
   attr_accessor :asana_name
 
   validates :added_by, :presence => true
+  validates :summary, :presence => true
 end

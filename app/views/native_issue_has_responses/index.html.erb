@@ -1,0 +1,27 @@
+<h1>Listing native_issue_has_responses</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Native issue</th>
+      <th>Response</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @native_issue_has_responses.each do |native_issue_has_response| %>
+      <tr>
+        <td><%= native_issue_has_response.native_issue %></td>
+        <td><%= native_issue_has_response.response %></td>
+        <td><%= link_to 'Show', native_issue_has_response %></td>
+        <td><%= link_to 'Edit', edit_native_issue_has_response_path(native_issue_has_response) %></td>
+        <td><%= link_to 'Destroy', native_issue_has_response, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Native issue has response', new_native_issue_has_response_path %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160213194703) do
+ActiveRecord::Schema.define(version: 20160213231358) do
 
   create_table "asana_auth_end_points", force: true do |t|
     t.integer  "user_id"
@@ -149,6 +149,16 @@ ActiveRecord::Schema.define(version: 20160213194703) do
 
   add_index "native_issue_has_asanas", ["asana_task_id"], name: "index_native_issue_has_asanas_on_asana_task_id"
   add_index "native_issue_has_asanas", ["native_issue_id"], name: "index_native_issue_has_asanas_on_native_issue_id"
+
+  create_table "native_issue_has_responses", force: true do |t|
+    t.integer  "native_issue_id"
+    t.integer  "response_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "native_issue_has_responses", ["native_issue_id"], name: "index_native_issue_has_responses_on_native_issue_id"
+  add_index "native_issue_has_responses", ["response_id"], name: "index_native_issue_has_responses_on_response_id"
 
   create_table "native_issues", force: true do |t|
     t.string   "summary"

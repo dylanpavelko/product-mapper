@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  native_issue_id: 
+  response_id: 
+
+two:
+  native_issue_id: 
+  response_id: 

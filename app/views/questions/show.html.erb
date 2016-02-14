@@ -1,3 +1,4 @@
+<% content_for :title, "Question - " + @question.question %>
 <p id="notice"><%= notice %></p>
 
 <script type="text/javascript">
@@ -54,7 +55,7 @@ document.cookie = 'time_zone_offset='+utcOffset+';';
 
 <%= hidden_field_tag :question_id, @question.id %> 
 <%= hidden_field_tag :user_id, @current_user.id %> 
-<%= text_area_tag :response , "", options = {class: "form-control", cols: 40, rows: 6} %> 
+<%= text_area_tag :response , "", options = {class: "form-control", cols: 40, rows: 6, placeholder:"Add Response..."} %> 
 <h5>Answers Question <%= check_box_tag :answered  %> </h5>
 <br/>
 <button id="post-response" class="btn btn-default btn-success">Post Response</button>

@@ -70,11 +70,22 @@ class ResponsesController < ApplicationController
     @question_has_response = QuestionHasResponse.new(:question_id => params[:question_id],
      :response_id => @response.id, :answers => params[:answered])
     @question_has_response.save
-    if params[:answered]
+    if params[:answered] == "true"
       @question = Question.find(params[:question_id])
       @question.update(:resolved_id => 1)
       @question.save
     end
+
+    render :json => @response 
+  end
+
+  def add_response_to_native_issue
+    @response = Response.new(:content => params[:response], :user => User.find(params[:user_id]))
+    @response.save
+
+    @question_has_response = NativeIssueHasResponse.new(:native_issue_id => params[:native_issue_id],
+     :response_id => @response.id)
+    @question_has_response.save
 
     render :json => @response 
   end

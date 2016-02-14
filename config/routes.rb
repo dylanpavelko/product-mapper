@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :native_issue_has_responses
+
   resources :node_has_themes
 
   resources :themes
@@ -13,6 +15,8 @@ Rails.application.routes.draw do
   resources :asana_workspaces
 
   post '/add_response_to_question' => 'responses#add_response_to_question'
+
+  post '/add_response_to_native_issue' => 'responses#add_response_to_native_issue'
 
   resources :question_has_responses
 

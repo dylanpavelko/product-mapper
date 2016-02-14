@@ -13,6 +13,7 @@ class NativeIssuesController < ApplicationController
   # GET /native_issues/1.json
   def show
     @has_asanas = NativeIssueHasAsana.where(:native_issue_id => @native_issue.id)
+    @has_responses = NativeIssueHasResponse.where(:native_issue_id => @native_issue)
   end
 
   # GET /native_issues/new
@@ -20,7 +21,7 @@ class NativeIssuesController < ApplicationController
     @native_issue = NativeIssue.new
     @node = Node.find(params[:format])
 
-    #this will need to be improved
+    #this will need to be improved also in create method
     @workspace = AsanaWorkspace.all.first
   end
 
@@ -36,22 +37,29 @@ class NativeIssuesController < ApplicationController
   # POST /native_issues.json
   def create
     @native_issue = NativeIssue.new(native_issue_params)
+    @node = Node.find(@native_issue.issue_with_id)
+    #this will need to be improved
+    @workspace = AsanaWorkspace.all.first
 
-    #you should be looking for the asana, and if you can't find it, then creating one here instead of always just creating one
-    @existing_asana = AsanaTask.where(:asana_id => params[:native_issue][:asana_id]) + AsanaTask.where(:url => params[:native_issue][:asana_url])
-    if @existing_asana != nil and @existing_asana.count != 0
-      @asana_task = @existing_asana.first
-    else
-      @asana_task = AsanaTask.new(:url => params[:native_issue][:asana_url], 
-                                  :asana_workspace_id => params[:native_issue][:asana_workspace_id], 
-                                  :asana_id => params[:native_issue][:asana_id],
-                                  :name => params[:native_issue][:asana_name])
-      @asana_task.save
+    if params[:native_issue][:asana_id] != ""
+      #you should be looking for the asana, and if you can't find it, then creating one here instead of always just creating one
+      @existing_asana = AsanaTask.where(:asana_id => params[:native_issue][:asana_id]) + AsanaTask.where(:url => params[:native_issue][:asana_url])
+      if @existing_asana != nil and @existing_asana.count != 0
+        @asana_task = @existing_asana.first
+      else
+        @asana_task = AsanaTask.new(:url => params[:native_issue][:asana_url], 
+                                    :asana_workspace_id => params[:native_issue][:asana_workspace_id], 
+                                    :asana_id => params[:native_issue][:asana_id],
+                                    :name => params[:native_issue][:asana_name])
+        @asana_task.save
+      end
     end
     respond_to do |format|
       if @native_issue.save
-        @native_issue_has_asana = NativeIssueHasAsana.new(:asana_task_id => @asana_task.id, :native_issue_id => @native_issue.id)
-        @native_issue_has_asana.save
+        if params[:native_issue][:asana_id] != ""
+          @native_issue_has_asana = NativeIssueHasAsana.new(:asana_task_id => @asana_task.id, :native_issue_id => @native_issue.id)
+          @native_issue_has_asana.save
+        end
         format.html { redirect_to @native_issue, notice: 'Native issue was successfully created.' }
         format.json { render :show, status: :created, location: @native_issue }
       else

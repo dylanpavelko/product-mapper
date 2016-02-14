@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Native issue:</strong>
+  <%= @native_issue_has_response.native_issue %>
+</p>
+
+<p>
+  <strong>Response:</strong>
+  <%= @native_issue_has_response.response %>
+</p>
+
+<%= link_to 'Edit', edit_native_issue_has_response_path(@native_issue_has_response) %> |
+<%= link_to 'Back', native_issue_has_responses_path %>
