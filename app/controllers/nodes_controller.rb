@@ -249,6 +249,15 @@ class NodesController < ApplicationController
     end
   end
 
+  def destroy
+    @node = Node.find(params[:id])
+    @node.destroy
+    respond_to do |format|
+      format.html { redirect_to nodes_path, notice: 'Phase type default has phyase type was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
   private
     def node_params
       params.require(:node).permit(:name, :node_id, :parent_id, :nodeType_id, :phaseTypes, :description, :row_order_position)
