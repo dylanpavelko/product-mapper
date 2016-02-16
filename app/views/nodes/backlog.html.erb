@@ -96,8 +96,8 @@
             statics: ['.static'], //被排除行元素条件
             callback: false //选中回调
         },
-        first: null, //按shift时，用于记住第一个点击的item
-        last: null, //最后点击的item
+        first: null, //按shift时，用于记住第一个点击的item Press shift, remember to click on the first item
+        last: null, //最后点击的item  最后点击的item
         init: function (scope, options) {
             this.scope = scope;
             this.options = $.extend({}, this.defaults, options);
@@ -153,7 +153,7 @@
             });
 
             /**
-             * 点击其他处去除选中状态
+             * 点击其他处去除选中状态 click to remove the selected elsewhere
              */
             $(document).on('click.mSelect', function (e) {
                 for (var i in options.except) {
@@ -171,7 +171,7 @@
             });
 
             /**
-             * Ctrl+A全选
+             * Ctrl+A全选 select all
              */
             $(document).on('keydown.mSelect', function (e) {
                 if ((e.keyCode == 65) && (e.metaKey || e.ctrlKey)) {
@@ -187,7 +187,7 @@
             });
 
             /**
-             * 清楚shift按住的状态
+             * 清楚shift按住的状态 hold down the shift clearly state
              */
             $(document).on('keyup.mSelect', function (e) {
                 if (e.keyCode == 16) {
@@ -364,21 +364,41 @@ function initPage() {
 
         item_id = item.data('item-id');
         prior_position = item.data('item-position');
-        position = item.next().data('item-position');
+        higher_position = parseInt($('.selected').first().prev().attr('data-item-position'));
+        lower_position = item.next().data('item-position');
+        position = higher_position;
 
-        if(position == undefined){
-          position = item.prev().data('item-position') + 1;
+        if(prior_position >= position){
+                    position = position + 1;
+  // console.log("prior position is below new position");
         }else if(prior_position < position){
-          position = position - 1;
+          position = position ;
+  // console.log("prior position is above new position");
+        }else{
+          position = parseInt($('.selected').last().next().attr('data-item-position'));
+  // console.log("position was undefined");
         }
-        console.log("move to position " + position);
+
+
+        items = list.find('.' + settings.selectedClass);
+        var moved_rows = [];
+        for(var i = 0; i < items.length ; i++){
+          moved_rows.push(items[i].dataset.itemId
+          );
+// console.log("item id- "+ items[i].dataset.itemId);
+        }
+// console.log("move to position " + position);
+// console.log("higher position: " + higher_position);
+// console.log("lower position: " + lower_position);
+// console.log(list.find('.' + settings.selectedClass));
+// console.log(moved_rows)
 
         $.ajax({
           type: 'POST',
           url: '/nodes/update_row_order',
           dataType: 'json',
-          data: { node: {node_id: item_id, row_order_position: position } }}
-        );
+          data: { node: {node_id: moved_rows, row_order_position: position } }} // i think i need to pass in an array of all the moved nodes and their new relative position as being one behind the location of the first row QQQQ: but how do i get all the rows?
+        );//DP: I think in the response i need to reset the data item positin of the moved rows
 
 
         setTimeout(function() {
@@ -544,12 +564,12 @@ function renumber_table(tableID) {
 </script>
 
 
-    <script type="text/javascript">
-      jQuery(function($){
-        $('ul.sortable').multisortable();
-        $('ul#list1').sortable('option', 'connectWith', 'ul#list2');
-        $('ul#list2').sortable('option', 'connectWith', 'ul#list1');
-      });
-    </script>
+<script type="text/javascript">
+  jQuery(function($){
+    $('ul.sortable').multisortable();
+    $('ul#list1').sortable('option', 'connectWith', 'ul#list2');
+    $('ul#list2').sortable('option', 'connectWith', 'ul#list1');
+  });
+</script>
     
  

@@ -184,16 +184,29 @@ class NodesController < ApplicationController
   end
 
   def update_row_order
-    @node = Node.find(node_params[:node_id])
-    @prior_rank = @node.get_row_order_position
-    @node.row_order_position = node_params[:row_order_position]
-    @node.save
-    @new_rank = @node.get_row_order_position
-    @above_node = @node.get_node_in_position(@new_rank + 1)
-    @node_log = NodeHistory.new(:node_id => @node.id, :user_id => @current_user.id, 
-      :log_type => 1, :log => ("Updated Priority from " + @prior_rank.to_s + " to " + @new_rank.to_s + " above " + @above_node.name),
-      :other_node_id => @above_node.id )
-    @node_log.save
+    @node_ids = params[:node][:node_id]
+    @position = node_params[:row_order_position]
+
+    if Node.find(@node_ids.first).get_row_order_position >= @position.to_i 
+      @node_ids = @node_ids.reverse
+    end
+
+    @node_ids.each do |node_id|
+      @node = Node.find(node_id)
+      @node.row_order_position = @position
+      @position = @position.to_i 
+
+
+      @prior_rank = @node.get_row_order_position
+      @node.save
+      @new_rank = @node.get_row_order_position
+      @above_node = @node.get_node_in_position(@new_rank + 1)
+      @node_log = NodeHistory.new(:node_id => @node.id, :user_id => @current_user.id, 
+        :log_type => 1, :log => ("Updated Priority from " + @prior_rank.to_s + " to " + @new_rank.to_s + " above " + @above_node.name),
+        :other_node_id => @above_node.id )
+      @node_log.save
+
+    end
 
     render nothing: true # this is a POST action, updates sent via AJAX, no view rendered
   end
