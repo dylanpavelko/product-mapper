@@ -50,6 +50,9 @@ gem 'figaro' #writing to environments file
 gem 'rails_real_favicon'
 gem 'rails_autolink', '~> 1.1', '>= 1.1.6'
 
+
+gem 'yaml_db'
+gem 'mysql'
 #gem 'asana'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

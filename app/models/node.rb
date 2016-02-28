@@ -225,7 +225,7 @@ class Node < ActiveRecord::Base
   end
 
   def getAllOpenQuestions()
-    @asks = Question.where("node_id = ? AND resolved_id IS NOT ?", self.id, '1') + Array.new
+    @asks = Question.where("node_id = ? AND resolved_id <> ?", self.id, '1') + Array.new
     if self.children.count > 0
       self.children.each do |childNode|
         childNode.getAllOpenQuestions.each do |question| 

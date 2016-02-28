@@ -105,8 +105,8 @@ ActiveRecord::Schema.define(version: 20160213231358) do
   add_index "git_hub_accounts", ["user_id"], name: "index_git_hub_accounts_on_user_id"
 
   create_table "git_hub_issues", force: true do |t|
-    t.integer  "gitHubID",   limit: 255
-    t.integer  "number",     limit: 255
+    t.integer  "gitHubID"
+    t.integer  "number"
     t.string   "title"
     t.date     "created"
     t.date     "updated"
@@ -238,7 +238,7 @@ ActiveRecord::Schema.define(version: 20160213231358) do
   end
 
   create_table "nodes", force: true do |t|
-    t.string   "name"
+    t.text   "name"
     t.integer  "parent_id"
     t.integer  "nodeType_id"
     t.datetime "created_at"
@@ -388,7 +388,18 @@ ActiveRecord::Schema.define(version: 20160213231358) do
   add_index "user_has_role_for_nodes", ["role_id"], name: "index_user_has_role_for_nodes_on_role_id"
   add_index "user_has_role_for_nodes", ["user_id"], name: "index_user_has_role_for_nodes_on_user_id"
 
-# Could not dump table "users" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
+
+  create_table "users", force: true do |t|
+    t.string   "username"
+    t.string   "email"
+    t.string   "encrypted_password"
+    t.string   "salt"
+    t.boolean  "power_admin"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "password_reset"
+    t.string   "first_name"
+    t.string   "last_name"
+  end
 
 end
