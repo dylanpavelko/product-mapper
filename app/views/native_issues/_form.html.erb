@@ -14,7 +14,7 @@
     <%= f.label :issue_with_id %>: <%= @node.name %><br>
     <%= f.hidden_field :issue_with_id, :value => @node.id %>
   </div>
-  <% if !@native_issue.persisted? or @workspace == nil %>
+  <% if !@native_issue.persisted? or @workspace != nil %>
   <div class="field col-md-6" id="import_asana_container">
     <strong>Import Issue (Asana) URL:</strong>
     <%= f.text_field :asana_url, :class => "form-control" %>
