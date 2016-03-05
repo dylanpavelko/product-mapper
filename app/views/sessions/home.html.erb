@@ -36,7 +36,18 @@ Your Features:
 			<div class="col-md-3"><%= link_to feature_role.node.name, feature_role.node %>
 			</div>
 			<div class="col-md-2">
-				<%= feature_role.node.getAllIssues.count %>
+				<% node_issues = feature_role.node.getAllIssues %>
+				<%= node_issues.count %>
+				<% 	unresolved = 0
+					node_issues.each do |issue| 
+						if issue.resolved_with == nil
+							unresolved = unresolved + 1
+						end
+					end
+					%>
+				<% if unresolved >0 %>
+					<span class="label label-danger"><%= unresolved %> Unresolved</span>
+				<% end %>
 			</div>
 			<div class="col-md-2"><%= feature_role.node.getAllOpenQuestions.count %>
 			</div>
