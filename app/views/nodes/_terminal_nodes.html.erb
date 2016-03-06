@@ -1,6 +1,7 @@
 
 <div class="table-responsive">
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover" id="specs">
+      <thead>
         <th>Feature</th>
         <% if @granularity == "features_only" %>
         <% else %>
@@ -12,6 +13,8 @@
         <th>Priority</th>
         <th>Done?</th>
         <th>FDD</th>
+      </thead>
+      <tbody>
         <% @completed = @terminalNodes.select {|s| s.status } %>
 
           <% @features = Array.new %>
@@ -64,5 +67,41 @@
         </tr>
         <% end %>
       <% end %>
+      </tbody>
     </table>
 </div>
+
+
+<script type="text/javascript">
+function getURLParameter(sParam){
+  var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+}
+$(window).load(function(){
+  $('#specs').dataTable( {
+    "aaSorting": [[getColumnToSort(),'asc']],
+    "pageLength": 25
+  });
+}); 
+
+function getColumnToSort(){
+  var r = 5;
+  if (getURLParameter("granularity") == "features_only"){
+    r=  4;
+  }
+    return r;
+}
+</script>

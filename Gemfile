@@ -50,6 +50,7 @@ gem 'figaro' #writing to environments file
 gem 'rails_real_favicon'
 gem 'rails_autolink', '~> 1.1', '>= 1.1.6'
 
+ gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 
 gem 'yaml_db'
 gem 'mysql'

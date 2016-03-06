@@ -5,6 +5,16 @@ GIT
     ranked-model (0.4.0)
       activerecord (>= 3.1.12)
 
+GIT
+  remote: git://github.com/rweng/jquery-datatables-rails.git
+  revision: 9eee0a1975b5a22e50bdc73fcca7db7f8a12c143
+  specs:
+    jquery-datatables-rails (3.3.0)
+      actionpack (>= 3.1)
+      jquery-rails
+      railties (>= 3.1)
+      sass-rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -210,6 +220,7 @@ DEPENDENCIES
   curb
   figaro
   jbuilder (~> 2.0)
+  jquery-datatables-rails!
   jquery-rails
   jquery-turbolinks
   less-rails
