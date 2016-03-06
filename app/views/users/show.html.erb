@@ -26,6 +26,9 @@
         <% @my_non_feature_roles.each do |has_role| %>
           <li>
             <%= link_to has_role.role.name, has_role.role %>
+            <% if has_role.lead %>
+             Lead
+            <% end %>
             <% if has_role.node != nil %>
               for <%= link_to has_role.node.name, has_role.node %>
             <% end %>
