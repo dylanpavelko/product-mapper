@@ -90,12 +90,14 @@ function getURLParameter(sParam){
 };
 
 }
-$(window).load(function(){
+
+var ready;
+ready = function() {
   $('#specs').dataTable( {
     "aaSorting": [[getColumnToSort(),'asc']],
     "pageLength": 25
   });
-}); 
+}; 
 
 function getColumnToSort(){
   var r = 5;
@@ -104,4 +106,8 @@ function getColumnToSort(){
   }
     return r;
 }
+
+
+$(document).ready(ready);
+//$(document).on('page:load', ready);
 </script>
