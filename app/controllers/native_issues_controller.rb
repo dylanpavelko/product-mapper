@@ -6,7 +6,12 @@ class NativeIssuesController < ApplicationController
   # GET /native_issues
   # GET /native_issues.json
   def index
-    @native_issues = NativeIssue.all
+    if(params[:node] != nil)
+      @node = Node.find(params[:node])
+      @native_issues = @node.getAllIssues
+    else
+      @native_issues = NativeIssue.all
+    end
   end
 
   # GET /native_issues/1
@@ -56,7 +61,7 @@ class NativeIssuesController < ApplicationController
     end
     respond_to do |format|
       if @native_issue.save
-        if params[:native_issue][:asana_id] != ""
+        if params[:native_issue][:asana_id] != "" or params[:native_issue][:asana_id] == nil
           @native_issue_has_asana = NativeIssueHasAsana.new(:asana_task_id => @asana_task.id, :native_issue_id => @native_issue.id)
           @native_issue_has_asana.save
         end

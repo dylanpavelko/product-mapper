@@ -9,7 +9,16 @@
 <h1>Product Issues</h1>
 
 <% if @current_user.power_admin? %>
-Filter Issues with #NODE CHOOSER# Opened By <%= select_tag :opened_by, options_from_collection_for_select(User.all, :id, :display_name), {:include_blank => true} %> Between <%= date_field_tag :range_begin %> to <%= date_field_tag :range_end %> <button class="btn btn-default">Filter Issues</button>
+Filter Issues with #NODE CHOOSER# 
+Opened By <%= select_tag :opened_by, options_from_collection_for_select(User.all, :id, :display_name), {:include_blank => true} %> 
+Between <%= date_field_tag :range_begin %> to <%= date_field_tag :range_end %> 
+With Status 
+<select>
+  <option>Open</option>
+  <option>Open without Resolution</option>
+  <option>Resolved</option>
+</select>
+<button class="btn btn-default">Filter Issues</button>
 <hr>
 <% end %>
 <table class="table table-striped table-hover">

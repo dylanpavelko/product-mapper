@@ -46,7 +46,7 @@ Your Features:
 					end
 					%>
 				<% if unresolved >0 %>
-					<span class="label label-danger"><%= unresolved %> Unresolved</span>
+					<span class="label label-danger"><%= link_to (unresolved.to_s+" with no resolution"), native_issues_path(:node => feature_role.node), {:style=>'color:#FFFFFF;'} %></span>
 				<% end %>
 			</div>
 			<div class="col-md-2"><%= feature_role.node.getAllOpenQuestions.count %>
