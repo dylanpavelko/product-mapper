@@ -39,7 +39,24 @@ class UsersController < ApplicationController
   end
 
   def show
+    @filters = session[:filters]
+      if @filters == nil
+        @filters = Array.new
+      end
     @roles = UserHasRoleForNode.where(:user_id => @user.id)
+
+    @has_node_roles = @roles
+    @my_feature_roles = Array.new
+    @my_non_feature_roles = Array.new
+    @has_node_roles.each do |has_node_role|
+      if has_node_role.node != nil and has_node_role.node.nodeType.feature
+        @my_feature_roles << has_node_role
+      else 
+        @my_non_feature_roles << has_node_role
+      end
+    end
+
+    @my_feature_roles = @my_feature_roles.sort_by {|has_node| [has_node.node.belongs_to_product, has_node.node.name]}
   end
 
   def update

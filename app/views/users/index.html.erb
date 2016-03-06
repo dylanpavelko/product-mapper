@@ -6,9 +6,11 @@
       <th>Name</th>
       <th>Username</th>
       <th>Email</th>
-      <th>Power Admin</th>
-      <th>Password Reset</th>
-      <th colspan="2"></th>
+      <% if @current_user.power_admin %>
+        <th>Power Admin</th>
+        <th>Password Reset</th>
+        <th></th>
+      <% end %>
     </tr>
   </thead>
 
@@ -18,14 +20,17 @@
         <td><%= link_to (user.first_name + " " + user.last_name), user %></td>
         <td><%= user.username %></td>
         <td><%= user.email %></td>
-        <td><%= user.power_admin %></td>
-        <td><%= user.password_reset %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
+        <% if @current_user.power_admin %>
+          <td><%= user.power_admin %></td>
+          <td><%= user.password_reset %></td>
+          <td><%= link_to 'Edit', edit_user_path(user) %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'Add User', new_user_path %>
+<% if @current_user.power_admin %>
+  <%= link_to 'Add User', new_user_path %>
+<% end %>

@@ -1,3 +1,5 @@
+<%= render 'nodes/filters' %>
+
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this task from being saved:</h2>
@@ -9,18 +11,18 @@
       </ul>
     </div>
   <% end %>
-
-  <h1>View User: <%= @user.first_name %> <%= @user.last_name %></h1>
-  <img src="<%= @user.picture %>" width="150"/>
+<div>
+  <h1><img src="<%= @user.picture %>" width="150" style="border-radius:50%"/> <%= @user.first_name %> <%= @user.last_name %></h1>
+  
     <p> <strong>Username:</strong></br> <%= @user.username %> </p>
     <p> <strong>Email:</strong></br> <%= @user.email %> </p>
     <% if @user.password_reset == 1 %><p> Re-set Password on Login:  true </p><% end %>
 
     <p>
     <strong>Roles:</strong>
-    <% if @roles.count > 0 %>
+    <% if @my_non_feature_roles.count > 0 %>
       <ul>
-        <% @roles.each do |has_role| %>
+        <% @my_non_feature_roles.each do |has_role| %>
           <li>
             <%= link_to has_role.role.name, has_role.role %>
             <% if has_role.node != nil %>
@@ -31,6 +33,14 @@
         <% end %>
       </ul>
     <% end %>
-    <%= link_to "Add Roles", new_user_has_role_for_node_path %>
+    <% if @current_user.can_manage_people %>
+      <%= link_to "Add Roles", new_user_has_role_for_node_path %>
+    <% end %>
     </p>
-<%= link_to "All Users", users_path %>
+<% if @current_user.power_admin %>
+  <%= link_to "All Users", users_path %>
+<% end %>
+</div>
+
+<h4>Product Feature Roles:</h4>
+<%= render 'sessions/user_features' %>
