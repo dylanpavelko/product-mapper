@@ -32,9 +32,9 @@
         <td><%= link_to phase.node.name, phase.node %></td>
         <td><%= phase.node.getAllOpenQuestions.count %></td>
         <td><%= NativeIssue.where(:resolved_with_id => phase.node).count %></td>
-        <td><%= link_to image_tag(phase.node.get_closest_pm.picture, :width => "25px", :style => "border-radius:50%"), phase.node.get_closest_pm %></td>
+        <td><%= link_to image_tag(phase.node.get_closest_pm.picture, :width => "25px", :style => "border-radius:50%", :alt => phase.node.get_closest_pm.display_name, :title => phase.node.get_closest_pm.first_name), phase.node.get_closest_pm %></td>
         <td><% phase.node.get_non_pms.each do |user| %>
-         <%= link_to image_tag(user.picture, :width => "25px", :style => "border-radius:50%"), user %>
+         <%= link_to image_tag(user.picture, :width => "25px", :style => "border-radius:50%", :alt => user.display_name, :title => user.first_name), user %>
          <% end %>
        </td>
       </tr>
