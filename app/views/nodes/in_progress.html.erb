@@ -1,4 +1,4 @@
-<% content_for :title, "In Progress"%>
+<% content_for :title, "In Progress Work"%>
 <h4>In Progress Work</h4>
 <div class="panel panel-default">
     <!-- Default panel contents -->
@@ -32,7 +32,7 @@
       <tr>
         <td><%= link_to phase.node.parent.name, phase.node.parent %></td>
         <td><%= link_to phase.node.name, phase.node %></td>
-        <td></td>
+        <td><%= phase.node.getAllOpenQuestions.count %></td>
         <td></td>
         <td><%= link_to image_tag(phase.node.get_closest_pm.picture, :width => "25px", :style => "border-radius:50%"), phase.node.get_closest_pm %></td>
         <td></td>
