@@ -1,0 +1,44 @@
+<% content_for :title, "In Progress"%>
+<h4>In Progress Work</h4>
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <% @product = @in_progress_phases.first.node.belongs_to_product %>
+    <div class="panel-heading"><strong><%= link_to (@product.name + " Product"), @product %></strong></div>
+      <table class="table">
+        <th>Feature</th>
+        <th>Specification</th>
+        <th>Open Questions</th>
+        <th>Solves Issues</th>
+        <th>PM</th>
+        <th>DEV</th>
+        <th>QA</th>
+  <% @in_progress_phases.each do |phase| %>
+    <% @next_product = phase.node.belongs_to_product %>
+    <% if @product.id != @next_product.id %>
+        </table>
+      </div>
+      <% @product = @next_product %>
+      <div class="panel panel-default">
+        <div class="panel-heading"><strong><%= link_to (@product.name + " Product"), @product %></strong></div>
+      <table class="table">
+        <th>Feature</th>
+        <th>Specification</th>
+        <th>Open Questions</th>
+        <th>Solves Issues</th>
+        <th>PM</th>
+        <th>DEV</th>
+        <th>QA</th>
+    <% end %>
+      <tr>
+        <td><%= link_to phase.node.parent.name, phase.node.parent %></td>
+        <td><%= link_to phase.node.name, phase.node %></td>
+        <td></td>
+        <td></td>
+        <td><%= link_to image_tag(phase.node.get_closest_pm.picture, :width => "25px", :style => "border-radius:50%"), phase.node.get_closest_pm %></td>
+        <td></td>
+        <td></td>
+      </tr>
+  <% end %>
+
+  </div>
+</div>

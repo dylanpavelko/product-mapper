@@ -526,7 +526,7 @@ class Node < ActiveRecord::Base
   def belongs_to_product
     if self.nodeType.product 
       return self
-    elsif self.nodeType.feature
+    elsif self.nodeType.feature or self.nodeType.specification
       @i = self
       @parents = Array.new
       while @i.parent != nil do 
@@ -550,6 +550,17 @@ class Node < ActiveRecord::Base
       @i = @i.parent
     end
     return @parents
+  end
+
+  def get_closest_pm
+    @users = UserHasRoleForNode.where(:node => self.id)
+    if @users.count > 0
+      return @users.first.user
+    elsif self.parent == nil
+      return nil
+    else
+      return self.parent.get_closest_pm
+    end
   end
 
 end

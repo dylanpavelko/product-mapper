@@ -109,6 +109,12 @@ class NodesController < ApplicationController
       if @hide_completed == "true"
         @terminalNodes = @terminalNodes.select {|s| !s.status }
       end
+  end
+
+  def in_progress
+    @in_progress_phases = Phase.where(:progress_status => '2')
+
+    @in_progress_phases = @in_progress_phases.sort_by {|phase| [phase.node.belongs_to_product, phase.node.parent.name]}
 
   end
 
