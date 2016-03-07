@@ -10,8 +10,7 @@
         <th>Open Questions</th>
         <th>Solves Issues</th>
         <th>PM</th>
-        <th>DEV</th>
-        <th>QA</th>
+        <th>DEV & QA</th>
   <% @in_progress_phases.each do |phase| %>
     <% @next_product = phase.node.belongs_to_product %>
     <% if @product.id != @next_product.id %>
@@ -26,8 +25,7 @@
         <th>Open Questions</th>
         <th>Solves Issues</th>
         <th>PM</th>
-        <th>DEV</th>
-        <th>QA</th>
+        <th>DEV & QA</th>
     <% end %>
       <tr>
         <td><%= link_to phase.node.parent.name, phase.node.parent %></td>
@@ -35,8 +33,10 @@
         <td><%= phase.node.getAllOpenQuestions.count %></td>
         <td><%= NativeIssue.where(:resolved_with_id => phase.node).count %></td>
         <td><%= link_to image_tag(phase.node.get_closest_pm.picture, :width => "25px", :style => "border-radius:50%"), phase.node.get_closest_pm %></td>
-        <td></td>
-        <td></td>
+        <td><% phase.node.get_non_pms.each do |user| %>
+         <%= link_to image_tag(user.picture, :width => "25px", :style => "border-radius:50%"), user %>
+         <% end %>
+       </td>
       </tr>
   <% end %>
 

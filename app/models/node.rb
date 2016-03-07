@@ -553,14 +553,32 @@ class Node < ActiveRecord::Base
   end
 
   def get_closest_pm
+    @pms = Array.new
     @users = UserHasRoleForNode.where(:node => self.id)
-    if @users.count > 0
-      return @users.first.user
+    
+    @users.each do |has_role|
+      if has_role.role.edit_nodes
+        @pms << has_role.user
+      end
+    end
+    if @pms.count > 0
+      return @pms.first
     elsif self.parent == nil
       return nil
     else
       return self.parent.get_closest_pm
     end
+  end
+
+  def get_non_pms
+    @user_roles = UserHasRoleForNode.where(:node => self.id)
+    @non_pms = Array.new
+    @user_roles.each do |has_role|
+      if ! has_role.role.edit_nodes
+        @non_pms << has_role.user
+      end
+    end
+    return @non_pms
   end
 
 end

@@ -253,7 +253,8 @@
   <%= link_to "Add Link", new_node_has_functional_design_document_path(@node) %>
   <% end %>
 <% end %>
-<% if @node.nodeType.feature %>
+<br/>
+<% if @node.nodeType.feature or @node.nodeType.specification %>
 <strong>Team:</strong><br/>
 <% @node.team_members.each do |team_member| %>
   <%= team_member.user.display_name %> - <%= team_member.role.name %>
