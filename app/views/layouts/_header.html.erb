@@ -24,7 +24,8 @@
           <li><%= link_to "Products", nodes_path %></li>
         <% end %>
         <% if @current_user != nil %>
-        <li><%= link_to "Issues", native_issues_path %></li>
+        <li><%= link_to "In Progress", in_progress_path %></li>
+        <li><%= link_to "View Issues", native_issues_path %></li>
         <% end %>
         <% if @current_user!= nil and @current_user.power_admin %>
               <li class="dropdown">
