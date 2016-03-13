@@ -72,9 +72,10 @@ class DeliveryDatesController < ApplicationController
   # DELETE /delivery_dates/1
   # DELETE /delivery_dates/1.json
   def destroy
+    @node = @delivery_date.node
     @delivery_date.destroy
     respond_to do |format|
-      format.html { redirect_to delivery_dates_url, notice: 'Delivery date was successfully destroyed.' }
+      format.html { redirect_to @node, notice: 'Delivery date was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
