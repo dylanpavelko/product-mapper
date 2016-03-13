@@ -162,6 +162,7 @@
       <li><%= date.delivery_type %> <%= date.environment.name %> with <%= date.milestone.name %> 
         <% if @current_user.can_manage_product_for_node(@node) %>
           <%= link_to 'edit', edit_delivery_date_path(date) %> 
+          <%= link_to 'X', date, method: :delete, data: { confirm: 'Are you sure?' } %>
         <% end %>
       </li>
     <% end %>
