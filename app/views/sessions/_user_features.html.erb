@@ -32,7 +32,7 @@
 				<%= node_issues.count %>
 				<% 	unresolved = 0
 					node_issues.each do |issue| 
-						if issue.resolved_with == nil
+						if issue.resolved_with == nil and !issue.close_without_resolution
 							unresolved = unresolved + 1
 						end
 					end
