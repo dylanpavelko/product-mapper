@@ -1,0 +1,6 @@
+<% @node = Node.find(activity.parameters[:node]) %>
+removed a delivery date for <%= link_to @node.name, @node %>
+	<div>
+		<span style="font-size:24px;color:grey"  class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 
+		Removed date for <%= activity.parameters[:environment] %> 
+	</div>

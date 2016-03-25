@@ -13,7 +13,7 @@
     </div>
   <% end %>
 <div>
-  <h1><img src="<%= @user.picture %>" width="150" style="border-radius:50%"/> <%= @user.first_name %> <%= @user.last_name %></h1>
+  <h1><%= link_to image_tag(@user.picture, :width => '150', :style => 'border-radius:50%'), change_photo_path(@user) %> <%= @user.first_name %> <%= @user.last_name %></h1>
   
     <p> <strong>Username:</strong></br> <%= @user.username %> </p>
     <p> <strong>Email:</strong></br> <%= @user.email %> </p>

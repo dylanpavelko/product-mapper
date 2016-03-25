@@ -1,4 +1,6 @@
 class DeliveryDate < ActiveRecord::Base
+  include PublicActivity::Common
+
   belongs_to :node, class_name: "Node", foreign_key: "node_id"
   belongs_to :environment, class_name: "Environment", foreign_key: "envrionment_id"
   belongs_to :milestone, class_name: "Milestone", foreign_key: "milestone_id"

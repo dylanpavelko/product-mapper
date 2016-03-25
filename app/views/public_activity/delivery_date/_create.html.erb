@@ -1,0 +1,11 @@
+set a delivery date
+
+<% if activity.trackable %>
+ for <%= link_to activity.trackable.node.name, activity.trackable.node %>
+	<div>
+		<span style="font-size:24px;color:grey"  class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 
+		<%= activity.trackable.string %> 
+	</div>
+<% else %>
+ which has since been removed.
+<% end %>

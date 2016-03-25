@@ -1,0 +1,13 @@
+responded to 
+<% if activity.parameters[:type] == "issue" %>
+	<% @has_issue = NativeIssueHasResponse.where(:response_id => activity.trackable.id) %>
+	the issue: <%= link_to @has_issue.first.native_issue.summary, @has_issue.first.native_issue %>
+<% elsif activity.parameters[:type] == "question" %>
+<% @has_question = QuestionHasResponse.where(:response_id => activity.trackable.id) %>
+	the question: <%= link_to @has_question.first.question.question, @has_question.first.question %>
+<% else %>
+<% end %>
+	<div>
+		<span style="font-size:24px;color:grey"  class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> 
+		Response: <%= activity.trackable.content %> 
+	</div>

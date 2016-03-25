@@ -61,6 +61,7 @@ class NativeIssuesController < ApplicationController
     end
     respond_to do |format|
       if @native_issue.save
+        @native_issue.create_activity :create, owner: @current_user
         if params[:native_issue][:asana_id] != "" or params[:native_issue][:asana_id] == nil
           @native_issue_has_asana = NativeIssueHasAsana.new(:asana_task_id => @asana_task.id, :native_issue_id => @native_issue.id)
           @native_issue_has_asana.save
@@ -79,6 +80,7 @@ class NativeIssuesController < ApplicationController
   def update
     respond_to do |format|
       if @native_issue.update(native_issue_params)
+        @native_issue.create_activity :update, owner: @current_user
         format.html { redirect_to @native_issue, notice: 'Native issue was successfully updated.' }
         format.json { render :show, status: :ok, location: @native_issue }
       else

@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'activities/index'
+
+  resource :activities
+
   resources :native_issue_has_responses
 
   resources :node_has_themes
