@@ -112,6 +112,8 @@ puts activity.inspect
 			end
 		elsif activity.trackable_type == "Phase"
 			@relevant_node = Node.find(activity.parameters[:node_id])
+		elsif activity.trackable_type == "Node"
+			@relevant_node = Node.find(activity.trackable.id)
     	end
 
     	#get all the relevant nodes
@@ -132,6 +134,17 @@ puts activity.inspect
     	@user_roles.each do |user_role|
     		if user_role.subscribes_to(activity) and !@subscribers.include? user_role.user and user_role.user != @current_user
     			@subscribers << user_role.user
+    		end
+    	end
+
+    	if activity.trackable_type == "Response"
+    		if activity.parameters[:type] == "issue"
+    			@owner = User.find(@issue.added_by_id)
+    		elsif activity.parameters[:type] == "question"
+    			@owner = User.find(@question.asked_by_user_id)
+    		end
+    		if @owner != nil and !@subscribers.include? @owner and @owner != @current_user.id
+    			@subscribers << @owner
     		end
     	end
 

@@ -38,6 +38,7 @@ class NodesController < ApplicationController
         @development_phase_type = PhaseType.where(:name => "Development").first
         add_phase_if_needed(@node, @development_phase_type)
       end
+      add_activity_to_subscribers_inbox(@node.create_activity :create, owner: @current_user)
 
       @log = NodeHistory.new(:user_id => @current_user.id, :node_id => @node.id, :other_node_id => @node.parent_id,
         :log => "Created Product Node as a part of ", :log_type => 2)
@@ -179,6 +180,7 @@ class NodesController < ApplicationController
     #   end  
     # end
     if @node.update_attributes(node_params)
+      add_activity_to_subscribers_inbox(@node.create_activity :update, owner: @current_user)
       @log = NodeHistory.new(:user_id => @current_user.id, :node_id => @node.id,
         :log => "Updated the product node ")
       @log.save

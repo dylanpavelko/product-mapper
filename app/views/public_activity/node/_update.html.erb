@@ -1,0 +1,10 @@
+updated a 
+
+<% if activity.trackable %>
+  <%= activity.trackable.nodeType.name %> of the  <%= link_to activity.trackable.parent.name, activity.trackable.parent %> <%= activity.trackable.parent.nodeType.name %>
+	<div>
+		<%= activity.trackable.nodeType.name %>: <%= link_to activity.trackable.name, activity.trackable %> 
+	</div>
+<% else %>
+ product node which has since been removed.
+<% end %>

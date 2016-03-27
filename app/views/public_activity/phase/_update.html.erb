@@ -1,5 +1,4 @@
 updated the status of <% @node = Node.find(activity.parameters[:node_id]) %><%= link_to @node.name, @node %>
 	<div>
-		<span style="font-size:24px;color:grey"  class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span> 
 		Updated  <%= activity.trackable.phaseType.name %> to  <%= activity.trackable.get_progress_status activity.parameters[:progress_status] %>
 	</div>

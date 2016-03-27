@@ -1,5 +1,4 @@
 asked a question about <% @node = Node.find(activity.trackable.node_id) %><%= link_to @node.name, @node %>
 	<div>
-		<span style="font-size:24px;color:grey"  class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> 
 		Question: <%= link_to activity.trackable.question, activity.trackable %> 
 	</div>

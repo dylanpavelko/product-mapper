@@ -1,4 +1,6 @@
 class Node < ActiveRecord::Base
+  include PublicActivity::Common
+
   belongs_to :parent, class_name: "Node", foreign_key: "parent_id"
   has_many :children, class_name: 'Node', foreign_key: "parent_id"
   belongs_to :nodeType, class_name: "NodeType"

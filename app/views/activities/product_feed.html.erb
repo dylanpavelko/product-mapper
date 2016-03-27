@@ -19,29 +19,54 @@
 <br/>
 <div class="col-md-12">
   <% @inbox_items.order("created_at desc").each do |inbox_item| %>
-  <% activity = inbox_item.activity %>
-  <div>
-  	<span style="font-size:24px;float:right;"  class="glyphicon glyphicon-ok unread" aria-hidden="true" id=<%=inbox_item.id%>></span> 
-  	<%= activity.created_at.in_time_zone(time_zone).strftime("%m/%d/%Y at %I:%M%p") %><br/>
-  	<%= link_to image_tag(activity.owner.picture, :width => "25px", :style => "border-radius:50%", :alt => activity.owner.display_name, :title => activity.owner.first_name), activity.owner %> <%= link_to activity.owner.display_name, activity.owner if activity.owner %> 
-  	
-  	<%= render_activity activity %>
-  	<hr/>
-  </div>
+    <% activity = inbox_item.activity %>
+    <% if @lastActivityType == nil or 
+      (activity.trackable_type != @lastActivityType and activity.trackable_type != "Response" and activity.trackable_type != "Phase") or
+      (activity.trackable_type == "Response" and @lastActivityType.downcase != activity.parameters[:type].downcase) or 
+      (activity.trackable_type== "Phase" and @lastActivityType != "Node") %>
+      <% if @lastActivityType != nil %>
+        </div>
+      <% end %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <% if activity.trackable_type == "NativeIssue" or (activity.trackable_type == "Response" and activity.parameters[:type] == "issue") %>
+            <h3><span style="font-size:24px;color:grey"  class="glyphicon glyphicon-flag" aria-hidden="true"></span>  Issues</h3>
+            <% @lastActivityType = "NativeIssue" %>
+          <% elsif activity.trackable_type == "Question" or (activity.trackable_type == "Response" and activity.parameters[:type] == "question") %>
+             <h3><span style="font-size:24px;color:grey"  class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>  Questions</h3>
+             <% @lastActivityType = "Question" %>
+          <% elsif activity.trackable_type == "DeliveryDate" %>
+             <h3><span style="font-size:24px;color:grey"  class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Delivery Schedule</h3>
+             <% @lastActivityType = "DeliveryDate" %>
+          <% elsif activity.trackable_type == "Node" or activity.trackable_type == "Phase" %>
+             <h3><span style="font-size:24px;color:grey"  class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Product</h3>
+             <% @lastActivityType = "Node" %>
+          <% else %>
+            <h3 class="panel-title">Updates</h3>
+            <% @lastActivityType = "Something Else" %>
+          <% end %>
+        </div>
+    <% else %>
+      <hr/>
+    <% end %>
+    
+      <div class="panel-body">
+        <span style="font-size:24px;float:right;"  class="glyphicon glyphicon-ok unread" aria-hidden="true" id=<%=inbox_item.id%>></span> 
+        <%= activity.created_at.in_time_zone(time_zone).strftime("%m/%d/%Y at %I:%M%p") %><br/>
+        <%= link_to image_tag(activity.owner.picture, :width => "25px", :style => "border-radius:50%", :alt => activity.owner.display_name, :title => activity.owner.first_name), activity.owner %> <%= link_to activity.owner.display_name, activity.owner if activity.owner %> 
+      
+        <%= render_activity activity %>
+      
+    
+    </div>
   <% end %>
+</div>
   <% if @inbox_items.count == 0 %>
-  No new items in your product feed.
+    No new items in your product feed.
   <% end %>
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Panel title</h3>
-  </div>
-  <div class="panel-body">
-    Panel content
-  </div>
-</div>
-  
+
+
 </div>
 
 <script type="text/javascript">
