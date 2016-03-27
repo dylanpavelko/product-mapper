@@ -1,10 +1,10 @@
 responded to 
 <% if activity.parameters[:type] == "issue" %>
-	<% @has_issue = NativeIssueHasResponse.where(:response_id => activity.trackable.id) %>
-	the issue: <%= link_to @has_issue.first.native_issue.summary, @has_issue.first.native_issue %>
+	<% @has_issue = NativeIssueHasResponse.where(:response_id => activity.trackable.id).first %>
+	the issue: <%= link_to @has_issue.native_issue.summary, @has_issue.native_issue if @has_issue%>
 <% elsif activity.parameters[:type] == "question" %>
-<% @has_question = QuestionHasResponse.where(:response_id => activity.trackable.id) %>
-	the question: <%= link_to @has_question.first.question.question, @has_question.first.question %>
+<% @has_question = QuestionHasResponse.where(:response_id => activity.trackable.id).first %>
+	the question: <%= link_to @has_question.question.question, @has_question.question if @has_question%>
 <% else %>
 <% end %>
 	<div>

@@ -30,7 +30,7 @@ class ResponsesController < ApplicationController
 
     respond_to do |format|
       if @response.save
-        @response.create_activity :create, owner: @current_user
+        add_activity_to_subscribers_inbox(@response.create_activity :create, owner: @current_user)
         format.html { redirect_to @response, notice: 'Response was successfully created.' }
         format.json { render :show, status: :created, location: @response }
       else
@@ -67,7 +67,7 @@ class ResponsesController < ApplicationController
   def add_response_to_question
     @response = Response.new(:content => params[:response], :user => User.find(params[:user_id]))
     @response.save
-    @response.create_activity :create, owner: @current_user, parameters: {type: 'question', question_id: params[:question_id]}
+    add_activity_to_subscribers_inbox(@response.create_activity :create, owner: @current_user, parameters: {type: 'question', question_id: params[:question_id]})
     @question_has_response = QuestionHasResponse.new(:question_id => params[:question_id],
      :response_id => @response.id, :answers => params[:answered])
     @question_has_response.save
@@ -83,7 +83,7 @@ class ResponsesController < ApplicationController
   def add_response_to_native_issue
     @response = Response.new(:content => params[:response], :user => User.find(params[:user_id]))
     @response.save
-    @response.create_activity :create, owner: @current_user, parameters: {type: 'issue', native_issue_id: params[:native_issue_id]}
+    add_activity_to_subscribers_inbox(@response.create_activity :create, owner: @current_user, parameters: {type: 'issue', native_issue_id: params[:native_issue_id]})
     @question_has_response = NativeIssueHasResponse.new(:native_issue_id => params[:native_issue_id],
      :response_id => @response.id)
     @question_has_response.save

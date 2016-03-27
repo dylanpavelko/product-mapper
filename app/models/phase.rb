@@ -1,5 +1,6 @@
 class Phase < ActiveRecord::Base
-	belongs_to :phaseType, class_name: "PhaseType", foreign_key: "phaseType_id"
+	  include PublicActivity::Common
+    belongs_to :phaseType, class_name: "PhaseType", foreign_key: "phaseType_id"
 	belongs_to :node, class_name: "Node", foreign_key: "node_id"
 
 	def name
@@ -18,6 +19,16 @@ class Phase < ActiveRecord::Base
     	else
     		return 'Backlog'
     	end	
+    end
+
+    def get_progress_status(status)
+        if status == 1
+            return 'Done'
+        elsif status == 2
+            return 'In Progress'
+        else
+            return 'Backlog'
+        end 
     end
 
     def dependencies

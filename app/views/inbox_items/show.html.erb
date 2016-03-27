@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @inbox_item.user %>
+</p>
+
+<p>
+  <strong>Activity:</strong>
+  <%= @inbox_item.activity %>
+</p>
+
+<p>
+  <strong>Read:</strong>
+  <%= @inbox_item.read %>
+</p>
+
+<%= link_to 'Edit', edit_inbox_item_path(@inbox_item) %> |
+<%= link_to 'Back', inbox_items_path %>

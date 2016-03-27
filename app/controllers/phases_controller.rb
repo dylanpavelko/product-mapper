@@ -64,11 +64,11 @@ class PhasesController < ApplicationController
     end
   end
 
-  def set_phase_status
-      @phase = Phase.find(params[:id])
-      @phase.update(:status => params[:phase_status])
-      render :nothing => true
-  end
+  # def set_phase_status
+  #     @phase = Phase.find(params[:id])
+  #     @phase.update(:status => params[:phase_status])
+  #     render :nothing => true
+  # end
 
   def set_progress_status
       @phase = Phase.find(params[:id])
@@ -80,6 +80,7 @@ class PhasesController < ApplicationController
       else
         @phase.update_attribute(:status,false)
       end
+      add_activity_to_subscribers_inbox(@phase.create_activity :update, owner: @current_user, parameters: {progress_status: @phase.progress_status, node_id: @phase.node.id})
       #sync up the node status
       @phase.node.reset_feature_spec_node_status
       @phase.node.save

@@ -47,7 +47,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
-        @question.create_activity :create, owner: @current_user
+        add_activity_to_subscribers_inbox(@question.create_activity :create, owner: @current_user)
         format.html { redirect_to @question, notice: 'Question was successfully created.' }
         format.json { render :show, status: :created, location: @question }
       else
@@ -62,7 +62,7 @@ class QuestionsController < ApplicationController
   def update
     respond_to do |format|
       if @question.update(question_params)
-        @question.create_activity :update, owner: @current_user
+        add_activity_to_subscribers_inbox(@question.create_activity :update, owner: @current_user)
         format.html { redirect_to @question, notice: 'Question was successfully updated.' }
         format.json { render :show, status: :ok, location: @question }
       else

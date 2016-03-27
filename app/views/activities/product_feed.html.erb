@@ -1,0 +1,60 @@
+<% content_for :title, "Product Feed"%>
+<script type="text/javascript">
+  var currentTime = new Date();
+  var utcOffset   = currentTime.getTimezoneOffset()
+  document.cookie = 'time_zone_offset='+utcOffset+';';
+</script>
+<%  offset = cookies["time_zone_offset"].to_i
+  time_zone = ActiveSupport::TimeZone[-offset.minutes] %>
+<style>
+.unread{
+	color:grey;
+}
+.unread:hover {
+    color: #5bc0de;
+}
+</style>
+</head>
+<h2>Product Feed</h2>
+<br/>
+<div class="col-md-12">
+  <% @inbox_items.order("created_at desc").each do |inbox_item| %>
+  <% activity = inbox_item.activity %>
+  <div>
+  	<span style="font-size:24px;float:right;"  class="glyphicon glyphicon-ok unread" aria-hidden="true" id=<%=inbox_item.id%>></span> 
+  	<%= activity.created_at.in_time_zone(time_zone).strftime("%m/%d/%Y at %I:%M%p") %><br/>
+  	<%= link_to image_tag(activity.owner.picture, :width => "25px", :style => "border-radius:50%", :alt => activity.owner.display_name, :title => activity.owner.first_name), activity.owner %> <%= link_to activity.owner.display_name, activity.owner if activity.owner %> 
+  	
+  	<%= render_activity activity %>
+  	<hr/>
+  </div>
+  <% end %>
+  <% if @inbox_items.count == 0 %>
+  No new items in your product feed.
+  <% end %>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Panel title</h3>
+  </div>
+  <div class="panel-body">
+    Panel content
+  </div>
+</div>
+  
+</div>
+
+<script type="text/javascript">
+//sets inbox item to read
+$('.unread').click(function(){
+	$.ajax({url: "/mark_inbox_item_as_read", 
+            type: "POST", 
+            data: {'inbox_item_id': this.id,
+        			'read' : true}, 
+            dataType: 'json'}).done(function(data)  {
+                if(!data.error) location.reload(true);
+            }).fail(function(e, ts, et)  {
+                alert("Sorry. Server unavailable. " + ts);
+            }); 
+});
+</script>

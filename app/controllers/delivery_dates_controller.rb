@@ -42,7 +42,7 @@ class DeliveryDatesController < ApplicationController
 
     respond_to do |format|
       if @delivery_date.save
-        @delivery_date.create_activity :create, owner: @current_user
+        add_activity_to_subscribers_inbox(@delivery_date.create_activity :create, owner: @current_user)
         @node_log.save
         format.html { redirect_to session.delete(:return_to), notice: 'Delivery date was successfully created.' }
         format.json { render :show, status: :created, location: @delivery_date }
@@ -58,7 +58,7 @@ class DeliveryDatesController < ApplicationController
   def update
     respond_to do |format|
       if @delivery_date.update(delivery_date_params)
-        @delivery_date.create_activity :update, owner: @current_user
+        add_activity_to_subscribers_inbox(@delivery_date.create_activity :update, owner: @current_user)
         @node_log = NodeHistory.new(:node_id => @delivery_date.node.id, :user_id => @current_user.id, :log => ("Updated Delivery Date: " + @delivery_date.string) )
         @node_log.save 
 
@@ -76,7 +76,7 @@ class DeliveryDatesController < ApplicationController
   def destroy
     @node = @delivery_date.node
     @environment = @delivery_date.environment
-    @delivery_date.create_activity :destroy, owner: @current_user, parameters: {environment: @environment.name, node: @node.id}
+    add_activity_to_subscribers_inbox(@delivery_date.create_activity :destroy, owner: @current_user, parameters: {environment: @environment.name, node: @node.id})
     @delivery_date.destroy
     respond_to do |format|
       format.html { redirect_to @node, notice: 'Delivery date was successfully destroyed.' }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160325022442) do
+ActiveRecord::Schema.define(version: 20160327003009) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -148,6 +148,17 @@ ActiveRecord::Schema.define(version: 20160325022442) do
 
   add_index "git_hub_repos", ["node_id"], name: "index_git_hub_repos_on_node_id", using: :btree
   add_index "git_hub_repos", ["user_id"], name: "index_git_hub_repos_on_user_id", using: :btree
+
+  create_table "inbox_items", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "activity_id"
+    t.boolean  "read"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "inbox_items", ["activity_id"], name: "index_inbox_items_on_activity_id", using: :btree
+  add_index "inbox_items", ["user_id"], name: "index_inbox_items_on_user_id", using: :btree
 
   create_table "milestones", force: true do |t|
     t.string   "name"
@@ -360,6 +371,7 @@ ActiveRecord::Schema.define(version: 20160325022442) do
     t.datetime "updated_at"
     t.boolean  "manage_people"
     t.boolean  "administrative"
+    t.boolean  "subscribes"
   end
 
   create_table "tasks", force: true do |t|

@@ -290,15 +290,15 @@ function handler(event) {
 }
 $('a.node').click(handler);
 
-$('a[id*="phase-done"]').click(function(){
-    var phase_id = $(this).attr('id').split("done")[1];
-    $.ajax({url: "/phase/set_status", type: "POST", data: {'id': phase_id ,'phase_status': false}, dataType: 'json'});
-});
+// $('a[id*="phase-done"]').click(function(){
+//     var phase_id = $(this).attr('id').split("done")[1];
+//     $.ajax({url: "/phase/set_status", type: "POST", data: {'id': phase_id ,'phase_status': false}, dataType: 'json'});
+// });
 
-$('a[id*="phase-mark-done"]').click(function(){
-    var phase_id = $(this).attr('id').split("done")[1];
-    $.ajax({url: "/phase/set_status", type: "POST", data: {'id': phase_id ,'phase_status': true}, dataType: 'json'});
-});
+// $('a[id*="phase-mark-done"]').click(function(){
+//     var phase_id = $(this).attr('id').split("done")[1];
+//     $.ajax({url: "/phase/set_status", type: "POST", data: {'id': phase_id ,'phase_status': true}, dataType: 'json'});
+// });
 
 $('a[class^="set-phase-status"]').click(function(){
     var phase_id = $(this).attr('id');

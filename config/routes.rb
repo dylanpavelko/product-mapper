@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :inbox_items
+
   get 'activities/index'
 
   resource :activities
@@ -21,6 +23,8 @@ Rails.application.routes.draw do
   post '/add_response_to_question' => 'responses#add_response_to_question'
 
   post '/add_response_to_native_issue' => 'responses#add_response_to_native_issue'
+
+  post '/mark_inbox_item_as_read' => 'inbox_items#mark_inbox_item_as_read'
 
   resources :question_has_responses
 
@@ -72,7 +76,7 @@ Rails.application.routes.draw do
 
   get 'welcome/index'
 
-  post 'phase/set_status' => 'phases#set_phase_status'
+  #post 'phase/set_status' => 'phases#set_phase_status'
 
   post 'phase/set_progress_status' => 'phases#set_progress_status'
 
@@ -116,6 +120,8 @@ Rails.application.routes.draw do
   get 'in_progress(/:id)' => 'nodes#in_progress' , as: :in_progress
 
   get 'users/new'
+
+  get 'my_product_feed' => 'activities#product_feed' , as: :product_feed
 
   post 'search', to: 'application#header_search'
 

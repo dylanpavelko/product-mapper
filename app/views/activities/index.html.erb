@@ -7,7 +7,7 @@
 <%  offset = cookies["time_zone_offset"].to_i
   time_zone = ActiveSupport::TimeZone[-offset.minutes] %>
 
-<h1>Product Activity</h1>
+<h2>Product Feed</h2>
 <% @activities.each do |activity| %>
 <div>
 	<%= activity.created_at.in_time_zone(time_zone).strftime("%m/%d/%Y at %I:%M%p") %><br/>

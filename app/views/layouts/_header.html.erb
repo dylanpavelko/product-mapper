@@ -102,7 +102,10 @@
         </li>
         <li class="navbar-brand">
           <span id="product_feed" style="cursor:pointer;">
-          <span style="font-size:24px;color:grey"  class="glyphicon glyphicon-inbox" aria-hidden="true"></span> <span class="label label-info" style="vertical-align: text-top;">12</span>
+          <span style="font-size:24px;color:grey"  class="glyphicon glyphicon-inbox" aria-hidden="true"></span>
+          <% if @inbox_items.count > 0 %>
+           <span class="label label-info" style="vertical-align: text-top;"><%= @inbox_items.count %></span>
+          <% end %>
           </span>
         </li>
         <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -192,7 +195,7 @@ console.log(data);
   });
 
   $('#product_feed').click(function(){
-    window.location.href = "/activities/index";
+    window.location.href = "/my_product_feed";
   });
 
   $('#header_search').keypress(function(e) {
