@@ -37,14 +37,12 @@
     <%= f.label :enhancement %><br>
     <%= f.check_box :enhancement %>
   </div>
-  <div class="field col-md-12">
-    <%= f.label :added_by_id, "Added by User" %><span style="color:red;">*</span><br>
-    <% if @native_issue.added_by_id != nil %>
-        <%= f.select :added_by_id, options_from_collection_for_select(User.all, :id, :display_name, @native_issue.added_by_id), {:include_blank => true}, {:class => "form-control"} %>
-    <% else %>
-      <%= f.select :added_by_id, options_from_collection_for_select(User.all, :id, :display_name), {:include_blank => true}, {:class => "form-control"} %>
-    <% end %>
-  </div>
+
+
+<% if !@native_issue.persisted? %> 
+      <%= f.hidden_field :added_by_id, :value => @current_user.id %>
+<% end %>
+
 
 <% if @native_issue.persisted? %> 
   <div class="field col-md-12">
