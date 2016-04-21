@@ -3,4 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 jQuery ->
   $('#issues').dataTable
+  	aaSorting: [5, 'desc']
   	pageLength: 25
+
+
