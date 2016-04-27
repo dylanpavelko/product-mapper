@@ -23,13 +23,10 @@ class NativeIssuesController < ApplicationController
       @native_issues = @native_issues & @node_issues
     end
 
-puts "HELLO"
     if params[:issue_status] != nil
-puts "TESTING"
       @any_status = @native_issues
       @native_issues = Array.new
       if params[:issue_status] == "open" 
-puts "123"
         #anything not closed w/o resolution or resolved with is not done
         @any_status.each do |issue|
           if (issue.resolved_with == nil and !issue.close_without_resolution) or (issue.resolved_with != nil and !issue.resolved_with.status)

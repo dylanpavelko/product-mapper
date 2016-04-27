@@ -47,10 +47,7 @@ document.cookie = 'time_zone_offset='+utcOffset+';';
       <%=auto_link(simple_format(@native_issue.description), :html => { :target => '_blank' })%>
     </p>
     </div>
-    <div class="panel-body" id="external_link"> 
-    <button class="btn btn-default" id="jira_link"><%= image_tag "https://jira.atlassian.com/s/en_UK-zad234/71006/b6b48b2829824b869586ac216d119363/_/favicon.ico", :width => "20px" %> Link to Jira Issue</button>
-    <button class="btn btn-default" id="asana_link"><%= image_tag "http://asanatraining.com/wp-content/uploads/2015/10/Asana-Logo_Full-Color-Mark.png", :width => "20px" %> Link to Asana Task</button>
-    </div>
+
   <% if @has_asanas.count > 0 %>
   <div class="panel-body" style="padding-bottom:0px;"> 
     <strong>Linked Asanas</strong> <%= link_to "Add Asana Link", new_native_issue_has_asana_path(:native_issue => @native_issue.id) %></div>
