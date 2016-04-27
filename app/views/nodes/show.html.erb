@@ -153,9 +153,11 @@
     <% end %>
     </div>
 
-   <strong>Delivery Dates:</strong> 
-   <% if @current_user.can_manage_product_for_node(@node) %>
-    <%= link_to 'Add', new_delivery_date_path(@node) %>
+   <% if @node.nodeType.specification %> 
+     <strong>Delivery Dates:</strong> 
+     <% if @current_user.can_manage_product_for_node(@node) %>
+      <%= link_to 'Add', new_delivery_date_path(@node) %>
+     <% end %>
    <% end %>
    <ul>
     <% @delivery_dates.each do |date| %>
@@ -197,7 +199,23 @@
   </ul>
   <% end %>
 
-<strong>Issues:</strong> <%= link_to 'Open New Issue', new_native_issue_path(@node) %><br/><br/>
+<strong>Issues:</strong> 
+<% node_issues = @issues + @subIssues %>
+<%= link_to node_issues.count.to_s + " Issues", native_issues_path(:node => @node.id) %>
+
+<%  unresolved = 0
+          node_issues.each do |issue| 
+            if issue.resolved_with == nil and !issue.close_without_resolution
+              unresolved = unresolved + 1
+            end
+          end
+          %>
+        <% if unresolved >0 %>
+          <span class="label label-danger"><%= link_to (unresolved.to_s+" with no resolution"), native_issues_path(:node => @node.id), {:style=>'color:#FFFFFF;'} %></span>
+        <% end %>
+
+<br/>
+<% if @node.nodeType.specification or @node.nodeType.feature %>
 <% if @issues.count > 0 %>
   <ul>
     <% @issues.each do |issue| %>
@@ -228,6 +246,10 @@
     <% end %>
   </ul>
 <% end %> 
+
+<% end%>
+<%= button_to "Open New Issue", new_native_issue_path(@node), :method => "get", :class => "btn btn-default" %>
+<br/>
 <% if @issue_resolutions.count > 0 %>
   <strong>Resolves Issues</strong>
   <ul>

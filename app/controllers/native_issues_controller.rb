@@ -6,12 +6,58 @@ class NativeIssuesController < ApplicationController
   # GET /native_issues
   # GET /native_issues.json
   def index
+    @native_issues = NativeIssue.where(nil) # creates an anonymous scope
+
+    filtering_params(params).each do |key, value|
+      @native_issues = @native_issues.public_send(key, value) if value.present?
+    end
+
+    @opened_by = User.find(params[:added_by]) if params[:added_by]
+    @after = Date.strptime(params[:after], '%Y-%m-%d') if params[:after]
+    @before = Date.strptime(params[:before], '%Y-%m-%d') if params[:before]
+
     if(params[:node] != nil)
       @node = Node.find(params[:node])
-      @native_issues = @node.getAllIssues
-    else
-      @native_issues = NativeIssue.all
+      @node_issues = @node.getAllIssues
+
+      @native_issues = @native_issues & @node_issues
     end
+
+puts "HELLO"
+    if params[:issue_status] != nil
+puts "TESTING"
+      @any_status = @native_issues
+      @native_issues = Array.new
+      if params[:issue_status] == "open" 
+puts "123"
+        #anything not closed w/o resolution or resolved with is not done
+        @any_status.each do |issue|
+          if (issue.resolved_with == nil and !issue.close_without_resolution) or (issue.resolved_with != nil and !issue.resolved_with.status)
+            @native_issues << issue
+          end
+        end
+      elsif params[:issue_status] == "unaddressed" 
+        #anything without a resolution and not resolved w/o resolution
+        @any_status.each do |issue|
+          if issue.resolved_with == nil and !issue.close_without_resolution
+            @native_issues << issue
+          end
+        end
+      elsif params[:issue_status] == "resolved"
+        #anything that is closed w/o resolution or resolved with is done
+        @any_status.each do |issue|
+          if issue.close_without_resolution or (issue.resolved_with != nil and issue.resolved_with.status)
+            @native_issues << issue
+          end
+        end
+      end
+
+    end
+  end
+
+  # A list of the param names that can be used for filtering the NativeIssue list
+  def filtering_params(params)
+    params.slice(:added_by, :after, :before)
   end
 
   # GET /native_issues/1

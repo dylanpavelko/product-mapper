@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160327003009) do
+ActiveRecord::Schema.define(version: 20160423221540) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -160,6 +160,23 @@ ActiveRecord::Schema.define(version: 20160327003009) do
   add_index "inbox_items", ["activity_id"], name: "index_inbox_items_on_activity_id", using: :btree
   add_index "inbox_items", ["user_id"], name: "index_inbox_items_on_user_id", using: :btree
 
+  create_table "jira_issues", force: true do |t|
+    t.integer  "jira_repo_id"
+    t.string   "key"
+    t.text     "summary"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "jira_issues", ["jira_repo_id"], name: "index_jira_issues_on_jira_repo_id", using: :btree
+
+  create_table "jira_repos", force: true do |t|
+    t.string   "name"
+    t.string   "url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "milestones", force: true do |t|
     t.string   "name"
     t.date     "date"
@@ -177,6 +194,16 @@ ActiveRecord::Schema.define(version: 20160327003009) do
 
   add_index "native_issue_has_asanas", ["asana_task_id"], name: "index_native_issue_has_asanas_on_asana_task_id", using: :btree
   add_index "native_issue_has_asanas", ["native_issue_id"], name: "index_native_issue_has_asanas_on_native_issue_id", using: :btree
+
+  create_table "native_issue_has_jiras", force: true do |t|
+    t.integer  "jira_id"
+    t.integer  "native_issue_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "native_issue_has_jiras", ["jira_id"], name: "index_native_issue_has_jiras_on_jira_id", using: :btree
+  add_index "native_issue_has_jiras", ["native_issue_id"], name: "index_native_issue_has_jiras_on_native_issue_id", using: :btree
 
   create_table "native_issue_has_responses", force: true do |t|
     t.integer  "native_issue_id"

@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  resources :native_issue_has_jiras
+
+  resources :jira_issues
+
+  resources :jira_repos
+
   resources :inbox_items
 
   get 'activities/index'

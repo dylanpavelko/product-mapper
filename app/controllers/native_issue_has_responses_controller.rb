@@ -1,5 +1,7 @@
 class NativeIssueHasResponsesController < ApplicationController
   before_action :set_native_issue_has_response, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user
+  before_filter :authorized_only
 
   # GET /native_issue_has_responses
   # GET /native_issue_has_responses.json

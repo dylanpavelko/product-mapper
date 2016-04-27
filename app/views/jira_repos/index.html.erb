@@ -1,0 +1,27 @@
+<h1>Listing Jira Repositories</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Url</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @jira_repos.each do |jira_repo| %>
+      <tr>
+        <td><%= jira_repo.name %></td>
+        <td><%= jira_repo.url %></td>
+        <td><%= link_to 'Show', jira_repo %></td>
+        <td><%= link_to 'Edit', edit_jira_repo_path(jira_repo) %></td>
+        <td><%= link_to 'Destroy', jira_repo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Jira repo', new_jira_repo_path %>

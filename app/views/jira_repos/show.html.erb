@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @jira_repo.name %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @jira_repo.url %>
+</p>
+
+<%= link_to 'Edit', edit_jira_repo_path(@jira_repo) %> |
+<%= link_to 'Back', jira_repos_path %>

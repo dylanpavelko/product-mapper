@@ -18,6 +18,10 @@ document.cookie = 'time_zone_offset='+utcOffset+';';
   </div>
   <div class="panel-body">
     <p>
+      <strong>Issue Status:</strong>
+      <%= @native_issue.status %>
+    </p>
+    <p>
       <strong>Issue with:</strong>
       <%= link_to @native_issue.issue_with.name, @native_issue.issue_with %>
     </p>
@@ -43,9 +47,13 @@ document.cookie = 'time_zone_offset='+utcOffset+';';
       <%=auto_link(simple_format(@native_issue.description), :html => { :target => '_blank' })%>
     </p>
     </div>
-
+    <div class="panel-body" id="external_link"> 
+    <button class="btn btn-default" id="jira_link"><%= image_tag "https://jira.atlassian.com/s/en_UK-zad234/71006/b6b48b2829824b869586ac216d119363/_/favicon.ico", :width => "20px" %> Link to Jira Issue</button>
+    <button class="btn btn-default" id="asana_link"><%= image_tag "http://asanatraining.com/wp-content/uploads/2015/10/Asana-Logo_Full-Color-Mark.png", :width => "20px" %> Link to Asana Task</button>
+    </div>
   <% if @has_asanas.count > 0 %>
-    <div class="panel-body" style="padding-bottom:0px;"> <strong>Linked Asanas</strong> <%= link_to "Add Asana Link", new_native_issue_has_asana_path(:native_issue => @native_issue.id) %></div>
+  <div class="panel-body" style="padding-bottom:0px;"> 
+    <strong>Linked Asanas</strong> <%= link_to "Add Asana Link", new_native_issue_has_asana_path(:native_issue => @native_issue.id) %></div>
     <table class="table">
     <% @has_asanas.each do |has_asana| %>
       <tr><td>
@@ -53,9 +61,8 @@ document.cookie = 'time_zone_offset='+utcOffset+';';
          <%= link_to has_asana.asana_task.display, has_asana.asana_task %>
        </td></tr>
     <% end %>
-  </table>
-<% end %>
-
+    </table>
+  <% end %>
 </div>
 
 
@@ -111,5 +118,28 @@ $(document.body).on('click', '#post-response' ,(function(){
             }).fail(function(e, ts, et)  {
                 alert("Sorry. Server unavailable. " + ts);
             }); 
+  }));
+
+
+$(document.body).on('click', '#jira_link' ,(function(){
+  $("#external_link").html(
+    "<input type='text' class='form-control' placeholder='Enter Jira URL' id='jira_url' autocomplete='off'>" + 
+    "<button class='btn btn-default' id='add_jira'>Add Jira Link</button>" + 
+    " <a id='link_cancel'>Cancel</a>"
+    );
+  }));
+
+$(document.body).on('click', '#asana_link' ,(function(){
+  $("#external_link").html(
+    "<input type='text' class='form-control' placeholder='Enter Asana URL' id='asana_url' autocomplete='off'>" + 
+    "<button class='btn btn-default' id='add_asana'>Add Asana Link</button>" + 
+    " <a id='link_cancel'>Cancel</a>"
+    );
+  }));
+
+$(document.body).on('click', '#link_cancel' ,(function(){
+  $("#external_link").html(
+    "<button class='btn btn-default' id='jira_link'><%= escape_javascript image_tag 'https://jira.atlassian.com/s/en_UK-zad234/71006/b6b48b2829824b869586ac216d119363/_/favicon.ico', :width => '20px' %> Link to Jira Issue</button> <button class='btn btn-default' id='asana_link'><%= escape_javascript image_tag 'http://asanatraining.com/wp-content/uploads/2015/10/Asana-Logo_Full-Color-Mark.png', :width => '20px' %> Link to Asana Task</button>"
+    );
   }));
 </script>

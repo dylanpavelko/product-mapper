@@ -1,0 +1,27 @@
+<h1>Listing native_issue_has_jiras</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Jira</th>
+      <th>Native issue</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @native_issue_has_jiras.each do |native_issue_has_jira| %>
+      <tr>
+        <td><%= native_issue_has_jira.jira %></td>
+        <td><%= native_issue_has_jira.native_issue %></td>
+        <td><%= link_to 'Show', native_issue_has_jira %></td>
+        <td><%= link_to 'Edit', edit_native_issue_has_jira_path(native_issue_has_jira) %></td>
+        <td><%= link_to 'Destroy', native_issue_has_jira, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Native issue has jira', new_native_issue_has_jira_path %>

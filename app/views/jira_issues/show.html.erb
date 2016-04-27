@@ -1,0 +1,16 @@
+<% content_for :title, "Jira Issue - " + @jira_issue.summary %>
+<p id="notice"><%= notice %></p>
+
+<%= image_tag "https://jira.atlassian.com/s/en_UK-zad234/71006/b6b48b2829824b869586ac216d119363/_/favicon.ico" %>
+
+<p>
+  <strong>Jira Issue:</strong>
+  <%= link_to ("[" + @jira_issue.key + "] " + @jira_issue.summary), (@jira_issue.jira_repo.url + "/browse/" + @jira_issue.key), :target => "_blank" %>
+</p>
+
+<p>
+  <strong>Jira repo:</strong>
+  <%= link_to @jira_issue.jira_repo.name, @jira_issue.jira_repo %>
+</p>
+
+<%= link_to 'Edit', edit_jira_issue_path(@jira_issue) %>

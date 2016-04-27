@@ -6,17 +6,27 @@
 </script>
 <%  offset = cookies["time_zone_offset"].to_i
   time_zone = ActiveSupport::TimeZone[-offset.minutes] %>
-<h1>Product Issues</h1>
+<h2>Product Issues
+<% if @node != nil%>
+  with <%= link_to @node.name, @node %>
+<% end %>
+</h2>
 
-<% if @current_user.power_admin? %>
+<% #if @current_user.power_admin? %>
 Filter Issues
-Opened By <%= select_tag :opened_by, options_from_collection_for_select(User.all, :id, :display_name), {:include_blank => true} %> 
-Between <%= date_field_tag :range_begin %> to <%= date_field_tag :range_end %> 
+Opened By 
+<% if @opened_by %>
+  <%= select_tag :opened_by, options_from_collection_for_select(User.all, :id, :display_name, @opened_by.id), {:include_blank => true} %> 
+<% else %>
+  <%= select_tag :opened_by, options_from_collection_for_select(User.all, :id, :display_name), {:include_blank => true} %> 
+<% end %>
+Between <%= date_field_tag :range_begin , @after %> to <%= date_field_tag :range_end , @before %> 
 With Status 
-<select>
-  <option>Open</option>
-  <option>Open without Resolution</option>
-  <option>Resolved</option>
+<select id="issue_status">
+  <option value="any">Any</option>
+  <option value="open" <% if params[:issue_status] == "open" %>selected<% end %>>Open</option>
+  <option value="unaddressed" <% if params[:issue_status] == "unaddressed" %>selected<% end %>>Open without Resolution</option>
+  <option value="resolved" <% if params[:issue_status] == "resolved" %>selected<% end %>>Resolved</option>
 </select>
     <% if @node == nil 
         @label = "in all products"
@@ -25,7 +35,7 @@ With Status
       end
     %>
     <% @node_context    = @node
-       @node_parents    = nil
+       @node_parents    = @node.parents if @node
        @node_label      = @label
        @button_text     = "Change Search Node"
        @node_form_id    = "node_id"
@@ -33,7 +43,7 @@ With Status
     <%= render "nodes/node_chooser" %>
 <button class="btn btn-default" id="filter">Filter Issues</button>
 <hr>
-<% end %>
+<% #end %>
 <table class="table table-striped table-hover" id="issues">
   <thead>
     <tr>
@@ -65,7 +75,7 @@ With Status
             <%= link_to native_issue.resolved_with.name, native_issue.resolved_with %>
           <% end %>
         </td>
-        <td></td>
+        <td><%= native_issue.status %></td>
         <td><%= native_issue.created_at.in_time_zone(time_zone).strftime("%m/%d/%Y") %></td>
       </tr>
     <% end %>
@@ -75,8 +85,20 @@ With Status
 <script type="text/javascript">
   $('#filter').click(function(){
     $parms = "?";
-    if ($('#node_id').val() != null){
-      $parms = $parms + "node=" + $('#node_id').val();
+    if ($('#node_id').val() != ""){
+      $parms = $parms + "&node=" + $('#node_id').val();
+    }
+    if ($('#opened_by').children(":selected").attr("value") != ""){
+      $parms = $parms + "&added_by=" + $('#opened_by').children(":selected").attr("value");
+    }
+    if ($('#issue_status').children(":selected").attr("value") != "any"){
+      $parms = $parms + "&issue_status=" + $('#issue_status').children(":selected").attr("value");
+    }
+    if ($('#range_begin').val() != ""){
+      $parms = $parms + "&after=" + $('#range_begin').val();
+    }
+    if ($('#range_end').val() != ""){
+      $parms = $parms + "&before=" + $('#range_end').val();
     }
     window.location.href = "/native_issues"+ $parms ;
   });

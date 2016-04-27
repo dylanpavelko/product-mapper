@@ -13,4 +13,18 @@ class NativeIssue < ActiveRecord::Base
 
   validates :added_by, :presence => true
   validates :summary, :presence => true
+
+  scope :added_by, -> (added_by) { where added_by: added_by }
+  scope :after, -> (after_date) {where ["created_at >= ?", Date.strptime(after_date, '%Y-%m-%d')]}
+  scope :before, -> (before_date) { where ["created_at <= ?", Date.strptime(before_date, '%Y-%m-%d')] }
+
+  def status
+    status = "Open"
+    if self.close_without_resolution
+      status = "Closed"
+    elsif resolved_with != nil and resolved_with.status
+      status = "Done"
+    end
+    return status
+  end
 end

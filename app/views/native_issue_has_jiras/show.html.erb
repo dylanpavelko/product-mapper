@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Jira:</strong>
+  <%= @native_issue_has_jira.jira %>
+</p>
+
+<p>
+  <strong>Native issue:</strong>
+  <%= @native_issue_has_jira.native_issue %>
+</p>
+
+<%= link_to 'Edit', edit_native_issue_has_jira_path(@native_issue_has_jira) %> |
+<%= link_to 'Back', native_issue_has_jiras_path %>

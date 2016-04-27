@@ -1,0 +1,7 @@
+<% content_for :title, "Edit Jira Issue - " + @jira_issue.summary %>
+<h1>Editing jira_issue</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', @jira_issue %> |
+<%= link_to 'Back', jira_issues_path %>

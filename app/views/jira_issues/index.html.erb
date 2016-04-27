@@ -1,0 +1,28 @@
+<% content_for :title, "Jira Issues" %>
+<h1>Listing Jira Issues</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Summary</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @jira_issues.each do |jira_issue| %>
+      <tr>
+        <td><%= link_to jira_issue.key, (jira_issue.jira_repo.url + "/browse/" + jira_issue.key), :target => "_blank" %></td>
+        <td><%= jira_issue.summary %></td>
+        <td><%= link_to 'Show', jira_issue %></td>
+        <td><%= link_to 'Edit', edit_jira_issue_path(jira_issue) %></td>
+        <td><%= link_to 'Destroy', jira_issue, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Jira issue', new_jira_issue_path %>

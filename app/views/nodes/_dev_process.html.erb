@@ -70,6 +70,9 @@
             <% end %>
         </ul>
         <% end %>
+        <% if @current_user.power_admin %>
+          <%= link_to 'Delete Phase', phase, method: :delete, data: { confirm: 'Are you sure?' } %>
+        <% end %>
       </div>
     <% end %>
 

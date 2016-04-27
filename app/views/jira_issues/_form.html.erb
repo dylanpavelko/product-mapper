@@ -1,0 +1,29 @@
+<%= form_for(@jira_issue) do |f| %>
+  <% if @jira_issue.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@jira_issue.errors.count, "error") %> prohibited this jira_issue from being saved:</h2>
+
+      <ul>
+      <% @jira_issue.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :jira_repo_id %><br>
+    <%= f.text_field :jira_repo_id %>
+  </div>
+  <div class="field">
+    <%= f.label :key %><br>
+    <%= f.text_field :key %>
+  </div>
+  <div class="field">
+    <%= f.label :summary %><br>
+    <%= f.text_area :summary %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

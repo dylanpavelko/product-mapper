@@ -1,7 +1,7 @@
 class NativeIssueHasAsanasController < ApplicationController
   before_action :set_native_issue_has_asana, only: [:show, :edit, :update, :destroy]
-            before_filter :authenticate_user
-    before_filter :authorized_only
+  before_filter :authenticate_user
+  before_filter :authorized_only
 
   # GET /native_issue_has_asanas
   # GET /native_issue_has_asanas.json

@@ -14,7 +14,7 @@
     <% @phases.each do |phase| %>
       <tr>
         <td><%= phase.phaseType.name %></td>
-        <td><%= link_to phase.node.name , phase.node %></td>
+        <td><%= link_to phase.node.name , phase.node if phase.node %></td>
         <td><%= phase.status %></td>
         <td><%= link_to 'Show', phase %></td>
         <td><%= link_to 'Edit', edit_phase_path(phase) %></td>
