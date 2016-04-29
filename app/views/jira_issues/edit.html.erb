@@ -1,4 +1,4 @@
-<% content_for :title, "Edit Jira Issue - " + @jira_issue.summary %>
+<% content_for :title, "Edit Jira Issue - " + @jira_issue.summary if @jira_issue.summary %>
 <h1>Editing jira_issue</h1>
 
 <%= render 'form' %>

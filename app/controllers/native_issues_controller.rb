@@ -61,6 +61,7 @@ class NativeIssuesController < ApplicationController
   # GET /native_issues/1.json
   def show
     @has_asanas = NativeIssueHasAsana.where(:native_issue_id => @native_issue.id)
+    @has_jiras = NativeIssueHasJira.where(:native_issue_id => @native_issue.id)
     @has_responses = NativeIssueHasResponse.where(:native_issue_id => @native_issue)
   end
 
@@ -141,6 +142,24 @@ class NativeIssuesController < ApplicationController
       format.html { redirect_to native_issues_url, notice: 'Native issue was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def add_jira_to_native_issue
+    @native_issue = NativeIssue.find(params[:native_issue_id])
+
+    @jira_repo = JiraRepo.all.first
+    @existing_jira = JiraIssue.where(:key => params[:jira_key], :jira_repo_id => @jira_repo.id)
+    if @existing_jira.count > 0
+      @jira = @existing_jira.first
+    else
+      @jira = JiraIssue.new(:jira_repo_id => @jira_repo.id , :key => params[:jira_key], :summary => params[:jira_summary])
+      @jira.save
+    end
+
+    @native_issue_has_jira_issue = NativeIssueHasJira.new(:native_issue_id => @native_issue.id, :jira_id => @jira.id)
+    @native_issue_has_jira_issue.save
+
+    render :json => @native_issue 
   end
 
   private

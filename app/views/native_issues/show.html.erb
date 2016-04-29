@@ -47,15 +47,31 @@ document.cookie = 'time_zone_offset='+utcOffset+';';
       <%=auto_link(simple_format(@native_issue.description), :html => { :target => '_blank' })%>
     </p>
     </div>
-
-  <% if @has_asanas.count > 0 %>
+    <div class="panel-body" id="external_link"> 
+      <% if JiraRepo.all.count > 0 %>
+    <button class="btn btn-default" id="jira_link"><%= image_tag "https://jira.atlassian.com/s/en_UK-zad234/71006/b6b48b2829824b869586ac216d119363/_/favicon.ico", :width => "20px" %> Link to Jira Issue</button>
+    <% end %>
+    <!--
+    <button class="btn btn-default" id="asana_link"><%= image_tag "http://asanatraining.com/wp-content/uploads/2015/10/Asana-Logo_Full-Color-Mark.png", :width => "20px" %> Link to Asana Task</button>-->
+    <%#= hidden_field_tag :asana_id %>
+    <%#= hidden_field_tag :asana_name %>
+    <%#= hidden_field_tag :asana_workspace_id, :value => @workspace.id %>
+    </div>
+<%#= link_to "Add Asana Link", new_native_issue_has_asana_path(:native_issue => @native_issue.id) %>
   <div class="panel-body" style="padding-bottom:0px;"> 
-    <strong>Linked Asanas</strong> <%= link_to "Add Asana Link", new_native_issue_has_asana_path(:native_issue => @native_issue.id) %></div>
+    <% if @has_asanas.count > 0 or @has_jiras.count > 0%>
+    <strong>Linked Issues</strong> </div>
     <table class="table">
     <% @has_asanas.each do |has_asana| %>
       <tr><td>
         <a href="<%= has_asana.asana_task.url %>" target="_blank"><img src="http://asanatraining.com/wp-content/uploads/2015/10/Asana-Logo_Full-Color-Mark.png" width="15"/></a>
          <%= link_to has_asana.asana_task.display, has_asana.asana_task %>
+       </td></tr>
+    <% end %>
+    <% @has_jiras.each do |has_jira| %>
+      <tr><td>
+        <a href="<%= has_jira.jira.url %>" target="_blank"><img src="https://jira.atlassian.com/s/en_UK-zad234/71006/b6b48b2829824b869586ac216d119363/_/favicon.ico" width="15"/></a>
+         <%= link_to has_jira.jira.summary, has_jira.jira %>
        </td></tr>
     <% end %>
     </table>
@@ -121,6 +137,45 @@ $(document.body).on('click', '#post-response' ,(function(){
 $(document.body).on('click', '#jira_link' ,(function(){
   $("#external_link").html(
     "<input type='text' class='form-control' placeholder='Enter Jira URL' id='jira_url' autocomplete='off'>" + 
+    "<input class='form-control' placeholder='Enter Jira Summary' id='summary' name='native_issue[summary]' type='text'>" +
+    "<button class='btn btn-default' id='add_jira'>Add Jira Link</button>" + 
+    " <a id='link_cancel'>Cancel</a>"
+    );
+  }));
+
+$(document.body).on('click', '#add_jira' ,(function(){
+  //get jira summary
+  $summary = $('#summary').val();
+  if($summary == "" || $summary == null){
+    alert("A Jira Summary is required");
+    return false;
+  }
+
+  $native_issue = <%= @native_issue.id %>;
+  //get jira url
+  $url = $('#jira_url').val();
+  $jira_key = $url.split('/browse/')[1];
+  //get jira summary
+  $summary = $('#summary').val();
+
+  //send to ajax call
+  //when done update view to make it look like the response has been posted and reset the response options
+    $.ajax({url: "/add_jira_to_native_issue", 
+            type: "POST", 
+            data: {'native_issue_id': $native_issue,
+              'jira_key' : $jira_key,
+              'jira_summary': $summary}, 
+            dataType: 'json'}).done(function(data)  {
+                if(!data.error) location.reload(true);
+            }).fail(function(e, ts, et)  {
+                alert("Sorry. Server unavailable. " + ts);
+            }); 
+  }));
+
+$(document.body).on('click', '#jira_link' ,(function(){
+  $("#external_link").html(
+    "<input type='text' class='form-control' placeholder='Enter Jira URL' id='jira_url' autocomplete='off'>" + 
+    "<input class='form-control' placeholder='Enter Jira Summary' id='summary' name='native_issue[summary]' type='text'>" +
     "<button class='btn btn-default' id='add_jira'>Add Jira Link</button>" + 
     " <a id='link_cancel'>Cancel</a>"
     );
@@ -129,6 +184,7 @@ $(document.body).on('click', '#jira_link' ,(function(){
 $(document.body).on('click', '#asana_link' ,(function(){
   $("#external_link").html(
     "<input type='text' class='form-control' placeholder='Enter Asana URL' id='asana_url' autocomplete='off'>" + 
+    "<button id='import' class='btn btn-sm btn-default' type='button'>Import</button>" +
     "<button class='btn btn-default' id='add_asana'>Add Asana Link</button>" + 
     " <a id='link_cancel'>Cancel</a>"
     );

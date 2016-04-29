@@ -1,4 +1,4 @@
-<% content_for :title, "Jira Issue - " + @jira_issue.summary %>
+<% content_for :title, "Jira Issue - " + @jira_issue.summary if @jira_issue.summary %>
 <p id="notice"><%= notice %></p>
 
 <%= image_tag "https://jira.atlassian.com/s/en_UK-zad234/71006/b6b48b2829824b869586ac216d119363/_/favicon.ico" %>

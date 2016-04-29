@@ -30,6 +30,8 @@ Rails.application.routes.draw do
 
   post '/add_response_to_native_issue' => 'responses#add_response_to_native_issue'
 
+  post '/add_jira_to_native_issue' =>  'native_issues#add_jira_to_native_issue'
+
   post '/mark_inbox_item_as_read' => 'inbox_items#mark_inbox_item_as_read'
 
   resources :question_has_responses
