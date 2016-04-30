@@ -63,6 +63,7 @@ class NativeIssuesController < ApplicationController
     @has_asanas = NativeIssueHasAsana.where(:native_issue_id => @native_issue.id)
     @has_jiras = NativeIssueHasJira.where(:native_issue_id => @native_issue.id)
     @has_responses = NativeIssueHasResponse.where(:native_issue_id => @native_issue)
+    @has_impacts = NativeIssueHasImpact.where(:native_issue_id => @native_issue)
   end
 
   # GET /native_issues/new
@@ -158,6 +159,19 @@ class NativeIssuesController < ApplicationController
 
     @native_issue_has_jira_issue = NativeIssueHasJira.new(:native_issue_id => @native_issue.id, :jira_id => @jira.id)
     @native_issue_has_jira_issue.save
+
+    render :json => @native_issue 
+  end
+
+  def add_customer_impact_to_native_issue
+    @native_issue = NativeIssue.find(params[:native_issue_id])
+    @customer_ids = params[:customers]
+    @impact = params[:impact]
+
+    @customer_ids.each do |customer_id|
+      @customer_impact = NativeIssueHasImpact.new(:customer_id => customer_id, :native_issue_id => @native_issue.id, :impact => @impact)
+      @customer_impact.save()
+    end
 
     render :json => @native_issue 
   end

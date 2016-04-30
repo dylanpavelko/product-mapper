@@ -12,6 +12,7 @@ document.cookie = 'time_zone_offset='+utcOffset+';';
 
 <p id="notice"><%= notice %></p>
 
+<div class="col-md-8">
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title"><strong>Issue:</strong> <%= @native_issue.summary %> <small><%= link_to 'Edit', edit_native_issue_path(@native_issue) %></small></h3>
@@ -77,8 +78,38 @@ document.cookie = 'time_zone_offset='+utcOffset+';';
     </table>
   <% end %>
 </div>
-
-
+</div>
+<div class="col-md-4">
+  <div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Customer Impact</h3>
+  </div>
+  <div class="panel-body">
+    <table>
+      <% @has_impacts.each do |has_impact| %>
+      <tr>
+        <td width="130px">
+          <%= has_impact.impact_text %> for
+        </td>
+        <td>
+          <%= link_to has_impact.customer.name, has_impact.customer %> <%= link_to "edit", edit_native_issue_has_impact_path(has_impact) %> <%= link_to "x", has_impact, method: :delete, data: { confirm: 'Are you sure you want to remove this customer impact?' } %>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+    <div id="add_impact_button">
+    <% if @has_impacts.count > 0 %>
+      <button class="btn btn-default" id="add_customer_impacts">Add Additional Customer Impacts</button>
+    <% else %>
+      <button class="btn btn-default" id="add_customer_impacts">Add Customer Impact</button>
+    <% end %>
+    </div>
+    <div id="impact_form_fields">
+    </div>
+  </div>
+</div>
+</div>
+<div class="col-md-12">
 <% if @native_issue.close_without_resolution %>
 <p>
   <strong>Close without resolution:</strong>
@@ -109,9 +140,42 @@ document.cookie = 'time_zone_offset='+utcOffset+';';
 <button id="post-response" class="btn btn-default btn-success">Post Response</button>
 <br/>
 
+</div>
 
 <script type="text/javascript">
 
+$(document.body).on('click', '#add_customer_impacts', function(){
+  $('#impact_form_fields').html(
+      "<div id='add_impact_form'>" +
+      "<select id='impact_id' name='impact_id'>" +
+      "  <option value='1'>Blocker</option>" +
+      "  <option value='2'>Critical</option>" +
+      "  <option value='3' selected>Nice to have</option>" +
+      "</select>" +
+      "for <%= escape_javascript select_tag :customers, options_from_collection_for_select(Customer.all.sort_by {|c| c.name}, :id, :name), :include_blank => true %>" +
+      "<table>" +
+      "  <tr>" +
+      "    <td width='130px'>" +
+      "    </td>" +
+      "    <td>" +
+      "      <span id='customer_list'></span>" +
+      "    </td>" +
+      "  </tr>" +
+      "</table>" +
+      "<br/><br/>" +
+      "<button class='btn btn-default' id='post_customer_impacts'>Update Customer Impact</button> <a id='cancel_customer_impacts'>Cancel</a>" +
+      "</div>"
+    );
+  $('#impact_form_fields').show();
+  $('#add_impact_button').hide();
+});
+
+$(document.body).on('click', '#cancel_customer_impacts', function(){
+  $('#add_impact_button').show();
+  $('#impact_form_fields').hide();
+});
+
+//AJAX Method to Post a Issue Response
 $(document.body).on('click', '#post-response' ,(function(){
     //get question id
   $native_issue = $('#native_issue_id').val();
@@ -133,7 +197,7 @@ $(document.body).on('click', '#post-response' ,(function(){
             }); 
   }));
 
-
+//Shows Jira Issue Fields
 $(document.body).on('click', '#jira_link' ,(function(){
   $("#external_link").html(
     "<input type='text' class='form-control' placeholder='Enter Jira URL' id='jira_url' autocomplete='off'>" + 
@@ -143,6 +207,7 @@ $(document.body).on('click', '#jira_link' ,(function(){
     );
   }));
 
+//AJAX Method to link Jira Issue to Native Issue
 $(document.body).on('click', '#add_jira' ,(function(){
   //get jira summary
   $summary = $('#summary').val();
@@ -172,15 +237,7 @@ $(document.body).on('click', '#add_jira' ,(function(){
             }); 
   }));
 
-$(document.body).on('click', '#jira_link' ,(function(){
-  $("#external_link").html(
-    "<input type='text' class='form-control' placeholder='Enter Jira URL' id='jira_url' autocomplete='off'>" + 
-    "<input class='form-control' placeholder='Enter Jira Summary' id='summary' name='native_issue[summary]' type='text'>" +
-    "<button class='btn btn-default' id='add_jira'>Add Jira Link</button>" + 
-    " <a id='link_cancel'>Cancel</a>"
-    );
-  }));
-
+//Shows Asana Import Task Fields
 $(document.body).on('click', '#asana_link' ,(function(){
   $("#external_link").html(
     "<input type='text' class='form-control' placeholder='Enter Asana URL' id='asana_url' autocomplete='off'>" + 
@@ -190,9 +247,68 @@ $(document.body).on('click', '#asana_link' ,(function(){
     );
   }));
 
+//Removes Jira/Asana Fields and adds the Link buttons back
 $(document.body).on('click', '#link_cancel' ,(function(){
   $("#external_link").html(
-    "<button class='btn btn-default' id='jira_link'><%= escape_javascript image_tag 'https://jira.atlassian.com/s/en_UK-zad234/71006/b6b48b2829824b869586ac216d119363/_/favicon.ico', :width => '20px' %> Link to Jira Issue</button> <button class='btn btn-default' id='asana_link'><%= escape_javascript image_tag 'http://asanatraining.com/wp-content/uploads/2015/10/Asana-Logo_Full-Color-Mark.png', :width => '20px' %> Link to Asana Task</button>"
+    "<button class='btn btn-default' id='jira_link'><%= escape_javascript image_tag 'https://jira.atlassian.com/s/en_UK-zad234/71006/b6b48b2829824b869586ac216d119363/_/favicon.ico', :width => '20px' %> Link to Jira Issue</button> "
+   // + "<button class='btn btn-default' id='asana_link'><%= escape_javascript image_tag 'http://asanatraining.com/wp-content/uploads/2015/10/Asana-Logo_Full-Color-Mark.png', :width => '20px' %> Link to Asana Task</button>"
     );
   }));
+
+//Removes Customer from Drop List when adding customer impacts
+$(document.body).on('click', '#remove_customer' ,(function(){
+  $(this).parent().remove();
+  }));
+
+//Adds Customer to Drop List when adding customer impacts
+$(document.body).on('change', '#customers' ,(function(){
+  $customer_name = $( "#customers option:selected" ).text();
+  $customer_id = $( "#customers option:selected" ).val();
+  if(selected_customer_not_already_listed($customer_id)){
+    $("#customer_list").append("<span id='customer_id' data='"+$customer_id+"'>&#8226; " + $customer_name+" <a id='remove_customer'>X</a><br/></span>");
+  }
+  $("#customers option:selected").removeAttr("selected");
+}));
+
+function selected_customer_not_already_listed($customer_id){
+  $not_in_list = true;
+  $('#customer_list').children().each(function(){ 
+    if($(this).attr("data") == $customer_id){
+      $not_in_list = false;
+    }
+  });
+  return $not_in_list;
+}
+
+//AJAX Method to Add Customer Impacts to Native iSsue
+$(document.body).on('click', '#post_customer_impacts' ,(function(){
+  //get all customers
+  $customers = []
+  $('#customer_list').children().each(function(){ 
+    $customers.push($(this).attr("data"));
+  });
+  //validate that there is atleast one customer
+  if($customers.length == 0){
+    alert("At least one customer must be selected");
+    return false;
+  }
+
+  //get customer impact
+  $impact = $('#impact_id option:selected').val();
+  //get native issue id
+  $native_issue = <%= @native_issue.id %>;
+
+  //send to ajax call
+    $.ajax({url: "/add_customer_impact_to_native_issue", 
+            type: "POST", 
+            data: {'native_issue_id': $native_issue,
+              'impact' : $impact,
+              'customers': $customers}, 
+            dataType: 'json'}).done(function(data)  {
+                if(!data.error) location.reload(true);
+            }).fail(function(e, ts, et)  {
+                alert("Sorry. Server unavailable. " + ts);
+            }); 
+}));
+
 </script>

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Customer:</strong>
+  <%= @native_issue_has_impact.customer %>
+</p>
+
+<p>
+  <strong>Native issue:</strong>
+  <%= @native_issue_has_impact.native_issue %>
+</p>
+
+<p>
+  <strong>Impact:</strong>
+  <%= @native_issue_has_impact.impact %>
+</p>
+
+<%= link_to 'Edit', edit_native_issue_has_impact_path(@native_issue_has_impact) %> |
+<%= link_to 'Back', native_issue_has_impacts_path %>

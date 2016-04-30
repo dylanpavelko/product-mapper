@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  resources :native_issue_has_impacts
+
+  resources :customers
+
   resources :native_issue_has_jiras
 
   resources :jira_issues
@@ -31,6 +35,8 @@ Rails.application.routes.draw do
   post '/add_response_to_native_issue' => 'responses#add_response_to_native_issue'
 
   post '/add_jira_to_native_issue' =>  'native_issues#add_jira_to_native_issue'
+
+  post '/add_customer_impact_to_native_issue' =>  'native_issues#add_customer_impact_to_native_issue'
 
   post '/mark_inbox_item_as_read' => 'inbox_items#mark_inbox_item_as_read'
 

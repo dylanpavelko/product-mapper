@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160423221540) do
+ActiveRecord::Schema.define(version: 20160429213200) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -65,6 +65,12 @@ ActiveRecord::Schema.define(version: 20160423221540) do
   add_index "asana_workspaces", ["added_by_id"], name: "index_asana_workspaces_on_added_by_id", using: :btree
   add_index "asana_workspaces", ["auth_endpoint_id"], name: "index_asana_workspaces_on_auth_endpoint_id", using: :btree
   add_index "asana_workspaces", ["node_id"], name: "index_asana_workspaces_on_node_id", using: :btree
+
+  create_table "customers", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "delivery_dates", force: true do |t|
     t.integer  "node_id"
@@ -149,6 +155,12 @@ ActiveRecord::Schema.define(version: 20160423221540) do
   add_index "git_hub_repos", ["node_id"], name: "index_git_hub_repos_on_node_id", using: :btree
   add_index "git_hub_repos", ["user_id"], name: "index_git_hub_repos_on_user_id", using: :btree
 
+  create_table "impacts", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "inbox_items", force: true do |t|
     t.integer  "user_id"
     t.integer  "activity_id"
@@ -194,6 +206,17 @@ ActiveRecord::Schema.define(version: 20160423221540) do
 
   add_index "native_issue_has_asanas", ["asana_task_id"], name: "index_native_issue_has_asanas_on_asana_task_id", using: :btree
   add_index "native_issue_has_asanas", ["native_issue_id"], name: "index_native_issue_has_asanas_on_native_issue_id", using: :btree
+
+  create_table "native_issue_has_impacts", force: true do |t|
+    t.integer  "customer_id"
+    t.integer  "native_issue_id"
+    t.integer  "impact"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "native_issue_has_impacts", ["customer_id"], name: "index_native_issue_has_impacts_on_customer_id", using: :btree
+  add_index "native_issue_has_impacts", ["native_issue_id"], name: "index_native_issue_has_impacts_on_native_issue_id", using: :btree
 
   create_table "native_issue_has_jiras", force: true do |t|
     t.integer  "jira_id"
