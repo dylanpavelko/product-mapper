@@ -97,10 +97,15 @@ function getURLParameter(sParam){
 
 var ready;
 ready = function() {
-  $('#specs').dataTable( {
-    "aaSorting": [[getColumnToSort(),'asc']],
-    "pageLength": 25
-  });
+  if ( $.fn.dataTable.isDataTable( '#specs' ) ) {
+    table = $('#example').DataTable();
+  }
+  else {
+    table = $('#specs').DataTable( {
+      "aaSorting": [[getColumnToSort(),'asc']],
+      "pageLength": 25
+    } );
+  }
 }; 
 
 function getColumnToSort(){

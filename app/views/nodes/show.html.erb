@@ -25,7 +25,7 @@
     | 
   <% end %>
 <% if !@node.nodeType.specification %>
-  <%= link_to 'Feature Inventory', feature_inventory_path(@node) %>
+  <%= link_to 'Feature Inventory', feature_inventory_path(@node, :hide_completed => true) %>
   | <%= link_to 'Delivery Schedule', delivery_schedule_path(@node) %> |
   <% if @current_user.can_groom_backlog_for_node(@node) %>
      <%= link_to 'Groom Backlog', backlog_path(@node) %> |
