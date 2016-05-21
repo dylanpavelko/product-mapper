@@ -23,16 +23,24 @@
        @node_form_name  = "node[parent_id]" %>
     <%= render "node_chooser" %>
   </p>
+
   <% if @node.nodeType != nil %>
     <%= f.select :nodeType_id, 
-          options_from_collection_for_select(NodeType.all, :id, :name, @node.nodeType.id),
+          options_from_collection_for_select(NodeType.all_without_marker, :id, :name, @node.nodeType.id),
           {:include_blank => true},
           {:class => "form-control"} %>
   <% else %>
-    <%= f.select :nodeType_id, 
+  <% if @current_user.power_admin %>
+      <%= f.select :nodeType_id, 
           options_from_collection_for_select(NodeType.all, :id, :name), 
           {:include_blank => true}, 
           {:class => "form-control"} %>
+  <% else %>
+    <%= f.select :nodeType_id, 
+          options_from_collection_for_select(NodeType.all_without_marker, :id, :name), 
+          {:include_blank => true}, 
+          {:class => "form-control"} %>
+  <% end %>
   <% end %>
   <br/>
 

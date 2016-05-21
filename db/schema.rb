@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429213200) do
+ActiveRecord::Schema.define(version: 20160521040542) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -313,6 +313,7 @@ ActiveRecord::Schema.define(version: 20160429213200) do
     t.boolean  "feature_organizer"
     t.boolean  "feature"
     t.boolean  "specification"
+    t.boolean  "marker"
   end
 
   create_table "nodes", force: true do |t|

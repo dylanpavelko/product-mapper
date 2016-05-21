@@ -12,6 +12,7 @@ class CustomersController < ApplicationController
   # GET /customers/1
   # GET /customers/1.json
   def show
+    @has_issues = NativeIssueHasImpact.where(:customer_id => @customer.id).sort { |a,b| a.impact <=> b.impact }
   end
 
   # GET /customers/new

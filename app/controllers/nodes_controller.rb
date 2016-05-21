@@ -106,6 +106,11 @@ class NodesController < ApplicationController
       @granularity = params[:granularity]
       @node = Node.find(params[:id])
       @terminalNodes = @node.getTerminalNodes()
+      @marker_node_type = NodeType.where(:marker => true)
+      if @marker_node_type.count > 0
+        @markers = Node.where(:nodeType_id => @marker_node_type.first.id)
+      end
+      @terminalNodes = @markers + @terminalNodes
       @terminalNodes = @terminalNodes.sort_by {|obj| [obj.status ? 0 : 1 , obj.row_order ] }
       if @hide_completed == "true"
         @terminalNodes = @terminalNodes.select {|s| !s.status }
@@ -139,6 +144,11 @@ class NodesController < ApplicationController
     Node.rank(:row_order).all
     status = false;
     @terminalNodes = @node.getFilteredTerminalNodeWithUncompleteStatus(status, @filters)
+    @marker_node_type = NodeType.where(:marker => true)
+    if @marker_node_type.count > 0
+      @markers = Node.where(:nodeType_id => @marker_node_type.first.id)
+    end
+    @terminalNodes = @markers + @terminalNodes
     @terminalNodes = @terminalNodes.sort_by {|obj| obj.row_order}
    #   @terminalBacklogNodes
   end

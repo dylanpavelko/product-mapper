@@ -48,7 +48,7 @@
     <% if @node.fchildren != nil and @node.fchildren.count > 0 %>
       <% @node_children = @node.fchildren.sort_by {|obj| [obj.nodeType.specification ? 1 : 0] } %>
       <% @node_children.each do |child| %>
-        <% if !child.nodeType.specification %>
+        <% if !child.nodeType.specification and !child.nodeType.marker %>
           <div class="panel panel-default">
             <div class="panel-heading " data-toggle="collapse" data-target="#demo<%= child.id %>">
               <h3 class="panel-title">
@@ -97,6 +97,7 @@
           <% end %>
         </div>
         <% else %>
+        <% if !child.nodeType.marker %>
           <% if child.status %>
             <li class="list-group-item list-group-item-success">
           <% elsif child.progress_status == "In Progress" %>
@@ -104,8 +105,9 @@
           <% else %>
             <li class="list-group-item">
           <% end %>
-              <%= link_to "[" + child.nodeType.name + "] " + child.name, child %>
+              <%= link_to "[" + child.nodeType.name + "] " + child.name, child %>  
             </li>
+          <% end %>
         <% end %>
         
       <% end %>

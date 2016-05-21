@@ -5,5 +5,17 @@
   <%= @customer.name %>
 </p>
 
+<table>
+	<tr>
+		<th>Impact</th>
+		<th>Issue</th>
+	</tr>
+	<% @has_issues.each do |has_issue| %>
+		<tr>
+			<td><%= link_to has_issue.impact_text %></td><td><%= link_to has_issue.native_issue.summary, has_issue.native_issue %></td>
+		</tr>
+	<% end %>
+</table>
+
 <%= link_to 'Edit', edit_customer_path(@customer) %> |
 <%= link_to 'Back', customers_path %>

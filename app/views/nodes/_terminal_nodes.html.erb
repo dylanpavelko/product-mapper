@@ -26,7 +26,11 @@
         <% if @granularity == "features_only" %>
           <tr>
         <% else %>
-          <tr <% if child.status %>class="success"<% end %>>
+          <tr <% if child.status %>
+                  class="success"
+            <% elsif child.nodeType.marker %> 
+                  style="background-color:#FFCC33;"
+            <% end %>>
         <% end %>
           <% if child.nodeType.feature or child.nodeType.feature_organizer %>
             <% @features << child %>

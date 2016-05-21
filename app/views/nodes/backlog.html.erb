@@ -39,7 +39,10 @@
           <% if child.status %>
             class="success" 
           <% elsif @dependencies.include?(child.id) %> 
-          class="danger"<% end %>  
+          class="danger"<% end %> 
+            <% if child.nodeType.marker %> 
+                  style="background-color:#FFCC33;" id="marker"
+            <% end %>
         >
           <% child.dependencies.each do |dependency| %>
             <% @dependencies << dependency.phase.node.id %>
@@ -211,6 +214,10 @@
  * Last Revision 3/16/2012
  * multi-selectable, multi-sortable jQuery plugin
  */
+$(document).click(function(){
+        $('#marker').removeClass('info');
+});
+
 function initPage() {
   // Page ready code...
 
@@ -223,6 +230,9 @@ function initPage() {
     options = $.extend({}, $.fn.multiselectable.defaults, options);
 
     function mouseDown(e) {
+      if ($(this).attr("id") == "marker"){
+        return false;
+      }
       //change dependent rows to yellow
       $earliest_dependency = $(this).attr("data-item-id");
       $( "[data-item-dependencies='"+ $earliest_dependency +"']").addClass("warning");
@@ -279,7 +289,7 @@ function initPage() {
           }
         }
       }
-
+      $('#marker').removeClass(options.selectedClass);
       options.mousedown(e, item);
     }
 
@@ -299,7 +309,7 @@ function initPage() {
           item.nextUntil(':not(.child)').addClass(options.selectedClass);
         }
       }
-
+      $('#marker').removeClass(options.selectedClass);
       options.click(e, item);
     }
 
@@ -545,8 +555,7 @@ ready = function() {
   $("#backlog tbody").multisortable({         
     helper: fixHelperModified,         
     stop: function(event,ui) {renumber_table('#backlog')}     
-  }).disableSelection();     
-
+  }).disableSelection();
 
 };
 
