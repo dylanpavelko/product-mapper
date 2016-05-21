@@ -219,9 +219,16 @@ class NodesController < ApplicationController
       @node.save
       @new_rank = @node.get_row_order_position
       @above_node = @node.get_node_in_position(@new_rank + 1)
-      @node_log = NodeHistory.new(:node_id => @node.id, :user_id => @current_user.id, 
+      if @above_node == nil
+        @below_node = @node.get_node_in_position(@new_rank - 1)
+         @node_log = NodeHistory.new(:node_id => @node.id, :user_id => @current_user.id, 
+        :log_type => 1, :log => ("Updated Priority from " + @prior_rank.to_s + " to " + @new_rank.to_s + " below " + @below_node.name),
+        :other_node_id => @below_node.id )
+      else
+        @node_log = NodeHistory.new(:node_id => @node.id, :user_id => @current_user.id, 
         :log_type => 1, :log => ("Updated Priority from " + @prior_rank.to_s + " to " + @new_rank.to_s + " above " + @above_node.name),
         :other_node_id => @above_node.id )
+      end
       @node_log.save
 
     end
