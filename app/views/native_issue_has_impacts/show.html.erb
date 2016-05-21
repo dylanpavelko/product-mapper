@@ -2,17 +2,17 @@
 
 <p>
   <strong>Customer:</strong>
-  <%= @native_issue_has_impact.customer %>
+  <%= link_to @native_issue_has_impact.customer.name, @native_issue_has_impact.customer %>
 </p>
 
 <p>
   <strong>Native issue:</strong>
-  <%= @native_issue_has_impact.native_issue %>
+  <%= link_to @native_issue_has_impact.native_issue.summary, @native_issue_has_impact.native_issue %>
 </p>
 
 <p>
   <strong>Impact:</strong>
-  <%= @native_issue_has_impact.impact %>
+  <%= @native_issue_has_impact.impact_text %>
 </p>
 
 <%= link_to 'Edit', edit_native_issue_has_impact_path(@native_issue_has_impact) %> |

@@ -13,15 +13,27 @@
 
   <div class="field">
     <%= f.label :customer_id %><br>
-    <%= f.text_field :customer_id %>
+        <% if @native_issue_has_impact.customer_id != nil %>
+      <%= f.select :customer_id, options_from_collection_for_select(Customer.all, :id, :name, @native_issue_has_impact.customer_id), :include_blank => true %>
+    <% else %>
+        <%= f.select :customer_id, options_from_collection_for_select(Customer.all, :id, :name), :include_blank => true %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :native_issue_id %><br>
-    <%= f.text_field :native_issue_id %>
+    <% if @native_issue_has_impact.native_issue_id != nil %>
+      <%= f.select :native_issue_id, options_from_collection_for_select(NativeIssue.all, :id, :summary, @native_issue_has_impact.native_issue_id), :include_blank => true %>
+    <% else %>
+        <%= f.select :native_issue_id, options_from_collection_for_select(NativeIssue.all, :id, :summary), :include_blank => true %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :impact %><br>
-    <%= f.number_field :impact %>
+    <select id='native_issue_has_impact_impact' name='native_issue_has_impact[impact]'>
+      <option value='1' <%if @native_issue_has_impact.impact == 1 %> selected %<%end%>>Blocker</option>
+      <option value='2' <%if @native_issue_has_impact.impact == 2 %> selected %<%end%>>Critical</option>
+      <option value='3' <%if @native_issue_has_impact.impact == 3 %> selected %<%end%>>Nice to have</option>
+    </select>
   </div>
   <div class="actions">
     <%= f.submit %>
