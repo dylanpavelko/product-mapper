@@ -145,6 +145,7 @@ class NodesController < ApplicationController
     status = false;
     @terminalNodes = @node.getFilteredTerminalNodeWithUncompleteStatus(status, @filters)
     @marker_node_type = NodeType.where(:marker => true)
+    @markers = Array.new
     if @marker_node_type.count > 0
       @markers = Node.where(:nodeType_id => @marker_node_type.first.id)
     end
@@ -233,7 +234,8 @@ class NodesController < ApplicationController
 
     end
 
-    render nothing: true # this is a POST action, updates sent via AJAX, no view rendered
+    @data = 1
+    render json: @data # this is a POST action, updates sent via AJAX, no view rendered
   end
 
   def search_results

@@ -10,6 +10,10 @@
 
   </ol>
 <% end %>
+<div id='loadingmessage' style='display:none'>
+  <h1>Updating Priorities</h1>
+  (this may take a while)
+</div>
 
 <h2><%= link_to @node.name, @node %> Backlog</h2> 
 
@@ -402,12 +406,19 @@ function initPage() {
 // console.log("lower position: " + lower_position);
 // console.log(list.find('.' + settings.selectedClass));
 // console.log(moved_rows)
-
+        $('#loadingmessage').show();  // show the loading message
         $.ajax({
           type: 'POST',
           url: '/nodes/update_row_order',
           dataType: 'json',
-          data: { node: {node_id: moved_rows, row_order_position: position } }} // i think i need to pass in an array of all the moved nodes and their new relative position as being one behind the location of the first row QQQQ: but how do i get all the rows?
+          data: { node: {node_id: moved_rows, row_order_position: position } },
+          success : function(){
+            $('#loadingmessage').hide(); // hide the loading message
+          },
+          error : function(error){
+            alert("Something went wrong. Please refresh and try again. " + error );
+          }
+        } // i think i need to pass in an array of all the moved nodes and their new relative position as being one behind the location of the first row QQQQ: but how do i get all the rows?
         );//DP: I think in the response i need to reset the data item positin of the moved rows
 
 
