@@ -206,6 +206,30 @@ class NodesController < ApplicationController
     @node_ids = params[:node][:node_id]
     @position = node_params[:row_order_position]
 
+    @id_above = node_params[:row_above]
+    @id_below = node_params[:row_below]
+
+    if @id_below != "NaN"
+      @below_position = Node.find(@id_below).get_row_order_position
+    end
+    if @id_above != "NaN"
+      @above_position = Node.find(@id_above).get_row_order_position
+    else 
+      @above_position = @below_position - 1
+    end
+
+    @position = @above_position;
+    @prior_position = Node.find(@node_ids.first).get_row_order_position;
+
+    if @prior_position >= @position
+      @position = @position + 1
+    elsif @prior_position < @position
+      @position = @position 
+    else
+      @position = @below_position
+    end
+
+
     if Node.find(@node_ids.first).get_row_order_position >= @position.to_i 
       @node_ids = @node_ids.reverse
     end
@@ -300,7 +324,7 @@ class NodesController < ApplicationController
 
   private
     def node_params
-      params.require(:node).permit(:name, :node_id, :parent_id, :nodeType_id, :phaseTypes, :description, :row_order_position)
+      params.require(:node).permit(:name, :node_id, :parent_id, :nodeType_id, :phaseTypes, :description, :row_order_position, :row_above, :row_below)
     end
 
   private

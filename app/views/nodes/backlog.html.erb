@@ -368,47 +368,39 @@ function initPage() {
 
         item.after(itemsAfter);
 
-        // console.log("selected initial item " + item.find(".priority").html());
-        // console.log("moved to below " + item.prev().find(".priority").html());
-        // console.log("and above " + item.next().find(".priority").html());
-
-
         item_id = item.data('item-id');
         prior_position = item.data('item-position');
+
+        //get the row above
         higher_position = parseInt($('.selected').first().prev().attr('data-item-position'));
+        higher_id = parseInt($('.selected').first().prev().attr('data-item-id'));
+        //get the row below
         lower_position = item.next().data('item-position');
+        lower_id = parseInt($('.selected').last().next().attr('data-item-id'));
+
         position = higher_position;
 
         if(prior_position >= position){
                     position = position + 1;
-  // console.log("prior position is below new position");
         }else if(prior_position < position){
           position = position ;
-  // console.log("prior position is above new position");
         }else{
           position = parseInt($('.selected').last().next().attr('data-item-position'));
-  // console.log("position was undefined");
         }
-
 
         items = list.find('.' + settings.selectedClass);
         var moved_rows = [];
         for(var i = 0; i < items.length ; i++){
           moved_rows.push(items[i].dataset.itemId
           );
-// console.log("item id- "+ items[i].dataset.itemId);
         }
-// console.log("move to position " + position);
-// console.log("higher position: " + higher_position);
-// console.log("lower position: " + lower_position);
-// console.log(list.find('.' + settings.selectedClass));
-// console.log(moved_rows)
+
         $('#loadingmessage').show();  // show the loading message
         $.ajax({
           type: 'POST',
           url: '/nodes/update_row_order',
           dataType: 'json',
-          data: { node: {node_id: moved_rows, row_order_position: position } },
+          data: { node: {node_id: moved_rows, row_above: higher_id, row_below: lower_id, row_order_position: position } },
           success : function(){
             $('#loadingmessage').hide(); // hide the loading message
           },
