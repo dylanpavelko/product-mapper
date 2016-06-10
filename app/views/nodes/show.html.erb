@@ -206,11 +206,13 @@
 <%= link_to node_issues.count.to_s + " Issues", native_issues_path(:node => @node.id) %>
 
 <%  unresolved = 0
+        if node_issues.count > 0
           node_issues.each do |issue| 
             if issue.resolved_with == nil and !issue.close_without_resolution
               unresolved = unresolved + 1
             end
           end
+        end
           %>
         <% if unresolved >0 %>
           <span class="label label-danger"><%= link_to (unresolved.to_s+" with no resolution"), native_issues_path(:node => @node.id), {:style=>'color:#FFFFFF;'} %></span>
