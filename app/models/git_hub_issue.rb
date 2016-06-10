@@ -5,4 +5,8 @@ class GitHubIssue < ActiveRecord::Base
   def resolved_with
   	return nil
   end
+
+  def close_without_resolution
+  	return nil
+  end
 end
