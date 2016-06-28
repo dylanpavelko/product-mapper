@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  column_name: MyString
+  column_number: 1
+  data_type: 1
+  google_sheet_id: 
+
+two:
+  column_name: MyString
+  column_number: 1
+  data_type: 1
+  google_sheet_id: 

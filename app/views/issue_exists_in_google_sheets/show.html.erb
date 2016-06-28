@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Native issue:</strong>
+  <%= link_to @issue_exists_in_google_sheet.native_issue.summary, @issue_exists_in_google_sheet.native_issue %>
+</p>
+
+<p>
+  <strong>Google sheet:</strong>
+  <%= link_to @issue_exists_in_google_sheet.google_sheet.name, @issue_exists_in_google_sheet.google_sheet %>
+</p>
+
+<p>
+  <strong>External ID:</strong>
+  <%= @issue_exists_in_google_sheet.external_id %>
+</p>
+
+<%= link_to 'Edit', edit_issue_exists_in_google_sheet_path(@issue_exists_in_google_sheet) %> |
+<%= link_to 'Back', issue_exists_in_google_sheets_path %>

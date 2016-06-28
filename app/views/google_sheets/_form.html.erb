@@ -1,0 +1,28 @@
+<%= form_for(@google_sheet) do |f| %>
+  <% if @google_sheet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@google_sheet.errors.count, "error") %> prohibited this google_sheet from being saved:</h2>
+
+      <ul>
+      <% @google_sheet.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :sheet %><br>
+    <%= f.text_field :sheet %>
+  </div>
+  <div class="field">
+    <%= f.label :key %><br>
+    <%= f.text_field :key %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

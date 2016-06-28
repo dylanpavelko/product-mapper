@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  native_issue_id: 
+  google_sheet_id: 
+  external_id: 1
+
+two:
+  native_issue_id: 
+  google_sheet_id: 
+  external_id: 1

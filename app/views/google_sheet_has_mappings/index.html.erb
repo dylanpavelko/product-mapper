@@ -1,0 +1,31 @@
+<h1>Listing google_sheet_has_mappings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column name</th>
+      <th>Column number</th>
+      <th>Data type</th>
+      <th>Google sheet</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @google_sheet_has_mappings.each do |google_sheet_has_mapping| %>
+      <tr>
+        <td><%= google_sheet_has_mapping.column_name %></td>
+        <td><%= google_sheet_has_mapping.column_number %></td>
+        <td><%= google_sheet_has_mapping.data_type %></td>
+        <td><%= google_sheet_has_mapping.google_sheet %></td>
+        <td><%= link_to 'Show', google_sheet_has_mapping %></td>
+        <td><%= link_to 'Edit', edit_google_sheet_has_mapping_path(google_sheet_has_mapping) %></td>
+        <td><%= link_to 'Destroy', google_sheet_has_mapping, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Google sheet has mapping', new_google_sheet_has_mapping_path %>

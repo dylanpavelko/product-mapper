@@ -1,0 +1,15 @@
+// Place all the styles related to the GoogleSheets controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#row_syncer{
+	background-color: rgba(245,245,245,0.8);
+	z-index: 1;
+	position:fixed;
+	width: 100%;
+	height: 100%;
+	color:black;
+	top:0px;
+	padding: 2em;
+	border: 2px;
+}

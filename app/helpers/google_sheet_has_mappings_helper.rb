@@ -1,0 +1,2 @@
+module GoogleSheetHasMappingsHelper
+end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160521040542) do
+ActiveRecord::Schema.define(version: 20160626201310) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -155,6 +155,25 @@ ActiveRecord::Schema.define(version: 20160521040542) do
   add_index "git_hub_repos", ["node_id"], name: "index_git_hub_repos_on_node_id", using: :btree
   add_index "git_hub_repos", ["user_id"], name: "index_git_hub_repos_on_user_id", using: :btree
 
+  create_table "google_sheet_has_mappings", force: true do |t|
+    t.string   "column_name"
+    t.integer  "column_number"
+    t.integer  "data_type"
+    t.integer  "google_sheet_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "google_sheet_has_mappings", ["google_sheet_id"], name: "index_google_sheet_has_mappings_on_google_sheet_id", using: :btree
+
+  create_table "google_sheets", force: true do |t|
+    t.string   "key"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
+    t.integer  "sheet"
+  end
+
   create_table "impacts", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -171,6 +190,17 @@ ActiveRecord::Schema.define(version: 20160521040542) do
 
   add_index "inbox_items", ["activity_id"], name: "index_inbox_items_on_activity_id", using: :btree
   add_index "inbox_items", ["user_id"], name: "index_inbox_items_on_user_id", using: :btree
+
+  create_table "issue_exists_in_google_sheets", force: true do |t|
+    t.integer  "native_issue_id"
+    t.integer  "google_sheet_id"
+    t.integer  "external_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "issue_exists_in_google_sheets", ["google_sheet_id"], name: "index_issue_exists_in_google_sheets_on_google_sheet_id", using: :btree
+  add_index "issue_exists_in_google_sheets", ["native_issue_id"], name: "index_issue_exists_in_google_sheets_on_native_issue_id", using: :btree
 
   create_table "jira_issues", force: true do |t|
     t.integer  "jira_repo_id"

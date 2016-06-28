@@ -1,0 +1,2 @@
+module IssueExistsInGoogleSheetsHelper
+end

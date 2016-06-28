@@ -1,0 +1,205 @@
+<% content_for :title, " Google Sheet Import for " + @google_sheet.name %>
+<p id="notice"><%= notice %></p>
+<div>
+	<h3>
+	<a href='https://docs.google.com/spreadsheets/d/<%= @google_sheet.key %>' target='blank'>
+		<img src="https://www.appenate.com/wp-content/uploads/2016/04/google-sheets-logo-300x100.png" />
+	</a>
+	<span style="position: relative; top: 6px;"><%= @google_sheet.name %></span>
+</h3>
+</div>
+<a href='https://docs.google.com/spreadsheets/d/<%= @google_sheet.key %>' target='blank'>https://docs.google.com/spreadsheets/d/<%= @google_sheet.key %></a>
+
+<div id='row_syncer' style='display:none'>
+	<h4>Import Issue</h4>
+	<strong>Item ID:</strong>
+	<%= text_field_tag :external_item_id , nil, :class => "form-control" %>
+	<strong>Issue Summary:</strong>
+	<div><em>Google Sheet Value: </em><span id='gsv_summary'></span></div>
+	<%= text_field_tag :summary , nil, :class => "form-control" %>
+	<strong>Issue Description:</strong>
+	<div><em>Google Sheet Value: </em><span id='gsv_description'></span></div>
+	<%= text_area_tag :description , nil, :class => "form-control" %>
+	<strong>Enhancement:</strong>
+	<div><em>Google Sheet Value: </em><span id='gsv_enhancement'></span></div>
+	<%= check_box_tag :enhancement %><br/>
+	<strong>Opened By:</strong>
+	<div><em>Google Sheet Value: </em><span id='gsv_opened_by'></span></div>
+	<%= select_tag :opened_by, options_from_collection_for_select(User.all.sort{|a,b| a.display_name <=> b.display_name}, :id, :display_name), 
+          {:include_blank => true, :class => "form-control"} %>
+	<strong>Comments:</strong>
+	<div><em>Google Sheet Value: </em><span id='gsv_comment'></span></div>
+	<%= text_area_tag :comment , nil, :class => "form-control" %>
+	<strong>Customer Impacts:</strong>
+	<%= text_field_tag :impacts %>
+	<strong>Jira Link:</strong>
+	<%= text_field_tag :jira %>
+	<br/>
+	<div class="field col-md-12">
+    <% @node_context    = nil
+       @node_parents    = nil
+       @node_label      = "Issue with: "
+       @button_text     = "Select Product Node"
+       @node_form_id    = "native_issue_with_id"
+       @node_form_name  = "native_issue[with_id]" %>
+    <%= render "nodes/node_chooser" %>
+  	</div>
+  	<button class="btn btn-success" id="import_issue_ajax">Import Issue</button> <a id="cancel_import" data-external-id="" >Cancel</a>
+</div>
+
+
+<% @rows = @google_sheet.get_sheet_rows %>
+<br/>
+<h4><%= @google_sheet.get_sheet.title %></h4>
+<table class="table">
+	<tr><td class="success">New Data</td>
+		<td class="warning">Data Discrepency</td>
+		<td class="danger">Data Removed</td>
+	</tr>
+</table>
+
+<table class="table table-hover">
+	<thead>
+		<th></th>
+		<% @mappings.each do |mapping| %>
+			<th><%= @rows[0][ mapping.column_number ] %></th>
+		<% end %>
+	</thead>
+	<tbody>
+		<% @rows.drop(1).each_with_index do |row, i| %>
+
+		<% @external_id = row[@mappings.find {|s| s.data_type == 1 }.column_number] %>
+		<% @external_mapping =  @imported_issues.find {|i| i.external_id == @external_id.to_i } %>
+		<% @new_issue = true %>
+		<% if @external_mapping != nil %>
+			<% @native_issue = @external_mapping.native_issue %>
+			<% @new_issue = false %>
+		<% end %>
+			<tr id="sheet_row_<%= i %>" <% if @new_issue %> class="success" <% end %>>
+				<td>
+					<% if @new_issue %>
+						<button id="btn_<%= i %>" class="btn btn-default btn-sync">Import</button>
+					<% else %>
+						<button id="btn_<%= i %>" class="btn btn-default btn-sync_update">Update</button><br/>
+						<%= link_to "View in PM", @native_issue, :target => "_blank" %>
+					<% end %>
+				</td>
+				<% @mappings.each do |mapping| %>
+					<% if @new_issue %>
+						<td data-type="<%= mapping.data_type %>" ><%= row[ mapping.column_number ] %></td>
+					<% else %>
+						<td data-type="<%= mapping.data_type %>" 
+							<% @difference = mapping.difference(@native_issue, row[ mapping.column_number ]) %>
+							<% if @difference == "New" %>
+								class="success" 
+							<% elsif @difference == "Discrepency" %> 
+								class="warning" 
+							<% end %> ><%= row[ mapping.column_number ] %></td>
+					<% end %>
+						
+					
+				<% end %>
+
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<p>
+<%= link_to 'Edit', edit_google_sheet_path(@google_sheet) %> |
+<%= link_to 'Back', google_sheets_path %>
+</p>
+
+
+<script type="text/javascript">
+
+var $import_button;
+
+$('.btn-sync').click(function(){
+	$(this).css("background-color", "orange");
+	$import_button = $(this);
+	$('#cancel_import').data("external_id",$(this).attr('id'));
+	$(this).parent().parent().addClass("info");
+	$('#row_syncer').show();
+	$(this).parent().parent().find('td').each(function(column, td) {
+		if($(td).data("type")==1){
+			$('#external_item_id').val($(td).html());
+		}
+		if($(td).data("type")==2){
+			$('#summary').val($(td).html());
+			$('#gsv_summary').html($(td).html());
+		}
+		else if($(td).data("type")==3){
+			$('#description').val($(td).html());
+			$('#gsv_description').html($(td).html());
+		}
+		else if($(td).data("type")==4){
+			if ($(td).html().toLowerCase().indexOf("enhancement") >= 0){//includes the characters 'enhancement'
+				$('#enhancement').prop('checked', true);
+			}
+			$('#gsv_enhancement').html($(td).html());
+		}
+		else if($(td).data("type")==5){
+			$('#opened_by option').each(function()
+			{
+			    if ($(td).html().toLowerCase().indexOf($(this).html().toLowerCase()) >= 0){
+			    	$('#opened_by option[value="'+$(this).val()+'"]').prop('selected', true)
+			    };
+
+			});
+			$('#gsv_opened_by').html($(td).html());
+		}
+		else if($(td).data("type")==7){
+			$('#comment').val($(td).html());
+			$('#gsv_comment').html($(td).html());
+		}
+	});
+});
+
+$('#cancel_import').click(function(){
+	$external_id = $(this).data("external_id");
+	$('#row_syncer').hide();
+	$('#'+$external_id).css("background-color", "");
+	$import_button.css("background-color", "");
+});
+
+
+//AJAX Method to Add New Native Issue
+$(document.body).on('click', '#import_issue_ajax' ,(function(){
+  //get google sheet data
+  	$google_sheet_id = <%= @google_sheet.id %>
+  	$google_sheet_row_id = $('#external_item_id').val();
+  //get native issue details
+  	$native_issue_summary = $('#summary').val();
+  	$native_issue_description = $('#description').val();
+  	$native_issue_enhancement = $('#enhancement').prop('checked');
+  	$native_issue_opened_by = $('#opened_by option:selected').val();
+  	$native_issue_with_node_id = $('#native_issue_with_id').val();
+
+  // //validate that there is an external id, an issue summary, and a native issue id identified
+   if(($native_issue_summary == "") || ($google_sheet_row_id=="") || ($native_issue_with_node_id == "") || ($native_issue_opened_by == "")){
+     alert("An external ID, Issue Summary, Issue Opened By, and Product Mapper Native Issue are required!");
+     return false;
+   }
+
+  //send to ajax call
+    $.ajax({url: "/import_new_native_issue_from_google_sheet", 
+            type: "POST", 
+            data: {'google_sheet_id': $google_sheet_id,
+  					'google_sheet_row_id': $google_sheet_row_id,
+					'native_issue_summary':	$native_issue_summary,
+				  	'native_issue_description': $native_issue_description,
+				  	'native_issue_enhancement': $native_issue_enhancement,
+				  	'native_issue_opened_by': $native_issue_opened_by,
+				  	'native_issue_with_node_id': $native_issue_with_node_id}, 
+            dataType: 'json'}).done(function(data)  {
+                if(!data.error) 
+                	//location.reload(true);
+                $('#row_syncer').hide();
+            }).fail(function(e, ts, et)  {
+                alert("Sorry. Server unavailable. " + ts);
+            }); 
+}));
+
+
+</script>

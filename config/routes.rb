@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  resources :issue_exists_in_google_sheets
+
+  resources :google_sheet_has_mappings
+
+  resources :google_sheets
+
   resources :native_issue_has_impacts
 
   resources :customers
@@ -39,6 +45,8 @@ Rails.application.routes.draw do
   post '/add_customer_impact_to_native_issue' =>  'native_issues#add_customer_impact_to_native_issue'
 
   post '/mark_inbox_item_as_read' => 'inbox_items#mark_inbox_item_as_read'
+
+  post '/import_new_native_issue_from_google_sheet' => 'google_sheets#import_new_native_issue_from_google_sheet'
 
   resources :question_has_responses
 

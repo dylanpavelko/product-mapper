@@ -1,0 +1,29 @@
+<%= form_for(@issue_exists_in_google_sheet) do |f| %>
+  <% if @issue_exists_in_google_sheet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@issue_exists_in_google_sheet.errors.count, "error") %> prohibited this issue_exists_in_google_sheet from being saved:</h2>
+
+      <ul>
+      <% @issue_exists_in_google_sheet.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :native_issue_id %><br>
+    <%= f.text_field :native_issue_id %>
+  </div>
+  <div class="field">
+    <%= f.label :google_sheet_id %><br>
+    <%= f.text_field :google_sheet_id %>
+  </div>
+  <div class="field">
+    <%= f.label :external_id %><br>
+    <%= f.number_field :external_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

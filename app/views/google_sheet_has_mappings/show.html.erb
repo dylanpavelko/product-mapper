@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Column name:</strong>
+  <%= @google_sheet_has_mapping.column_name %>
+</p>
+
+<p>
+  <strong>Column number:</strong>
+  <%= @google_sheet_has_mapping.column_number %>
+</p>
+
+<p>
+  <strong>Data type:</strong>
+  <%= @google_sheet_has_mapping.data_type %>
+</p>
+
+<p>
+  <strong>Google sheet:</strong>
+  <%= @google_sheet_has_mapping.google_sheet %>
+</p>
+
+<%= link_to 'Edit', edit_google_sheet_has_mapping_path(@google_sheet_has_mapping) %> |
+<%= link_to 'Back', google_sheet_has_mappings_path %>
