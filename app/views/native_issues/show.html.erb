@@ -47,7 +47,9 @@ document.cookie = 'time_zone_offset='+utcOffset+';';
       <strong>Description:</strong><br/>
       <%=auto_link(simple_format(@native_issue.description), :html => { :target => '_blank' })%>
     </p>
-    <img src="http://img.talkandroid.com/uploads/2015/03/sheets-logo.png" width="50px" />
+    <% if @in_google_sheets.count > 0 %>
+      <img src="http://img.talkandroid.com/uploads/2015/03/sheets-logo.png" width="50px" />
+    <% end %>
     <% @in_google_sheets.each do |google_sheet|%>
       Exists in Google Sheet <%= link_to google_sheet.google_sheet.name, "https://docs.google.com/spreadsheets/d/" + google_sheet.google_sheet.key, :target => "_blank" %> with ID# <%= google_sheet.external_id %><br/>
     <% end %>
