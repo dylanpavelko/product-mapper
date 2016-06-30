@@ -71,7 +71,7 @@
 		<% @rows.drop(1).each_with_index do |row, i| %>
 
 		<% @external_id = row[@mappings.find {|s| s.data_type == 1 }.column_number] %>
-		<% @external_mapping =  @imported_issues.find {|i| i.external_id == @external_id.to_i } %>
+		<% @external_mapping =  @imported_issues.find {|i| i.external_id.to_i == @external_id.to_i } %>
 		<% @new_issue = true %>
 		<% if @external_mapping != nil %>
 			<% @native_issue = @external_mapping.native_issue %>
