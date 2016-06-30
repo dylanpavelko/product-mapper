@@ -43,3 +43,5 @@ public/assets/profile_images/26/ravi.jpg
 *.jpeg
 
 *.png
+
+config/google_app_config.json
