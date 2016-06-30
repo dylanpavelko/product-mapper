@@ -65,17 +65,14 @@ class GoogleSheetsController < ApplicationController
     end
   end
 
-  def import_new_native_issue_from_google_sheet
-p "do i even get here"    
+  def import_new_native_issue_from_google_sheet   
     @native_issue = NativeIssue.new(:summary => params[:native_issue_summary],
                                     :description => params[:native_issue_description],
                                     :enhancement => params[:native_issue_enhancement],
                                     :added_by_id => params[:native_issue_opened_by],
                                     :issue_with_id => params[:native_issue_with_node_id])
     @node = Node.find(@native_issue.issue_with_id)
-p "what about here"  
     if @native_issue.save
-      p "and here" 
       #add issue_exists_in_google_sheet
       @issue_in_google = IssueExistsInGoogleSheet.new(:native_issue_id => @native_issue.id, 
                                                       :google_sheet_id => params[:google_sheet_id], 
@@ -85,8 +82,24 @@ p "what about here"
 
       render :json => @native_issue 
     else
-      p "or do i end up here" 
-      p @native_issue.errors.inspect
+        render json: @native_issue.errors, status: :unprocessable_entity 
+    end  
+  end
+
+  def import_update_to_native_issue_from_google_sheet
+
+    @native_issue = IssueExistsInGoogleSheet.where(:google_sheet_id => params[:google_sheet_id], 
+                                                      :external_id => params[:google_sheet_row_id]).first.native_issue   
+    if @native_issue.update(:summary => params[:native_issue_summary],
+                                    :description => params[:native_issue_description],
+                                    :enhancement => params[:native_issue_enhancement],
+                                    :added_by_id => params[:native_issue_opened_by],
+                                    :issue_with_id => params[:native_issue_with_node_id]) 
+
+      add_activity_to_subscribers_inbox(@native_issue.create_activity :update, owner: @current_user)
+
+      render :json => @native_issue 
+    else
         render json: @native_issue.errors, status: :unprocessable_entity 
     end  
   end

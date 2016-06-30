@@ -27,14 +27,16 @@
 	<div><em>Google Sheet Value: </em><span id='gsv_opened_by'></span></div>
 	<%= select_tag :opened_by, options_from_collection_for_select(User.all.sort{|a,b| a.display_name <=> b.display_name}, :id, :display_name), 
           {:include_blank => true, :class => "form-control"} %>
-	<strong>Comments:</strong>
-	<div><em>Google Sheet Value: </em><span id='gsv_comment'></span></div>
-	<%= text_area_tag :comment , nil, :class => "form-control" %>
-	<strong>Customer Impacts:</strong>
-	<%= text_field_tag :impacts %>
-	<strong>Jira Link:</strong>
-	<%= text_field_tag :jira %>
-	<br/>
+    <div id='not_ready' style='display:none'>
+		<strong>Comments:</strong>
+		<div><em>Google Sheet Value: </em><span id='gsv_comment'></span></div>
+		<%= text_area_tag :comment , nil, :class => "form-control" %>
+		<strong>Customer Impacts:</strong>
+		<%= text_field_tag :impacts %>
+		<strong>Jira Link:</strong>
+		<%= text_field_tag :jira %>
+		<br/>
+	</div>
 	<div class="field col-md-12">
     <% @node_context    = nil
        @node_parents    = nil
@@ -44,7 +46,7 @@
        @node_form_name  = "native_issue[with_id]" %>
     <%= render "nodes/node_chooser" %>
   	</div>
-  	<button class="btn btn-success" id="import_issue_ajax">Import Issue</button> <a id="cancel_import" data-external-id="" >Cancel</a>
+  	<button class="btn btn-success" id="import_issue_ajax" data-update=false>Import Issue</button> <a id="cancel_import" data-external-id="" >Cancel</a>
 </div>
 
 
@@ -80,7 +82,7 @@
 					<% if @new_issue %>
 						<button id="btn_<%= i %>" class="btn btn-default btn-sync">Import</button>
 					<% else %>
-						<button id="btn_<%= i %>" class="btn btn-default btn-sync_update">Update</button><br/>
+						<button id="btn_<%= i %>" data-issue-id=<%=@native_issue.id %> class="btn btn-default btn-sync_update">Update</button><br/>
 						<%= link_to "View in PM", @native_issue, :target => "_blank" %>
 					<% end %>
 				</td>
@@ -149,12 +151,62 @@ $('.btn-sync').click(function(){
 			});
 			$('#gsv_opened_by').html($(td).html());
 		}
-		else if($(td).data("type")==7){
-			$('#comment').val($(td).html());
-			$('#gsv_comment').html($(td).html());
-		}
+		// else if($(td).data("type")==7){
+		// 	$('#comment').val($(td).html());
+		// 	$('#gsv_comment').html($(td).html());
+		// }
 	});
 });
+
+
+$('.btn-sync_update').click(function(){
+	$(this).css("background-color", "orange");
+	$button_id = $(this).attr('id');
+	$import_button = $(this);
+	$('#cancel_import').data("external_id",$(this).attr('id'));
+	$(this).parent().parent().addClass("info");
+	$('#row_syncer').show();
+	$native_issue_id = $(this).data("issue-id");
+	$('#import_issue_ajax').html("Update Issue");
+	$('#import_issue_ajax').data('update',true);
+	$("#external_item_id").prop("readonly", true);
+
+    $.ajax({url: "/native_issues/get_native_issue", type: "POST", data: {'native_issue_id': $native_issue_id}, dataType: 'json'}).done(function(data){ 
+    	$native_issue = data;
+        //console.log(data);
+      
+
+		$('#'+$button_id).parent().parent().find('td').each(function(column, td) {
+			if($(td).data("type")==1){
+				$('#external_item_id').val($(td).html());
+			}
+			if($(td).data("type")==2){
+				$('#summary').val($native_issue.summary);
+				$('#gsv_summary').html($(td).html());
+			}
+			else if($(td).data("type")==3){
+				$('#description').val($native_issue.description);
+				$('#gsv_description').html($(td).html());
+			}
+			else if($(td).data("type")==4){
+				if ($native_issue.enhancement){
+					$('#enhancement').prop('checked', true);
+				}
+				$('#gsv_enhancement').html($(td).html());
+			}
+			else if($(td).data("type")==5){
+				$('#opened_by option[value="'+$native_issue.added_by_id+'"]').prop('selected', true);
+				$('#gsv_opened_by').html($(td).html());
+			}
+			// else if($(td).data("type")==7){
+			// 	$('#comment').val($(td).html());
+			// 	$('#gsv_comment').html($(td).html());
+			// }
+		});
+		$('#native_issue_with_id').val($native_issue.issue_with_id);
+	});
+});
+
 
 $('#cancel_import').click(function(){
 	$external_id = $(this).data("external_id");
@@ -166,6 +218,7 @@ $('#cancel_import').click(function(){
 
 //AJAX Method to Add New Native Issue
 $(document.body).on('click', '#import_issue_ajax' ,(function(){
+	$update = $(this).data('update');
   //get google sheet data
   	$google_sheet_id = <%= @google_sheet.id %>
   	$google_sheet_row_id = $('#external_item_id').val();
@@ -183,6 +236,7 @@ $(document.body).on('click', '#import_issue_ajax' ,(function(){
    }
 
   //send to ajax call
+  if(!$update){
     $.ajax({url: "/import_new_native_issue_from_google_sheet", 
             type: "POST", 
             data: {'google_sheet_id': $google_sheet_id,
@@ -199,6 +253,25 @@ $(document.body).on('click', '#import_issue_ajax' ,(function(){
             }).fail(function(e, ts, et)  {
                 alert("Sorry. Server unavailable. " + ts);
             }); 
+    }else{
+    	$.ajax({url: "/import_update_to_native_issue_from_google_sheet", 
+            type: "POST", 
+            data: {'google_sheet_id': $google_sheet_id,
+  					'google_sheet_row_id': $google_sheet_row_id,
+					'native_issue_summary':	$native_issue_summary,
+				  	'native_issue_description': $native_issue_description,
+				  	'native_issue_enhancement': $native_issue_enhancement,
+				  	'native_issue_opened_by': $native_issue_opened_by,
+				  	'native_issue_with_node_id': $native_issue_with_node_id}, 
+            dataType: 'json'}).done(function(data)  {
+                if(!data.error) 
+                	//location.reload(true);
+                $('#row_syncer').hide();
+            }).fail(function(e, ts, et)  {
+                alert("Sorry. Server unavailable. " + ts);
+            }); 
+    }
+    $import_button.css("background-color", "");
 }));
 
 

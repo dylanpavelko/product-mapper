@@ -194,7 +194,7 @@ ActiveRecord::Schema.define(version: 20160626201310) do
   create_table "issue_exists_in_google_sheets", force: true do |t|
     t.integer  "native_issue_id"
     t.integer  "google_sheet_id"
-    t.integer  "external_id"
+    t.string  "external_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

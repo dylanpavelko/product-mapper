@@ -64,6 +64,7 @@ class NativeIssuesController < ApplicationController
     @has_jiras = NativeIssueHasJira.where(:native_issue_id => @native_issue.id)
     @has_responses = NativeIssueHasResponse.where(:native_issue_id => @native_issue)
     @has_impacts = NativeIssueHasImpact.where(:native_issue_id => @native_issue)
+    @in_google_sheets = IssueExistsInGoogleSheet.where(:native_issue_id => @native_issue)
   end
 
   # GET /native_issues/new
@@ -173,6 +174,11 @@ class NativeIssuesController < ApplicationController
       @customer_impact.save()
     end
 
+    render :json => @native_issue 
+  end
+
+  def get_native_issue
+    @native_issue = NativeIssue.find(params[:native_issue_id])
     render :json => @native_issue 
   end
 

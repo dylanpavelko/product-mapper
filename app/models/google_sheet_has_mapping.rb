@@ -35,7 +35,15 @@ class GoogleSheetHasMapping < ActiveRecord::Base
   		elsif native_issue.description != ""
   			return "Discrepency"
   		end 		
-  	end
+  	elsif self.data_type==4
+      if (imported_value.downcase.include? "enhancement") != native_issue.enhancement
+        return "Discrepency"
+      end
+    elsif self.data_type==5
+      if imported_value != native_issue.added_by.display_name
+        return "Discrepency"
+      end
+    end
   	return nil
   end
 

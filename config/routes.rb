@@ -46,7 +46,11 @@ Rails.application.routes.draw do
 
   post '/mark_inbox_item_as_read' => 'inbox_items#mark_inbox_item_as_read'
 
+  post '/native_issues/get_native_issue' => 'native_issues#get_native_issue'
+
   post '/import_new_native_issue_from_google_sheet' => 'google_sheets#import_new_native_issue_from_google_sheet'
+
+  post '/import_update_to_native_issue_from_google_sheet' => 'google_sheets#import_update_to_native_issue_from_google_sheet'
 
   resources :question_has_responses
 
