@@ -116,6 +116,7 @@
 <script type="text/javascript">
 
 var $import_button;
+var $issue_id;
 
 $('.btn-sync').click(function(){
 	$(this).css("background-color", "orange");
@@ -123,6 +124,7 @@ $('.btn-sync').click(function(){
 	$('#cancel_import').data("external_id",$(this).attr('id'));
 	$(this).parent().parent().addClass("info");
 	$('#row_syncer').show();
+	$('#import_issue_ajax').data('update',false);
 	$(this).parent().parent().find('td').each(function(column, td) {
 		if($(td).data("type")==1){
 			$('#external_item_id').val($(td).html());
@@ -247,9 +249,12 @@ $(document.body).on('click', '#import_issue_ajax' ,(function(){
 				  	'native_issue_opened_by': $native_issue_opened_by,
 				  	'native_issue_with_node_id': $native_issue_with_node_id}, 
             dataType: 'json'}).done(function(data)  {
-                if(!data.error) 
+                if(!data.error) {
                 	//location.reload(true);
-                $('#row_syncer').hide();
+
+                	$import_button.after("<a href='/native_issues/" + data.id + "' target='_blank'>View in PM</a>");
+                	$('#row_syncer').hide();
+            	}
             }).fail(function(e, ts, et)  {
                 alert("Sorry. Server unavailable. " + ts);
             }); 
@@ -264,14 +269,18 @@ $(document.body).on('click', '#import_issue_ajax' ,(function(){
 				  	'native_issue_opened_by': $native_issue_opened_by,
 				  	'native_issue_with_node_id': $native_issue_with_node_id}, 
             dataType: 'json'}).done(function(data)  {
-                if(!data.error) 
+                if(!data.error) {
                 	//location.reload(true);
                 $('#row_syncer').hide();
+            	}
+                
             }).fail(function(e, ts, et)  {
                 alert("Sorry. Server unavailable. " + ts);
             }); 
     }
     $import_button.css("background-color", "");
+    
+
 }));
 
 
