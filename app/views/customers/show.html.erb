@@ -1,18 +1,31 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
+  <strong>Customer:</strong>
   <%= @customer.name %>
 </p>
 
-<table>
+<table class='table'>
 	<tr>
 		<th>Impact</th>
 		<th>Issue</th>
+		<th>Resolved With</th>
+		<th>Target Date</th>
 	</tr>
 	<% @has_issues.each do |has_issue| %>
 		<tr>
-			<td><%= link_to has_issue.impact_text %></td><td><%= link_to has_issue.native_issue.summary, has_issue.native_issue %></td>
+			<td><%= link_to has_issue.impact_text %></td>
+			<td><%= link_to has_issue.native_issue.summary, has_issue.native_issue %></td>
+			<td>
+				<% if has_issue.native_issue.resolved_with != nil  %>
+					<%= link_to has_issue.native_issue.resolved_with.name, has_issue.native_issue.resolved_with %>
+				<% end %>
+			</td>
+			<td>
+				<% if has_issue.native_issue.resolved_with != nil and has_issue.native_issue.resolved_with.get_earliest_delivery_date != nil %>
+					<%= has_issue.native_issue.resolved_with.get_earliest_delivery_date.strftime("%m/%d/%Y") %>
+				<% end %>
+			</td>
 		</tr>
 	<% end %>
 </table>
