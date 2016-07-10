@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160626201310) do
+ActiveRecord::Schema.define(version: 20160709044626) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -162,8 +162,10 @@ ActiveRecord::Schema.define(version: 20160626201310) do
     t.integer  "google_sheet_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "customer_id"
   end
 
+  add_index "google_sheet_has_mappings", ["customer_id"], name: "index_google_sheet_has_mappings_on_customer_id", using: :btree
   add_index "google_sheet_has_mappings", ["google_sheet_id"], name: "index_google_sheet_has_mappings_on_google_sheet_id", using: :btree
 
   create_table "google_sheets", force: true do |t|
@@ -194,7 +196,7 @@ ActiveRecord::Schema.define(version: 20160626201310) do
   create_table "issue_exists_in_google_sheets", force: true do |t|
     t.integer  "native_issue_id"
     t.integer  "google_sheet_id"
-    t.string  "external_id"
+    t.string   "external_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -243,6 +245,7 @@ ActiveRecord::Schema.define(version: 20160626201310) do
     t.integer  "impact"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "priority"
   end
 
   add_index "native_issue_has_impacts", ["customer_id"], name: "index_native_issue_has_impacts_on_customer_id", using: :btree

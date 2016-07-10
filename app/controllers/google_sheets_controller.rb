@@ -13,7 +13,23 @@ class GoogleSheetsController < ApplicationController
   # GET /google_sheets/1.json
   def show
     @mappings = GoogleSheetHasMapping.where(:google_sheet_id => @google_sheet.id)
+    @customers = Array.new
+    @mappings.each do |mapping|
+      if mapping.data_type == 8 or mapping.data_type == 9
+        if ! @customers.include? mapping.customer
+          @customers << mapping.customer
+        end
+      end
+    end
     @imported_issues = IssueExistsInGoogleSheet.where(:google_sheet_id => @google_sheet.id)
+    @customer_impacts = Array.new
+    
+    @imported_issues.each do |imported_issue|
+      @issue_impacts = NativeIssueHasImpact.where(:native_issue_id => imported_issue.native_issue.id)
+      @issue_impacts.each do |impact|
+        @customer_impacts << impact
+      end
+    end
   end
 
   # GET /google_sheets/new

@@ -71,6 +71,6 @@ class GoogleSheetHasMappingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def google_sheet_has_mapping_params
-      params.require(:google_sheet_has_mapping).permit(:column_name, :column_number, :data_type, :google_sheet_id)
+      params.require(:google_sheet_has_mapping).permit(:column_name, :column_number, :data_type, :google_sheet_id, :customer_id)
     end
 end

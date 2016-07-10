@@ -4,18 +4,22 @@
   <strong>Customer:</strong>
   <%= @customer.name %>
 </p>
-
-<table class='table'>
+<h3>Customer Issues</h3>
+<table class='table table-hover'>
 	<tr>
 		<th>Impact</th>
+		<th>Issue With</th>
 		<th>Issue</th>
+		<th>Status</th>
 		<th>Resolved With</th>
 		<th>Target Date</th>
 	</tr>
 	<% @has_issues.each do |has_issue| %>
-		<tr>
-			<td><%= link_to has_issue.impact_text %></td>
+		<tr <% if has_issue.native_issue.status  == "Closed" %> class="active" <% end %>>
+			<td><%= has_issue.impact_text %></td>
+			<td><%= link_to has_issue.native_issue.issue_with.name, has_issue.native_issue.issue_with %></td>
 			<td><%= link_to has_issue.native_issue.summary, has_issue.native_issue %></td>
+			<td><%= has_issue.native_issue.status %></td>
 			<td>
 				<% if has_issue.native_issue.resolved_with != nil  %>
 					<%= link_to has_issue.native_issue.resolved_with.name, has_issue.native_issue.resolved_with %>

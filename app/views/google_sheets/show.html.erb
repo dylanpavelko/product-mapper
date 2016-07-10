@@ -27,12 +27,32 @@
 	<div><em>Google Sheet Value: </em><span id='gsv_opened_by'></span></div>
 	<%= select_tag :opened_by, options_from_collection_for_select(User.all.sort{|a,b| a.display_name <=> b.display_name}, :id, :display_name), 
           {:include_blank => true, :class => "form-control"} %>
+    
+    <br/> 
+    <% if @customers.count >0 %>
+    	<br/>
+    	<% @customers.each do |customer| %>
+    		<strong><%= customer.name %> Impact:</strong>
+    		<div><em>Google Sheet Value: </em><span id='gsv_impact<%= customer.id %>' data-customer='<%= customer.id %>'></span></div>
+    		<select id='impact_id<%= customer.id %>' name='impact_id' data-customer='<%= customer.id %>'>
+	      		<option value='0' selected></option>
+	      		<option value='1'>Blocker</option>
+     			<option value='2'>Critical</option>
+				<option value='3'>Nice to have</option>
+			</select>
+			<!-- <br/>
+			<strong><%= customer.name %> Priority:</strong>
+    		<div><em>Google Sheet Value: </em><span id='gsv_opened_by'></span></div> 
+    		-->
+    		<%#= text_field_tag :priority %>
+    		<br/>
+    	<% end %>
+	<% end %>
+	<br/>
     <div id='not_ready' style='display:none'>
 		<strong>Comments:</strong>
 		<div><em>Google Sheet Value: </em><span id='gsv_comment'></span></div>
 		<%= text_area_tag :comment , nil, :class => "form-control" %>
-		<strong>Customer Impacts:</strong>
-		<%= text_field_tag :impacts %>
 		<strong>Jira Link:</strong>
 		<%= text_field_tag :jira %>
 		<br/>
@@ -46,6 +66,7 @@
        @node_form_name  = "native_issue[with_id]" %>
     <%= render "nodes/node_chooser" %>
   	</div>
+  	<br/>
   	<button class="btn btn-success" id="import_issue_ajax" data-update=false>Import Issue</button> <a id="cancel_import" data-external-id="" >Cancel</a>
 </div>
 
@@ -88,7 +109,7 @@
 				</td>
 				<% @mappings.each do |mapping| %>
 					<% if @new_issue %>
-						<td data-type="<%= mapping.data_type %>" ><%= row[ mapping.column_number ] %></td>
+						<td data-type="<%= mapping.data_type %>" <% if mapping.data_type == 8 or mapping.data_type == 9 %> data-customer='<%=mapping.customer.id %>'<% end %>><%= row[ mapping.column_number ] %></td>
 					<% else %>
 						<td data-type="<%= mapping.data_type %>" 
 							<% @difference = mapping.difference(@native_issue, row[ mapping.column_number ]) %>
@@ -152,6 +173,21 @@ $('.btn-sync').click(function(){
 
 			});
 			$('#gsv_opened_by').html($(td).html());
+		}
+		else if($(td).data("type")==8){
+			//find the right customer column select tag and choose the proper option
+			$customer_id = $(td).data('customer');
+			if ($(td).html().toLowerCase().indexOf('blocker') >= 0){
+			    	$('#impact_id'+$customer_id+' option[value="1"]').prop('selected', true);
+			}else if($(td).html().toLowerCase().indexOf('critical') >= 0){
+				$('#impact_id'+$customer_id+' option[value="2"]').prop('selected', true);
+			}else if($(td).html().toLowerCase().indexOf('nice to have') >= 0){
+				$('#impact_id'+$customer_id+' option[value="3"]').prop('selected', true);
+			}else{
+				$('#impact_id'+$customer_id+' option[value="0"]').prop('selected', true)
+			};
+			//find the right customer impact and set the value 
+			$('#gsv_impact'+$customer_id).html($(td).html());
 		}
 		// else if($(td).data("type")==7){
 		// 	$('#comment').val($(td).html());

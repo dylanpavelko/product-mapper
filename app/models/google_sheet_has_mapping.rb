@@ -1,5 +1,6 @@
 class GoogleSheetHasMapping < ActiveRecord::Base
   belongs_to :google_sheet
+  belongs_to :customer, class_name: "Customer", foreign_key: "customer_id"
 
 
   def mapping
@@ -18,7 +19,11 @@ class GoogleSheetHasMapping < ActiveRecord::Base
   		return "Date Added"
   	elsif self.data_type == 7
   		return "Comments"
-  	end
+  	elsif self.data_type == 8
+      return "Customer Impact"
+    elsif self.data_type == 9
+      return "Customer Priority"
+    end
   end
 
 
