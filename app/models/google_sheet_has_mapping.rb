@@ -23,11 +23,13 @@ class GoogleSheetHasMapping < ActiveRecord::Base
       return "Customer Impact"
     elsif self.data_type == 9
       return "Customer Priority"
+    else
+      return nil
     end
   end
 
 
-  def difference(native_issue, imported_value)
+  def difference(native_issue, imported_value, mapping)
   	if self.data_type==2
   		if native_issue.summary == imported_value
   			return nil
@@ -48,6 +50,17 @@ class GoogleSheetHasMapping < ActiveRecord::Base
       if imported_value != native_issue.added_by.display_name
         return "Discrepency"
       end
+    elsif self.data_type==8 #customer impact
+        @native_customer_impact = native_issue.customer_impacts.select{|s| s.customer_id == mapping.customer.id}
+        if @native_customer_impact.first != nil and @native_customer_impact.first.equivalent_impact(imported_value)
+          return nil
+        elsif @native_customer_impact.first ==nil and imported_value == ""
+          return nil
+        else
+          return "Discrepency"
+        end
+    elsif self.data_type==9 #customer priority
+
     end
   	return nil
   end

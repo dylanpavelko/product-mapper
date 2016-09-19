@@ -6,6 +6,7 @@
       <th>Customer</th>
       <th>Native issue</th>
       <th>Impact</th>
+      <th>Priority</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -13,9 +14,10 @@
   <tbody>
     <% @native_issue_has_impacts.each do |native_issue_has_impact| %>
       <tr>
-        <td><%= native_issue_has_impact.customer %></td>
-        <td><%= native_issue_has_impact.native_issue %></td>
+        <td><%= native_issue_has_impact.customer.name %></td>
+        <td><%= native_issue_has_impact.native_issue.summary %></td>
         <td><%= native_issue_has_impact.impact %></td>
+        <td><%= native_issue_has_impact.priority %></td>
         <td><%= link_to 'Show', native_issue_has_impact %></td>
         <td><%= link_to 'Edit', edit_native_issue_has_impact_path(native_issue_has_impact) %></td>
         <td><%= link_to 'Destroy', native_issue_has_impact, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -27,4 +27,22 @@ class NativeIssue < ActiveRecord::Base
     end
     return status
   end
+
+  def customer_impacts
+    @issue_impacts = NativeIssueHasImpact.where(:native_issue_id => self.id)
+  end
+
+  def has_impact_text_for_customer(customer_id)
+    @impact = NativeIssueHasImpact.where(:native_issue_id => self.id, :customer_id => customer_id).first
+    if @impact != nil
+      return @impact.impact_text
+    end
+  end
+
+  def has_priority_for_customer(customer_id)
+    @impact = NativeIssueHasImpact.where(:native_issue_id => self.id, :customer_id => customer_id).first
+    if @impact != nil
+      return @impact.priority
+    end
+  end
 end

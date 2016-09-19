@@ -13,4 +13,16 @@ class NativeIssueHasImpact < ActiveRecord::Base
   	end
   	return impact
   end
+
+  def equivalent_impact(impact_string)
+    if self.impact == 1 and impact_string == "Blocker"
+      return true
+    elsif self.impact == 2 and impact_string == "Critical"
+      return true
+    elsif self.impact == 3 and impact_string == "Nice to Have"
+      return true
+    else
+      return false
+    end
+  end
 end

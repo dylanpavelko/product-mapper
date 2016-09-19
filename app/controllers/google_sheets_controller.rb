@@ -2,6 +2,7 @@ class GoogleSheetsController < ApplicationController
   before_action :set_google_sheet, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user
   before_filter :authorized_only
+  require('json')
 
   # GET /google_sheets
   # GET /google_sheets.json
@@ -22,14 +23,28 @@ class GoogleSheetsController < ApplicationController
       end
     end
     @imported_issues = IssueExistsInGoogleSheet.where(:google_sheet_id => @google_sheet.id)
-    @customer_impacts = Array.new
-    
-    @imported_issues.each do |imported_issue|
-      @issue_impacts = NativeIssueHasImpact.where(:native_issue_id => imported_issue.native_issue.id)
-      @issue_impacts.each do |impact|
-        @customer_impacts << impact
-      end
-    end
+    @composite_issues = Array.new
+
+    # @imported_issues.each do |imported_issue|
+    #   @customer_impacts = Array.new
+    #   @issue_impacts = NativeIssueHasImpact.where(:native_issue_id => imported_issue.native_issue.id)
+    #   @issue_impacts.each do |impact|
+    #     #build customer impacts json object for issue
+    #     @customer_impacts << {:customer_id => impact.customer_id, :customer => impact.customer.name, :impact => impact.impact, :priority => impact.priority}
+    #   end
+    #   #build imported issue object with customer impact json object included
+    #   @composite_issues << {  :internal_id => imported_issue.native_issue.id, 
+    #                           :external_id => imported_issue.external_id, 
+    #                           :summary => imported_issue.native_issue.summary ,
+    #                           :description => imported_issue.native_issue.description,
+    #                           :enhancement => imported_issue.native_issue.enhancement,
+    #                           :opened_by => imported_issue.native_issue.added_by.display_name,
+    #                           :impacts => @customer_impacts.to_json}
+    #                        #in the future add comments
+    # end
+
+    #@composite_issues <= internal_id, external_id, summary, description, issue_type, opened_by, impacts, comments
+
   end
 
   # GET /google_sheets/new
@@ -94,6 +109,31 @@ class GoogleSheetsController < ApplicationController
                                                       :google_sheet_id => params[:google_sheet_id], 
                                                       :external_id => params[:google_sheet_row_id])
       @issue_in_google.save
+
+
+    @i = 0
+    if params[:native_issue_with_customer_impacts].size > 0
+      puts "updating customer issues"
+      while @i < params[:native_issue_with_customer_impacts].size
+        @customer = params[:native_issue_with_customer_impacts][@i.to_s]['customer']
+        @updated_imapct = params[:native_issue_with_customer_impacts][@i.to_s]['impact']
+        @updated_priority = params[:native_issue_with_customer_impacts][@i.to_s]['priority']
+        @i = @i+1
+        if @updated_imapct != "0" or !(@updated_priority == "" or @updated_priority == nil)
+          #you have to create it
+          @new_impact = NativeIssueHasImpact.new(:customer_id => @customer, 
+                                                 :native_issue_id => @native_issue.id, 
+                                                 :impact => @updated_imapct,
+                                                 :priority => @updated_priority)
+          @new_impact.save
+        end
+      end
+    else
+      puts "no updated customer issues"
+    end
+
+
+
       add_activity_to_subscribers_inbox(@native_issue.create_activity :create, owner: @current_user)
 
       render :json => @native_issue 
@@ -105,7 +145,35 @@ class GoogleSheetsController < ApplicationController
   def import_update_to_native_issue_from_google_sheet
 
     @native_issue = IssueExistsInGoogleSheet.where(:google_sheet_id => params[:google_sheet_id], 
-                                                      :external_id => params[:google_sheet_row_id]).first.native_issue   
+                                                      :external_id => params[:google_sheet_row_id]).first.native_issue
+    @i = 0
+    if params[:native_issue_with_customer_impacts].size > 0
+      puts "updating customer issues"
+      while @i < params[:native_issue_with_customer_impacts].size
+        @customer = params[:native_issue_with_customer_impacts][@i.to_s]['customer']
+        @updated_imapct = params[:native_issue_with_customer_impacts][@i.to_s]['impact']
+        @updated_priority = params[:native_issue_with_customer_impacts][@i.to_s]['priority']
+        @i = @i+1
+        @existing_impact = NativeIssueHasImpact.where(:native_issue_id => @native_issue.id, :customer_id => @customer).first
+        if @existing_impact == nil
+          #you have to create it
+          @new_impact = NativeIssueHasImpact.new(:customer_id => @customer, 
+                                                 :native_issue_id => @native_issue.id, 
+                                                 :impact => @updated_imapct,
+                                                 :priority => @updated_priority)
+          @new_impact.save
+        elsif @updated_imapct == "0" and (@updated_priority == "" or @updated_priority == nil)
+          #you have to destroy it
+          @existing_impact.destroy
+        else
+          #just update it
+          @existing_impact.update(:impact => @updated_imapct, :priority => @updated_priority)
+        end
+      end
+    else
+      puts "no updated customer issues"
+    end
+
     if @native_issue.update(:summary => params[:native_issue_summary],
                                     :description => params[:native_issue_description],
                                     :enhancement => params[:native_issue_enhancement],

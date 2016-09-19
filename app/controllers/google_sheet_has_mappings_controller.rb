@@ -6,7 +6,11 @@ class GoogleSheetHasMappingsController < ApplicationController
   # GET /google_sheet_has_mappings
   # GET /google_sheet_has_mappings.json
   def index
-    @google_sheet_has_mappings = GoogleSheetHasMapping.all
+    if params[:sheet_id] != nil
+      @google_sheet_has_mappings = GoogleSheetHasMapping.where(:google_sheet_id => params[:sheet_id])
+    else
+      @google_sheet_has_mappings = GoogleSheetHasMapping.all
+    end
   end
 
   # GET /google_sheet_has_mappings/1

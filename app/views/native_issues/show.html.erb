@@ -95,7 +95,11 @@ document.cookie = 'time_zone_offset='+utcOffset+';';
       <% @has_impacts.each do |has_impact| %>
       <tr>
         <td width="130px">
-          <%= has_impact.impact_text %> for
+          <%= has_impact.impact_text %> 
+          <% if has_impact.priority != '' and has_impact.priority != nil %>
+          (Priority <%= has_impact.priority%>)
+          <% end %>
+           for
         </td>
         <td>
           <%= link_to has_impact.customer.name, has_impact.customer %> <%= link_to "edit", edit_native_issue_has_impact_path(has_impact) %> <%= link_to "x", has_impact, method: :delete, data: { confirm: 'Are you sure you want to remove this customer impact?' } %>

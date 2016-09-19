@@ -8,6 +8,7 @@
 	<span style="position: relative; top: 6px;"><%= @google_sheet.name %></span>
 </h3>
 </div>
+<%= link_to "Configure Column Mappings", google_sheet_has_mappings_path(:sheet_id => @google_sheet.id), :target => '_blank' %><br/>
 <a href='https://docs.google.com/spreadsheets/d/<%= @google_sheet.key %>' target='blank'>https://docs.google.com/spreadsheets/d/<%= @google_sheet.key %></a>
 
 <div id='row_syncer' style='display:none'>
@@ -40,11 +41,10 @@
      			<option value='2'>Critical</option>
 				<option value='3'>Nice to have</option>
 			</select>
-			<!-- <br/>
+			 <br/>
 			<strong><%= customer.name %> Priority:</strong>
-    		<div><em>Google Sheet Value: </em><span id='gsv_opened_by'></span></div> 
-    		-->
-    		<%#= text_field_tag :priority %>
+    		<div><em>Google Sheet Value: </em><span id='gsv_priority<%= customer.id %>' data-customer='<%= customer.id %>'></span></div> 
+    		<input type='text' id='priority_id<%= customer.id %>' name='priority_id' data-customer='<%= customer.id %>' />
     		<br/>
     	<% end %>
 	<% end %>
@@ -111,18 +111,15 @@
 					<% if @new_issue %>
 						<td data-type="<%= mapping.data_type %>" <% if mapping.data_type == 8 or mapping.data_type == 9 %> data-customer='<%=mapping.customer.id %>'<% end %>><%= row[ mapping.column_number ] %></td>
 					<% else %>
-						<td data-type="<%= mapping.data_type %>" 
-							<% @difference = mapping.difference(@native_issue, row[ mapping.column_number ]) %>
+						<td data-type="<%= mapping.data_type %>"  <% if mapping.data_type == 8 or mapping.data_type == 9 %> data-customer='<%=mapping.customer.id %>' data-customer-impact='<%=@native_issue.has_impact_text_for_customer(mapping.customer.id) %>' data-customer-priority='<%=@native_issue.has_priority_for_customer(mapping.customer.id) %>'<% end %>
+							<% @difference = mapping.difference(@native_issue, row[ mapping.column_number ], mapping) %>
 							<% if @difference == "New" %>
 								class="success" 
 							<% elsif @difference == "Discrepency" %> 
 								class="warning" 
 							<% end %> ><%= row[ mapping.column_number ] %></td>
 					<% end %>
-						
-					
 				<% end %>
-
 			</tr>
 		<% end %>
 	</tbody>
@@ -139,6 +136,7 @@
 var $import_button;
 var $issue_id;
 
+//ADD ISSUE PROMPT PAGE
 $('.btn-sync').click(function(){
 	$(this).css("background-color", "orange");
 	$import_button = $(this);
@@ -189,6 +187,12 @@ $('.btn-sync').click(function(){
 			//find the right customer impact and set the value 
 			$('#gsv_impact'+$customer_id).html($(td).html());
 		}
+		else if($(td).data("type")==9){
+			//find the right customer column select tag and choose the proper option
+			$customer_id = $(td).data('customer');
+			$('#priority_id'+$customer_id).val($(td).html());
+			$('#gsv_priority'+$customer_id).html($(td).html());
+		}
 		// else if($(td).data("type")==7){
 		// 	$('#comment').val($(td).html());
 		// 	$('#gsv_comment').html($(td).html());
@@ -196,7 +200,7 @@ $('.btn-sync').click(function(){
 	});
 });
 
-
+//UPDATE ISSUE PAGE
 $('.btn-sync_update').click(function(){
 	$(this).css("background-color", "orange");
 	$button_id = $(this).attr('id');
@@ -236,6 +240,30 @@ $('.btn-sync_update').click(function(){
 				$('#opened_by option[value="'+$native_issue.added_by_id+'"]').prop('selected', true);
 				$('#gsv_opened_by').html($(td).html());
 			}
+			else if($(td).data("type")==8){
+				//find the right customer column select tag and choose the proper option
+
+				//native issue needs to have customer impact context
+				$customer_id = $(td).data('customer');
+				$customer_impact = $(td).data('customer-impact');
+				if ($customer_impact.toLowerCase().indexOf('blocker') >= 0){
+				    	$('#impact_id'+$customer_id+' option[value="1"]').prop('selected', true);
+				}else if($customer_impact.toLowerCase().indexOf('critical') >= 0){
+					$('#impact_id'+$customer_id+' option[value="2"]').prop('selected', true);
+				}else if($customer_impact.toLowerCase().indexOf('nice to have') >= 0){
+					$('#impact_id'+$customer_id+' option[value="3"]').prop('selected', true);
+				}else{
+					$('#impact_id'+$customer_id+' option[value="0"]').prop('selected', true)
+				};
+				//find the right customer impact and set the value 
+				$('#gsv_impact'+$customer_id).html($(td).html());
+			}
+			else if($(td).data("type")==9){
+				//find the right customer column select tag and choose the proper option
+				$customer_id = $(td).data('customer');
+				$('#priority_id'+$customer_id).val($(td).html());
+				$('#gsv_priority'+$customer_id).html($(td).html());
+			}
 			// else if($(td).data("type")==7){
 			// 	$('#comment').val($(td).html());
 			// 	$('#gsv_comment').html($(td).html());
@@ -254,7 +282,7 @@ $('#cancel_import').click(function(){
 });
 
 
-//AJAX Method to Add New Native Issue
+//AJAX Method to Add New OR UPDATE Native Issue
 $(document.body).on('click', '#import_issue_ajax' ,(function(){
 	$update = $(this).data('update');
   //get google sheet data
@@ -266,6 +294,21 @@ $(document.body).on('click', '#import_issue_ajax' ,(function(){
   	$native_issue_enhancement = $('#enhancement').prop('checked');
   	$native_issue_opened_by = $('#opened_by option:selected').val();
   	$native_issue_with_node_id = $('#native_issue_with_id').val();
+  //get native issue customer impacts
+    $native_issue_customer_impacts = [];
+  	$("[id^=impact_id]").each(function( index ) {
+  		$customer = this.getAttribute('data-customer');
+  		$impact = this.options[this.selectedIndex].value;
+  		$impact = this.options[this.selectedIndex].value;
+  		//bundle each customer impact & priority with the customer id
+  		item = {};
+        item ["customer"] = $customer;
+        item ["impact"] = $impact;
+        item ["priority"] = $('#priority_id'+$customer).val();
+        $native_issue_customer_impacts.push(item);
+	});
+
+
 
   // //validate that there is an external id, an issue summary, and a native issue id identified
    if(($native_issue_summary == "") || ($google_sheet_row_id=="") || ($native_issue_with_node_id == "") || ($native_issue_opened_by == "")){
@@ -283,7 +326,8 @@ $(document.body).on('click', '#import_issue_ajax' ,(function(){
 				  	'native_issue_description': $native_issue_description,
 				  	'native_issue_enhancement': $native_issue_enhancement,
 				  	'native_issue_opened_by': $native_issue_opened_by,
-				  	'native_issue_with_node_id': $native_issue_with_node_id}, 
+				  	'native_issue_with_node_id': $native_issue_with_node_id,
+				  	'native_issue_with_customer_impacts': $native_issue_customer_impacts}, 
             dataType: 'json'}).done(function(data)  {
                 if(!data.error) {
                 	//location.reload(true);
@@ -303,7 +347,8 @@ $(document.body).on('click', '#import_issue_ajax' ,(function(){
 				  	'native_issue_description': $native_issue_description,
 				  	'native_issue_enhancement': $native_issue_enhancement,
 				  	'native_issue_opened_by': $native_issue_opened_by,
-				  	'native_issue_with_node_id': $native_issue_with_node_id}, 
+				  	'native_issue_with_node_id': $native_issue_with_node_id,
+				  	'native_issue_with_customer_impacts': $native_issue_customer_impacts}, 
             dataType: 'json'}).done(function(data)  {
                 if(!data.error) {
                 	//location.reload(true);

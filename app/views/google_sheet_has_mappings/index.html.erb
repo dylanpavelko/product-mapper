@@ -1,12 +1,13 @@
-<h1>Listing google_sheet_has_mappings</h1>
+<h1>Google Sheet Column Mapping</h1>
 
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
-      <th>Column name</th>
-      <th>Column number</th>
-      <th>Data type</th>
-      <th>Google sheet</th>
+      <th>Google Sheet</th>
+      <th>Column Name</th>
+      <th>Column Number</th>
+      <th>Internal Data Type</th>
+      <th>Customer</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,10 +15,11 @@
   <tbody>
     <% @google_sheet_has_mappings.each do |google_sheet_has_mapping| %>
       <tr>
+        <td><%= link_to google_sheet_has_mapping.google_sheet.name, google_sheet_has_mapping.google_sheet %></td>
         <td><%= google_sheet_has_mapping.column_name %></td>
         <td><%= google_sheet_has_mapping.column_number %></td>
-        <td><%= google_sheet_has_mapping.data_type %></td>
-        <td><%= google_sheet_has_mapping.google_sheet %></td>
+        <td><%= google_sheet_has_mapping.mapping %></td>
+        <td><%= google_sheet_has_mapping.customer.name if google_sheet_has_mapping.customer %></td>
         <td><%= link_to 'Show', google_sheet_has_mapping %></td>
         <td><%= link_to 'Edit', edit_google_sheet_has_mapping_path(google_sheet_has_mapping) %></td>
         <td><%= link_to 'Destroy', google_sheet_has_mapping, method: :delete, data: { confirm: 'Are you sure?' } %></td>
