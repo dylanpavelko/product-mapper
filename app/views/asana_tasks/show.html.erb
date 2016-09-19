@@ -32,7 +32,7 @@
 
 <br/>
 <strong>Completed?</strong> <%= @asana.completed %><br/>
-<% if @asana != nil %>
+<% if @asana.assignee != nil %>
 	<strong>Assignee</strong> <%= @asana.assignee["name"] %>
 <% end %>
 
