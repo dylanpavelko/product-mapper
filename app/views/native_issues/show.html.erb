@@ -59,7 +59,7 @@ document.cookie = 'time_zone_offset='+utcOffset+';';
     <button class="btn btn-default" id="jira_link"><%= image_tag "https://jira.atlassian.com/s/en_UK-zad234/71006/b6b48b2829824b869586ac216d119363/_/favicon.ico", :width => "20px" %> Link to Jira Issue</button>
     <% end %>
     <!--
-    <button class="btn btn-default" id="asana_link"><%= image_tag "http://asanatraining.com/wp-content/uploads/2015/10/Asana-Logo_Full-Color-Mark.png", :width => "20px" %> Link to Asana Task</button>-->
+    <button class="btn btn-default" id="asana_link"><%= image_tag "http://www.freelogovectors.net/wp-content/uploads/2015/11/asana-logo1.jpg", :width => "20px" %> Link to Asana Task</button>-->
     <%#= hidden_field_tag :asana_id %>
     <%#= hidden_field_tag :asana_name %>
     <%#= hidden_field_tag :asana_workspace_id, :value => @workspace.id %>
@@ -71,7 +71,7 @@ document.cookie = 'time_zone_offset='+utcOffset+';';
     <table class="table">
     <% @has_asanas.each do |has_asana| %>
       <tr><td>
-        <a href="<%= has_asana.asana_task.url %>" target="_blank"><img src="http://asanatraining.com/wp-content/uploads/2015/10/Asana-Logo_Full-Color-Mark.png" width="15"/></a>
+        <a href="<%= has_asana.asana_task.url %>" target="_blank"><img src="http://www.freelogovectors.net/wp-content/uploads/2015/11/asana-logo1.jpg" width="15"/></a>
          <%= link_to has_asana.asana_task.display, has_asana.asana_task %>
        </td></tr>
     <% end %>

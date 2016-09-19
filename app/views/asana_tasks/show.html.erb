@@ -7,7 +7,7 @@
 
 <p id="notice"><%= notice %></p>
 
-<img src="https://blog.asana.com/wp-content/post-images/logo_horiz1.png" width="250"/>
+<img src="http://www.freelogovectors.net/wp-content/uploads/2015/11/asana-logo1.jpg" width="250"/>
 <p>
   <strong><%= @asana_task.name %> </strong>  <%= link_to "(View in Asana)", @asana_task.url, :target => "_blank" %>
 </p>
@@ -32,7 +32,9 @@
 
 <br/>
 <strong>Completed?</strong> <%= @asana.completed %><br/>
-<strong>Assignee</strong> <%= @asana.assignee["name"] %>
+<% if @asana != nil %>
+	<strong>Assignee</strong> <%= @asana.assignee["name"] %>
+<% end %>
 
 <br/>
 
