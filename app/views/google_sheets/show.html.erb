@@ -261,7 +261,8 @@ $('.btn-sync_update').click(function(){
 			else if($(td).data("type")==9){
 				//find the right customer column select tag and choose the proper option
 				$customer_id = $(td).data('customer');
-				$('#priority_id'+$customer_id).val($(td).html());
+				$customer_priority = $(td).data('customer-priority');
+				$('#priority_id'+$customer_id).val($customer_priority);
 				$('#gsv_priority'+$customer_id).html($(td).html());
 			}
 			// else if($(td).data("type")==7){

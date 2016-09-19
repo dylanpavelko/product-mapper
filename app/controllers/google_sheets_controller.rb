@@ -155,17 +155,17 @@ class GoogleSheetsController < ApplicationController
         @updated_priority = params[:native_issue_with_customer_impacts][@i.to_s]['priority']
         @i = @i+1
         @existing_impact = NativeIssueHasImpact.where(:native_issue_id => @native_issue.id, :customer_id => @customer).first
-        if @existing_impact == nil
+        if @existing_impact == nil and (@updated_imapct != "0" or !(@updated_priority == "" or @updated_priority == nil))
           #you have to create it
           @new_impact = NativeIssueHasImpact.new(:customer_id => @customer, 
                                                  :native_issue_id => @native_issue.id, 
                                                  :impact => @updated_imapct,
                                                  :priority => @updated_priority)
           @new_impact.save
-        elsif @updated_imapct == "0" and (@updated_priority == "" or @updated_priority == nil)
+        elsif @updated_imapct == "0" and (@updated_priority == "" or @updated_priority == nil) and @existing_impact != nil
           #you have to destroy it
           @existing_impact.destroy
-        else
+        elsif @existing_impact != nil
           #just update it
           @existing_impact.update(:impact => @updated_imapct, :priority => @updated_priority)
         end
