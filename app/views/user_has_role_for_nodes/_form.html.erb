@@ -14,7 +14,7 @@
   <div class="field">
     <%= f.label :user_id %><br>
     <% if @user_has_role_for_node.user != nil %>
-      <%= f.select :user_id, options_from_collection_for_select(User.allsort{|a,b| a.display_name <=> b.display_name}, :id, :display_name, @user_has_role_for_node.user.id), 
+      <%= f.select :user_id, options_from_collection_for_select(User.all.sort{|a,b| a.display_name <=> b.display_name}, :id, :display_name, @user_has_role_for_node.user.id), 
           {:include_blank => true}, 
           {:class => "form-control"}  %>
     <% else %>
