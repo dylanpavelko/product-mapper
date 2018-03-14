@@ -14,6 +14,7 @@
 <!-- SELECT NODE TYPE -->
 <div class="col-md">
 <div class="col-md-6">
+  <% if @node.parent != nil %>
   <p>
     <% @node_context    = @node.parent
        @node_parents    = @node.parent.parents
@@ -23,6 +24,7 @@
        @node_form_name  = "node[parent_id]" %>
     <%= render "node_chooser" %>
   </p>
+  <% end %>
 
   <% if @node.nodeType != nil %>
     <%= f.select :nodeType_id, 

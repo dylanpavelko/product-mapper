@@ -15,10 +15,12 @@ class NodesController < ApplicationController
     @parents = Array.new
     @i = @origin_node
 
-    @node.parent = @origin_node
-    while @i.parent != nil do 
-      @parents << @i.parent
-      @i = @i.parent
+    if @i != nil 
+      @node.parent = @origin_node
+      while @i.parent != nil do 
+        @parents << @i.parent
+        @i = @i.parent
+      end
     end
   end
 
@@ -97,8 +99,7 @@ class NodesController < ApplicationController
     @all_delivery_dates = DeliveryDate.where(:node_id => @subIssues)
 
     @has_Themes = NodeHasTheme.where(:node_id => @node)
-
-
+    
   end
 
   def feature_inventory

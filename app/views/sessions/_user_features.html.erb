@@ -68,5 +68,10 @@
 	</div>
 </div>
 <% else %>
-Let's get started: <%= link_to Node.find(1).name, Node.find(1) %> 
+	Let's get started: 
+	<% if Node.all.count >= 1 %>
+		<%= link_to Node.find(1).name, Node.find(1) %> 
+	<% else %>
+		<%= link_to "Create first product node", new_node_path %>
+	<% end %>
 <% end %>
