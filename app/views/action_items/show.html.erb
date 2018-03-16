@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @action_item.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @action_item.description %>
+</p>
+
+<p>
+  <strong>Complete:</strong>
+  <%= @action_item.complete %>
+</p>
+
+<p>
+  <strong>Completed:</strong>
+  <%= @action_item.completed %>
+</p>
+
+<p>
+  <strong>Due override:</strong>
+  <%= @action_item.due_override %>
+</p>
+
+<p>
+  <strong>Due by meeting:</strong>
+  <%= link_to @action_item.due_by_meeting.display, @action_item.due_by_meeting %>
+</p>
+
+<p>
+  <strong>Action from agenda item:</strong>
+  <%= link_to @action_item.action_from_agenda_item.name, @action_item.action_from_agenda_item %>
+</p>
+
+<%= link_to 'Edit', edit_action_item_path(@action_item) %> |
+<%= link_to 'Back', action_items_path %>

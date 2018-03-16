@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @meeting.name %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @meeting.date %>
+</p>
+
+<p>
+  <ol>
+    <lh><strong>Agenda Items</strong></lh>
+    <% @agenda_items.each do |item| %>
+      <li><%= link_to item.name, item %></li>
+    <% end %>
+    <%= link_to 'Add Agenda Item', new_agenda_item_path(:meeting_id => @meeting) %>
+  </ol>
+</p>
+
+<%= link_to 'Edit', edit_meeting_path(@meeting) %> |
+<%= link_to 'Back', meetings_path %>

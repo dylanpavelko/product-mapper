@@ -1,0 +1,45 @@
+<%= form_for(@action_item) do |f| %>
+  <% if @action_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@action_item.errors.count, "error") %> prohibited this action_item from being saved:</h2>
+
+      <ul>
+      <% @action_item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </div>
+  <div class="field">
+    <%= f.label :complete %><br>
+    <%= f.check_box :complete %>
+  </div>
+  <div class="field">
+    <%= f.label :completed %><br>
+    <%= f.datetime_select :completed %>
+  </div>
+  <div class="field">
+    <%= f.label :due_override %><br>
+    <%= f.date_select :due_override %>
+  </div>
+  <div class="field">
+    <%= f.label :due_by_meeting_id %><br>
+    <%= f.select :due_by_meeting_id, options_from_collection_for_select(Meeting.all.sort_by {|t| t.display}, :id, :display), {:include_blank => true}, {:class => "form-control"} %>
+  </div>
+  <div class="field">
+    <%= f.label :action_from_agenda_item_id %><br>
+    <%= f.select :action_from_agenda_item_id, options_from_collection_for_select(AgendaItem.all.sort_by {|t| t.name}, :id, :name), {:include_blank => true}, {:class => "form-control"} %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
