@@ -58,6 +58,8 @@ gem 'mysql'
 gem 'public_activity'
 gem 'google_drive'
 
+gem 'meta_request'
+
 #gem 'asana'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
