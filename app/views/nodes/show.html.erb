@@ -190,19 +190,10 @@
       <% end %>
     </ul>
   <% end %>
-  <% if !@node.nodeType.specification and @subQuestions.count > 1000 %>
-  <strong>Subordinate Node Questions</strong>
-   <ul>
-    <% @subQuestions.each do |question| %>
-      <li>
-          <%= link_to question.node.name, question.node %> > <%= link_to question.question, question %>
-      </li>
-    <% end %>
-  </ul>
-  <% end %>
+  
 
 <strong>Issues:</strong> 
-<% node_issues = @issues + @subIssues %>
+<% node_issues = @issues %>
 <%= link_to node_issues.count.to_s + " Issues", native_issues_path(:node => @node.id) %>
 
 <%  unresolved = 0

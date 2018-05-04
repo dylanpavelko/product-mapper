@@ -64,12 +64,17 @@ class NodesController < ApplicationController
 
 
     @subNodeIds = @node.getAllSubNodeIDs()
+    @allNodeIds = @subNodeIds << @node.id
     
-    @nodeQuestions = Question.where(:node_id => @node)
-    @subQuestions = Question.where(node_id: @subNodeIds)
-    
-    @issues = GitHubIssue.where(:node_id => @node) + NativeIssue.where(:issue_with_id => @node)
-    @subIssues = GitHubIssue.where(node_id: @subNodeIds) + NativeIssue.where(issue_with_id: @subNodeIds)
+    if @node.nodeType.specification or @node.nodeType.feature 
+      @nodeQuestions = Question.where(:node_id => @node)
+      @subQuestions = Question.where(node_id: @subNodeIdsgit)
+      @issues = GitHubIssue.where(:node_id => @node) + NativeIssue.where(:issue_with_id => @node)
+      @subIssues = GitHubIssue.where(node_id: @subNodeIds) + NativeIssue.where(issue_with_id: @subNodeIds)
+    else
+      @nodeQuestions = Question.where(node_id: @allNodeIds)
+      @issues = GitHubIssue.where(node_id: @allNodeIds) + NativeIssue.where(issue_with_id: @allNodeIds)
+    end
     
     @issue_resolutions = NativeIssue.where(:resolved_with_id => @node)
 
