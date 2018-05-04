@@ -225,6 +225,14 @@ class Node < ActiveRecord::Base
     end
     return @asks
   end
+  
+  def getAllSubNodeIDs()
+    @ids = Array.new
+    self.children.each do |childNode|
+          @ids << childNode.id
+    end
+    return @ids
+  end
 
   def getAllOpenQuestions()
     @asks = Question.where("node_id = ? AND resolved_id <> ?", self.id, '1') + Array.new

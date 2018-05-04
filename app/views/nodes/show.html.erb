@@ -190,7 +190,7 @@
       <% end %>
     </ul>
   <% end %>
-  <% if !@node.nodeType.specification and @subQuestions.count > 0 %>
+  <% if !@node.nodeType.specification and @subQuestions.count > 1000 %>
   <strong>Subordinate Node Questions</strong>
    <ul>
     <% @subQuestions.each do |question| %>
