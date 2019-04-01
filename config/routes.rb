@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
 
+  resources :organizations
+
+  resources :action_items
+
+  resources :agenda_items
+
+  resources :meetings
+
   resources :issue_exists_in_google_sheets
 
   resources :google_sheet_has_mappings
