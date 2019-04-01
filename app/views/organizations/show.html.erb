@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @organization.name %>
+</p>
+
+<p>
+  <strong>Owner:</strong>
+  <%= link_to @organization.owner.username, @organization.owner %>
+</p>
+<ul>
+  <% @top_nodes.each do |node| %>
+    <li><%= link_to node.displayNameAndType, node %></li>
+  <% end %>
+</ul>
+
+<p>
+  <%= link_to 'Add New Product Line', new_node_path(:organization_id => @organization) %>
+</p>
+
+<% if @current_user.power_admin %>
+  <%= link_to 'Edit', edit_organization_path(@organization) %> |
+  <%= link_to 'Back', organizations_path %>
+<% end %>

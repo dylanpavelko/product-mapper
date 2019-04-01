@@ -1,4 +1,7 @@
 class MeetingsController < ApplicationController
+  before_filter :authenticate_user
+  before_filter :authorized_only
+  
   before_action :set_meeting, only: [:show, :edit, :update, :destroy]
 
   # GET /meetings
@@ -11,6 +14,13 @@ class MeetingsController < ApplicationController
   # GET /meetings/1.json
   def show
     @agenda_items = AgendaItem.where(:meeting_id => @meeting.id)
+    @action_items = Array.new
+    @agenda_items.each do |item|
+      @agenda_item_actions = ActionItem.where(:action_from_agenda_item_id => item.id)
+      @action_items << @agenda_item_actions
+    end
+    
+    @actions_due = ActionItem.where(:due_by_meeting => @meeting.id)
   end
 
   # GET /meetings/new

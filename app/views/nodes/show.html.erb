@@ -6,7 +6,6 @@
   <% @node_filters = Array.new %>
 <% end %>
 <% @node.set_deep_filtered_node(@node_filters) %>
-
 <% if @node.parent != nil %>
   <ol class="breadcrumb">
     <% if @node.parent.parent != nil %>
@@ -20,7 +19,7 @@
   <h2><%= @node.name %> 
     <small>[<%= @node.nodeType.name %> - <%= @node.progress_status %>]</small>
   </h2>
-  <% if @current_user.can_manage_product_for_node(@node) %>
+  <% if @current_user.can_manage_product_for_node(@node) or @current_user.power_admin %>
     <%= link_to 'Edit', edit_node_path(@node) %>
     | 
   <% end %>
@@ -120,6 +119,7 @@
   <% if !@node.nodeType.specification and @current_user.can_manage_product_for_node(@node) %>
     <%= link_to 'Add Node' , new_node_path(@node) %> 
   <% end %>
+  
   </div>
 
 

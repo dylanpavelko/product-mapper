@@ -20,7 +20,9 @@
     <% if session[:user_id] %>
       <p> Re-set Password on Login: <%= f.check_box :password_reset%> </p>
     <% end %>
-
+    <% if @user.power_admin %>
+      <p> Power Admin <%= f.check_box :power_admin %></p>
+    <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>

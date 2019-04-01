@@ -25,11 +25,11 @@
   </div>
   <div class="field">
     <%= f.label :completed %><br>
-    <%= f.datetime_select :completed %>
+    <%= f.datetime_select :completed, include_blank: true %>
   </div>
   <div class="field">
     <%= f.label :due_override %><br>
-    <%= f.date_select :due_override %>
+    <%= f.date_select :due_override, include_blank: true %>
   </div>
   <div class="field">
     <%= f.label :due_by_meeting_id %><br>

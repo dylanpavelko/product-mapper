@@ -63,12 +63,15 @@ class NodesController < ApplicationController
     @nodeDeepPhases = Array.new
 
 
-    @subNodeIds = @node.getAllSubNodeIDs()
+    @subNodeIds = @node.getAllSubNodeIDs()  #ALL subnodes is just getting top level subnodes
     @allNodeIds = @subNodeIds << @node.id
+    
+    @subNodes = Node.where(id: @subNodeIds)
+    @related_development_phases = Phase.where(node_id: @subNodeIds)
     
     if @node.nodeType.specification or @node.nodeType.feature 
       @nodeQuestions = Question.where(:node_id => @node)
-      @subQuestions = Question.where(node_id: @subNodeIdsgit)
+      @subQuestions = Question.where(node_id: @subNodeIds)
       @issues = GitHubIssue.where(:node_id => @node) + NativeIssue.where(:issue_with_id => @node)
       @subIssues = GitHubIssue.where(node_id: @subNodeIds) + NativeIssue.where(issue_with_id: @subNodeIds)
     else
@@ -309,7 +312,7 @@ class NodesController < ApplicationController
 
   private
     def node_params
-      params.require(:node).permit(:name, :node_id, :parent_id, :nodeType_id, :phaseTypes, :description, :row_order_position, :row_above, :row_below)
+      params.require(:node).permit(:name, :node_id, :parent_id, :nodeType_id, :phaseTypes, :description, :row_order_position, :row_above, :row_below, :organization_id)
     end
 
   private

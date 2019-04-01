@@ -25,6 +25,14 @@
     <%= render "node_chooser" %>
   </p>
   <% end %>
+  
+  <% if @current_user.power_admin %>
+        Organization: (Edit Carefully)
+        <%= f.select :organization_id, 
+          options_from_collection_for_select(Organization.all, :id, :name, @node.organization),
+          {:include_blank => true},
+          {:class => "form-control"} %> 
+  <% end %>
 
   <% if @node.nodeType != nil %>
     <%= f.select :nodeType_id, 
@@ -32,17 +40,17 @@
           {:include_blank => true},
           {:class => "form-control"} %>
   <% else %>
-  <% if @current_user.power_admin %>
+    <% if @current_user.power_admin %>
+        <%= f.select :nodeType_id, 
+            options_from_collection_for_select(NodeType.all, :id, :name), 
+            {:include_blank => true}, 
+            {:class => "form-control"} %>
+    <% else %>
       <%= f.select :nodeType_id, 
-          options_from_collection_for_select(NodeType.all, :id, :name), 
-          {:include_blank => true}, 
-          {:class => "form-control"} %>
-  <% else %>
-    <%= f.select :nodeType_id, 
-          options_from_collection_for_select(NodeType.all_without_marker, :id, :name), 
-          {:include_blank => true}, 
-          {:class => "form-control"} %>
-  <% end %>
+            options_from_collection_for_select(NodeType.all_without_marker, :id, :name), 
+            {:include_blank => true}, 
+            {:class => "form-control"} %>
+    <% end %>
   <% end %>
   <br/>
 

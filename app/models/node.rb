@@ -8,19 +8,20 @@ class Node < ActiveRecord::Base
   has_many :questions, class_name: "Question", foreign_key: "question_id"
   has_many :phases, class_name: "Phase", foreign_key: "id"
   has_many :fdds, class_name: "FunctionalDesignDocument", foreign_key: "id"
+  belongs_to :organization, class_name: "Organization", foreign_key: "organization_id"
 
   @fchildren = Array.new
 
   @percent_done
   @percent_in_progress
 
-  validates :nodeType, :presence => true
+  validates :nodeType, :organization_id, :presence => true
 
   include RankedModel
   ranks :row_order
 
   def displayNameAndType
-    displayName = name + nodeType.name
+    displayName = name + " [" + nodeType.name + "]"
   end
 
   def getPhases(node)

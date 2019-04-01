@@ -19,7 +19,7 @@
   <strong>Resulting Action Items:</strong>
   <ul>
     <% @action_items.each do |action| %>
-      <li><%= action.name %></li>
+      <li><%= link_to action.name, action %></li>
     <% end %>
     <%= link_to "Add Action Item", new_action_item_path %>
   </ul>

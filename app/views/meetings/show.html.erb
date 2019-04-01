@@ -1,24 +1,47 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @meeting.name %>
-</p>
 
-<p>
-  <strong>Date:</strong>
-  <%= @meeting.date %>
-</p>
-
-<p>
-  <ol>
-    <lh><strong>Agenda Items</strong></lh>
-    <% @agenda_items.each do |item| %>
-      <li><%= link_to item.name, item %></li>
-    <% end %>
-    <%= link_to 'Add Agenda Item', new_agenda_item_path(:meeting_id => @meeting) %>
-  </ol>
-</p>
-
-<%= link_to 'Edit', edit_meeting_path(@meeting) %> |
-<%= link_to 'Back', meetings_path %>
+<div class="col-md-8">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= @meeting.name %><small> <%= @meeting.date.strftime("%m/%d/%Y %l:%M %p %Z") %>
+     <%= link_to 'Edit', edit_meeting_path(@meeting) %></small></h3>
+  </div>
+  
+  <div class="panel-body">
+    <h4>Agenda</h4>
+    <ol>
+      <% @agenda_items.each_with_index do |item, index| %>
+        <li><%= link_to item.name, item %></li>
+        <textarea class="form-control" rows="1" placeholder="Notes... (DON'T WORK YET)"></textarea>
+          <ul>
+            <% if @action_items[index].length > 0 %>
+              <% @action_items[index].each do |action| %>
+                <li>Action: <%= link_to action.name, action %></li>
+              <% end %>
+            <% end %>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Add Action Item">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Add</button>
+              </span>
+            </div>
+          </ul>
+        
+      <% end %>
+    </ol>
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Add New Agenda Item">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Add</button>
+        </span>
+      </div>
+  </div>
+</div>
+<ul>
+  <lh>Actions Due:</lh>
+<% @actions_due.each do |action| %>
+  <li><%= link_to action.name, action %></li>
+<% end %>
+</ul>
+<%= link_to 'All Meetings', meetings_path %>
