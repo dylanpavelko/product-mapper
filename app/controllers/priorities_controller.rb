@@ -6,7 +6,7 @@ class PrioritiesController < ApplicationController
   # GET /priorities
   # GET /priorities.json
   def index
-    @priorities = Priority.all
+    @priorities = Priority.all.order("score ASC")
     
     @teams = Array.new
     @priorities.each do |priority|
