@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @capacity.amount %>
+</p>
+
+<p>
+  <strong>Team:</strong>
+  <%= link_to @capacity.team.name, @capacity.team %>
+</p>
+
+<p>
+  <strong>Milestone:</strong>
+  <%= link_to @capacity.milestone.name, @capacity.milestone %>
+</p>
+
+<%= link_to 'Edit', edit_capacity_path(@capacity) %> |
+<%= link_to 'Back', capacities_path %>

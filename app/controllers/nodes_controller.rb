@@ -86,6 +86,8 @@ class NodesController < ApplicationController
     @all_delivery_dates = DeliveryDate.where(:node_id => @subIssues)
 
     @has_Themes = NodeHasTheme.where(:node_id => @node)
+    @node_effort = Effort.where(:node_id => @node)
+    @node_priority = Priority.where(:node_id => @node)
     
   end
 

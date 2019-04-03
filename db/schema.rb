@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190318015025) do
+ActiveRecord::Schema.define(version: 20190402054750) do
 
   create_table "action_items", force: true do |t|
     t.string   "name"
@@ -91,6 +91,17 @@ ActiveRecord::Schema.define(version: 20190318015025) do
   add_index "asana_workspaces", ["auth_endpoint_id"], name: "index_asana_workspaces_on_auth_endpoint_id"
   add_index "asana_workspaces", ["node_id"], name: "index_asana_workspaces_on_node_id"
 
+  create_table "capacities", force: true do |t|
+    t.decimal  "amount"
+    t.integer  "team_id"
+    t.integer  "milestone_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "capacities", ["milestone_id"], name: "index_capacities_on_milestone_id"
+  add_index "capacities", ["team_id"], name: "index_capacities_on_team_id"
+
   create_table "customers", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -128,6 +139,17 @@ ActiveRecord::Schema.define(version: 20190318015025) do
   add_index "dependables", ["node_id"], name: "index_dependables_on_node_id"
   add_index "dependables", ["phase_id"], name: "index_dependables_on_phase_id"
   add_index "dependables", ["task_id"], name: "index_dependables_on_task_id"
+
+  create_table "efforts", force: true do |t|
+    t.decimal  "amount"
+    t.integer  "team_id"
+    t.integer  "node_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "efforts", ["node_id"], name: "index_efforts_on_node_id"
+  add_index "efforts", ["team_id"], name: "index_efforts_on_team_id"
 
   create_table "environments", force: true do |t|
     t.string   "name"
@@ -434,6 +456,15 @@ ActiveRecord::Schema.define(version: 20190318015025) do
 
   add_index "phases", ["dependencies_id"], name: "index_phases_on_dependencies_id"
 
+  create_table "priorities", force: true do |t|
+    t.decimal  "score"
+    t.integer  "node_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "priorities", ["node_id"], name: "index_priorities_on_node_id"
+
   create_table "profile_images", force: true do |t|
     t.integer  "user_id"
     t.string   "image_file_name"
@@ -508,6 +539,15 @@ ActiveRecord::Schema.define(version: 20190318015025) do
 
   add_index "tasks", ["dependencies_id"], name: "index_tasks_on_dependencies_id"
   add_index "tasks", ["questions_id"], name: "index_tasks_on_questions_id"
+
+  create_table "teams", force: true do |t|
+    t.string   "name"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "teams", ["organization_id"], name: "index_teams_on_organization_id"
 
   create_table "themes", force: true do |t|
     t.string   "name"

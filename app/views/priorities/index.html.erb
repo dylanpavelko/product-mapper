@@ -1,0 +1,91 @@
+<h1>Milestone Capacities</h1>
+<table border='1'>
+  <thead>
+    <tr>
+      <th>Milestone</th>
+        <% @teams.each do |team| %>
+          <th><%= team.name %></th>
+        <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @milestones.each do |milestone| %>
+      <tr>
+        <td><%= link_to milestone.name, milestone %></td>
+          <% @teams.each do |team| %>
+            <td>
+              <% @capacities.each do |capacity| %>
+                <% if capacity.milestone == milestone && capacity.team == team %>
+                  <%= link_to capacity.amount, capacity %>
+                  <% capacity.initialize_remaining_capacity() %>
+                <% end %>
+              <% end %>
+            </td>
+          <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>
+<h1>Priorities</h1>
+
+<table border='1'>
+  <thead>
+    <tr>
+      <th>Score</th>
+      <th>Node</th>
+      <% @teams.each do |team| %>
+        <th><%= team.name %> Effort</th>
+      <% end %>
+      <th>Milestone</th>
+      <% if @current_user.power_admin %>
+        <th></th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @priorities.each do |priority| %>
+      <tr>
+        <td><%= link_to priority.score, priority %></td>
+        <td><%= link_to priority.node.name, priority.node %></td>
+        <% @teams.each do |team| %>
+          <td>
+            <% priority.node.efforts.each do |effort| %>
+              <% if effort.team == team %>
+                <%= effort.amount %>
+              <% end %>
+            <% end %>
+          </td>
+        <% end %>
+        <td>
+          <% @scoped = false %>
+          <% @milestones.each do |milestone| %>
+                <% @milestone_capacities = @capacities.select { |capacity| capacity.milestone == milestone} %>
+                <% if !@scoped && milestone.has_capacity_for_efforts(priority.node.efforts, @milestone_capacities) %>
+                  <%= milestone.name %>
+                  <% @milestone_capacities.each do |prior_capacity| %>
+                    <% @team_effort = priority.node.efforts.select { |effort| effort.team == prior_capacity.team} %>
+                    <% if @team_effort.count > 0 %>
+                      <% @team_effort = @team_effort[0].amount %>
+                      <% @capacities.detect { |c| c.id == prior_capacity.id}.decrease_capacity(@team_effort) %>
+                    <% end %>
+                  <% end %>
+                  <% @scoped = true %>
+                <% end %>
+          <% end %>
+          <% if !@scoped %>
+            Backlog
+          <% end %>
+        </td>
+        <% if @current_user.power_admin %>
+          <td><%= link_to 'Destroy', priority, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Priority', new_priority_path %>

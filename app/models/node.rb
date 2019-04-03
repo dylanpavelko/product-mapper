@@ -9,6 +9,8 @@ class Node < ActiveRecord::Base
   has_many :phases, class_name: "Phase", foreign_key: "id"
   has_many :fdds, class_name: "FunctionalDesignDocument", foreign_key: "id"
   belongs_to :organization, class_name: "Organization", foreign_key: "organization_id"
+  has_many :efforts, class_name: "Effort", foreign_key: "node_id"
+  
 
   @fchildren = Array.new
 

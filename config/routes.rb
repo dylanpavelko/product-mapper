@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
 
+  resources :priorities
+
+  resources :efforts
+
+  resources :capacities
+
+  resources :teams
+
   resources :organizations
 
   resources :action_items
@@ -143,7 +151,7 @@ Rails.application.routes.draw do
 
   get 'diagram(/:id)' => 'nodes#diagram' , as: :diagram
 
-  get 'team(/:id)' => 'nodes#team' , as: :team
+  get 'nodeteam(/:id)' => 'nodes#team' , as: :nodeteam
 
   get 'change_password(/:id)' => 'users#change_password', as: :change_password
 

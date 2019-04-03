@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @effort.amount %>
+</p>
+
+<p>
+  <strong>Team:</strong>
+  <%= link_to @effort.team.name, @effort.team %>
+</p>
+
+<p>
+  <strong>Node:</strong>
+  <%= link_to @effort.node.name, @effort.node %>
+</p>
+
+<%= link_to 'Edit', edit_effort_path(@effort) %> |
+<%= link_to 'Back', efforts_path %>

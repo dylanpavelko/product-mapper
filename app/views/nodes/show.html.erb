@@ -116,7 +116,7 @@
       <%= render 'dev_process' %>
     </div>
   <% end %> 
-  <% if !@node.nodeType.specification and @current_user.can_manage_product_for_node(@node) %>
+  <% if !@node.nodeType.specification and (@current_user.can_manage_product_for_node(@node) or @current_user.power_admin)%>
     <%= link_to 'Add Node' , new_node_path(@node) %> 
   <% end %>
   
@@ -154,6 +154,25 @@
       </div>
     <% end %>
     </div>
+
+    <p>
+      <strong>Priority:</strong>
+      <% if @node_priority.count > 0 %>
+        <%= @node_priority[0].score %> <%= link_to 'Edit', edit_priority_path(@node_priority[0]) %>
+      <% else %>
+        <%= link_to 'Add Priority Score', new_priority_path(@node) %>
+      <% end %>
+      <br/>
+      <strong>Estimated Effort:</strong>
+      <ul>
+        <% @node_effort.each do |effort| %>
+          <li><%= effort.amount %> for <%= link_to effort.team.name, effort.team %> <%= link_to 'Edit', edit_effort_path(effort) %></li>
+        <% end %>
+        <li><%= link_to 'Add Effort', new_effort_path(@node) %></li>
+      </ul>
+
+    </p>
+    
 
    <% if @node.nodeType.specification %> 
      <strong>Delivery Dates:</strong> 

@@ -14,6 +14,7 @@ class OrganizationsController < ApplicationController
   # GET /organizations/1.json
   def show
     @top_nodes = Node.where(:organization => @organization).where(:parent_id => nil)
+    @teams = Team.where(:organization => @organization)
   end
 
   # GET /organizations/new

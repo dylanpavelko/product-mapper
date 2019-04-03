@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Team:</strong>
+  <%= @team.name %>
+</p>
+
+<p>
+  <strong>Organization:</strong>
+  <%= link_to @team.organization.name, @team.organization %>
+</p>
+<strong>Capacities</strong>
+<ul>
+  <% @capacities.each do |capacity| %>
+    <li><%= capacity.amount %> for <%= link_to capacity.milestone.name, capacity.milestone %> <%= link_to 'Edit', edit_capacity_path(capacity) %></li>
+  <% end %>
+  <li><%= link_to 'Add Capacity', new_capacity_path %></li>
+</ul>
+
+<strong>Efforts</strong>
+<ul>
+  <% @efforts.each do |effort| %>
+    <li><%= effort.amount %> on <%= link_to effort.node.name, effort.node %></li>
+  <% end %>
+</ul>
+
+<%= link_to 'Edit', edit_team_path(@team) %> |
+<%= link_to 'Back', teams_path %>

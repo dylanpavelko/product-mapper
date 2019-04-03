@@ -9,10 +9,19 @@
   <strong>Owner:</strong>
   <%= link_to @organization.owner.username, @organization.owner %>
 </p>
+<strong>Product:</strong>
 <ul>
   <% @top_nodes.each do |node| %>
     <li><%= link_to node.displayNameAndType, node %></li>
   <% end %>
+</ul>
+
+<strong>Teams:</strong>
+<ul>
+  <% @teams.each do |team| %>
+    <li><%= link_to team.name, team %></li>
+  <% end %>
+  <li><%= link_to 'Add New Team', new_team_path %></li>
 </ul>
 
 <p>
