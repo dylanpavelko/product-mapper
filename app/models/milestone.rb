@@ -4,7 +4,7 @@ class Milestone < ActiveRecord::Base
   def has_capacity_for_efforts(efforts, capacities_amounts)
     efforts.each do |effort|
       @capacity = capacities_amounts.select { |capacity| capacity.team == effort.team} 
-      if @capacity.count > 0 && @capacity[0].get_remaining_capacity < effort.amount
+      if @capacity.count == 0 || @capacity[0].get_remaining_capacity < effort.amount
         return false
       end
     end

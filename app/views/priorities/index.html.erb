@@ -27,6 +27,8 @@
   </tbody>
 
 </table>
+
+
 <h1>Priorities</h1>
 
 <table border='1'>
@@ -69,9 +71,9 @@
                     <% if @team_effort.count > 0 %>
                       <% @team_effort = @team_effort[0].amount %>
                       <% @capacities.detect { |c| c.id == prior_capacity.id}.decrease_capacity(@team_effort) %>
+                      <% @scoped = true %>
                     <% end %>
                   <% end %>
-                  <% @scoped = true %>
                 <% end %>
           <% end %>
           <% if !@scoped %>
@@ -86,6 +88,35 @@
   </tbody>
 </table>
 
+
+<h1>Remaining Capacities</h1>
+<table border='1'>
+  <thead>
+    <tr>
+      <th>Milestone</th>
+        <% @teams.each do |team| %>
+          <th><%= team.name %></th>
+        <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @milestones.each do |milestone| %>
+      <tr>
+        <td><%= link_to milestone.name, milestone %></td>
+          <% @teams.each do |team| %>
+            <td>
+              <% @capacities.each do |capacity| %>
+                <% if capacity.milestone == milestone && capacity.team == team %>
+                  <%= capacity.get_remaining_capacity %>
+                <% end %>
+              <% end %>
+            </td>
+          <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>
 <br>
 
 <%= link_to 'New Priority', new_priority_path %>
